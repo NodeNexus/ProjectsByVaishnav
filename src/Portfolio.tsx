@@ -260,7 +260,17 @@ export default function Portfolio({ config }: { config: Config }) {
       </section>
 
       {/* Section: GitHub */}
-      <section id="github" className="min-h-[80vh] relative flex flex-col items-center justify-center pt-32 pb-20 px-8 md:px-16 lg:px-24 text-center">
+      <section id="github" className="min-h-[80vh] overflow-hidden bg-black relative flex flex-col items-center justify-center pt-32 pb-20 px-8 md:px-16 lg:px-24 text-center">
+        <div className="absolute inset-0 z-0">
+          <FadingVideo 
+            src="https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8"
+            className="w-full h-full object-cover object-top opacity-85"
+            style={{ transform: 'scale(1.15)', transformOrigin: 'top center' }}
+          />
+          <div className="absolute inset-0 vignette-overlay mix-blend-multiply" />
+          <div className="absolute inset-0 capabilities-gradient" />
+        </div>
+        
         <div className="relative z-10 flex flex-col items-center max-w-3xl mx-auto">
           <div className="liquid-glass h-24 w-24 rounded-full flex items-center justify-center mb-10 shadow-[0_0_60px_rgba(255,255,255,0.05)] card-hover">
             <GitHubIcon className="w-12 h-12 text-white" />
