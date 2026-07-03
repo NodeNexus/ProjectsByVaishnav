@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { FadingVideo } from './components/FadingVideo';
 import { BlurText } from './components/BlurText';
 import { ProjectCard } from './components/ProjectCard';
@@ -52,6 +52,17 @@ function AnimatedCounter({ value }: { value: number }) {
 export default function Portfolio({ config }: { config: Config }) {
   const { data, loading } = useGitHubData(config.githubUsername);
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
+  const { scrollY } = useScroll();
+  const [navHidden, setNavHidden] = useState(false);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() || 0;
+    if (latest > previous && latest > 150) {
+      setNavHidden(true);
+    } else {
+      setNavHidden(false);
+    }
+  });
 
   // Prevent scrolling when details view is open
   useEffect(() => {
@@ -73,12 +84,20 @@ export default function Portfolio({ config }: { config: Config }) {
       </AnimatePresence>
 
       {/* Navbar */}
-      <nav className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-24">
-        <div className="liquid-glass h-12 px-6 rounded-full flex items-center justify-center btn-hover cursor-pointer">
+      <motion.nav 
+        variants={{
+          visible: { y: 0, opacity: 1 },
+          hidden: { y: "-150%", opacity: 0 }
+        }}
+        animate={navHidden ? "hidden" : "visible"}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-24"
+      >
+        <div className="liquid-glass-strong h-12 px-6 rounded-full flex items-center justify-center btn-hover cursor-pointer">
           <span className="font-heading font-medium italic text-xl mt-1">{config.name}</span>
         </div>
         
-        <div className="hidden md:flex liquid-glass rounded-full p-2 items-center gap-2">
+        <div className="hidden md:flex liquid-glass-strong rounded-full p-2 items-center gap-2">
           <div className="flex items-center gap-1 px-2">
             {["Systems", "Hardware", "GitHub", "Philosophy", "Contact"].map((link) => (
               <a key={link} href={`#${link.toLowerCase()}`} className="nav-link px-4 py-2 text-[13px] font-medium text-white/75 font-body">
@@ -92,7 +111,7 @@ export default function Portfolio({ config }: { config: Config }) {
         </div>
 
         <div className="h-12 w-12 hidden md:block" />
-      </nav>
+      </motion.nav>
 
       {/* Section 1: Hero */}
       <section className="h-screen overflow-hidden bg-black relative flex flex-col">
