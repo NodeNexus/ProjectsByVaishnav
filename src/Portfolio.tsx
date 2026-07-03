@@ -84,34 +84,28 @@ export default function Portfolio({ config }: { config: Config }) {
       </AnimatePresence>
 
       {/* Navbar */}
-      <motion.nav 
-        variants={{
-          visible: { y: 0, opacity: 1 },
-          hidden: { y: "-150%", opacity: 0 }
-        }}
-        animate={navHidden ? "hidden" : "visible"}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-24"
-      >
-        <div className="liquid-glass-strong h-12 px-6 rounded-full flex items-center justify-center btn-hover cursor-pointer">
-          <span className="font-heading font-medium italic text-xl mt-1">{config.name}</span>
+      <nav className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-24">
+        <div className="liquid-glass-extreme h-12 px-6 rounded-full flex items-center justify-center btn-hover cursor-pointer relative overflow-hidden">
+          <div className="absolute inset-0 bg-white/5 opacity-50 z-0"></div>
+          <span className="font-heading font-medium italic text-xl mt-1 z-10">{config.name}</span>
         </div>
         
-        <div className="hidden md:flex liquid-glass-strong rounded-full p-2 items-center gap-2">
-          <div className="flex items-center gap-1 px-2">
+        <div className="hidden md:flex liquid-glass-extreme rounded-full p-2 items-center gap-2 relative overflow-hidden">
+          <div className="absolute inset-0 bg-white/5 opacity-50 z-0"></div>
+          <div className="flex items-center gap-1 px-2 z-10">
             {["Systems", "Hardware", "GitHub", "Philosophy", "Contact"].map((link) => (
               <a key={link} href={`#${link.toLowerCase()}`} className="nav-link px-4 py-2 text-[13px] font-medium text-white/75 font-body">
                 {link}
               </a>
             ))}
           </div>
-          <a href={config.githubLink} target="_blank" rel="noopener noreferrer" className="btn-hover bg-white text-black rounded-full px-5 py-2.5 flex items-center gap-1.5 text-[13px] font-semibold font-body ml-2">
+          <a href={config.githubLink} target="_blank" rel="noopener noreferrer" className="btn-hover bg-white text-black rounded-full px-5 py-2.5 flex items-center gap-1.5 text-[13px] font-semibold font-body ml-2 z-10">
             View GitHub <ArrowUpRight className="w-4 h-4" />
           </a>
         </div>
 
         <div className="h-12 w-12 hidden md:block" />
-      </motion.nav>
+      </nav>
 
       {/* Section 1: Hero */}
       <section className="h-screen overflow-hidden bg-black relative flex flex-col">
