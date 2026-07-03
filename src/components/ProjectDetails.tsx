@@ -143,7 +143,10 @@ export function ProjectDetails({ project, onClose }: ProjectDetailsProps) {
             <section className="liquid-glass rounded-[1.75rem] p-8">
               <h2 className="text-[11px] font-body text-white/55 mb-6 uppercase tracking-[0.2em]">// Software Stack</h2>
               <div className="flex flex-wrap gap-2">
-                {(metadata?.software || repo.topics || []).map(sw => (
+                {Array.from(new Set([
+                  ...(metadata?.software || repo.topics || []),
+                  ((metadata?.hardware || (hardwareMap as Record<string, string[]>)[repo.name])?.length ? 'Arduino IDE' : 'Antigravity IDE')
+                ])).map(sw => (
                   <span key={sw} className="liquid-glass rounded-full px-3.5 py-1.5 text-[10px] text-white/75 font-body tracking-wider uppercase">
                     {sw}
                   </span>
