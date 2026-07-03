@@ -1,0 +1,286 @@
+{
+  "AirQualityMonitor": [
+    "🌫️ ESP32 Air Quality & Pollution Monitor",
+    "ESP32 Dev Board",
+    "MQ135 Gas Sensor",
+    "DHT22 Temperature & Humidity Sensor",
+    "MQ135 → ESP32",
+    "DHT22 → ESP32",
+    "1. Upload the sketch to ESP32."
+  ],
+  "Arduino-Bluetooth-Control-Car": [
+    "🚗 Arduino Bluetooth Controlled Car",
+    "Arduino Uno/Nano",
+    "4 DC Motors + Robot chassis + Wheels",
+    "HC-05 → Arduino**",
+    "2. Upload the code to Arduino."
+  ],
+  "Biometric-Door-Lock": [
+    "🔐 Biometric Door Lock (Arduino)",
+    "Arduino Uno/Nano",
+    "Fingerprint Sensor (R307, AS608, or GT-511C3)",
+    "Servo Motor (SG90/MG995)",
+    "Fingerprint Sensor → Arduino:",
+    "Servo Motor:",
+    "3. Upload this sketch to Arduino.",
+    "Use solenoid lock instead of servo."
+  ],
+  "Booth-s-Algorithm-ESP-Serial": [
+    "Booth's Algorithm on ESP8266",
+    "ESP8266 board (NodeMCU, Wemos D1 Mini, etc.)",
+    "Arduino IDE (1.8.19 or later recommended)",
+    "Installing ESP8266 on Arduino IDE",
+    "1. **Open Arduino IDE**."
+  ],
+  "Cat-Feeder-Automation-System": [
+    "1. Servo Motor:**",
+    "GND** $\\rightarrow$ **ESP32 GND** (Common Ground)",
+    "2. Ultrasonic Sensor (HC-SR04):**",
+    "VCC** $\\rightarrow$ **ESP32 5V**",
+    "GND** $\\rightarrow$ **ESP32 GND**",
+    "Trig** $\\rightarrow$ **ESP32 GPIO 5**",
+    "Echo** $\\rightarrow$ **ESP32 GPIO 17**",
+    "`ESP32Servo` (Install via Library Manager)",
+    "4.  **Upload:** Upload the code to the ESP32."
+  ],
+  "Digital-Thermometer": [
+    "🌡️ Arduino Digital Thermometer",
+    "Arduino Uno/Nano",
+    "DS18B20 Temperature Sensor",
+    "DS18B20 Sensor**",
+    "3. Upload the code to Arduino."
+  ],
+  "Fire-Detection-Alarm": [
+    "ESP32 Multi-Sensor Fire Detection & Alarm System",
+    "1x ESP32 Development Board",
+    "1x LM393 Flame Sensor Module",
+    "1x MQ-2 Gas/Smoke Sensor Module",
+    "1x DHT22 Temperature & Humidity Sensor",
+    "1x Active Buzzer",
+    "| **DHT22** | `VCC` / `+` | `3V3` (3.3V Rail) | |",
+    "| **Buzzer** | `+` pin | `GPIO 25` | |",
+    "2.  **Add ESP32 Board Manager:**",
+    "`DHT sensor library` (by Adafruit)",
+    "Important: Calibrating the Smoke Sensor**",
+    "The Buzzer will turn ON."
+  ],
+  "Gesture-Control-Car": [
+    "🤖 Gesture-Controlled Car (Arduino)",
+    "2 × Arduino Uno/Nano",
+    "1 × MPU6050 accelerometer",
+    "1 × L298N Motor Driver",
+    "4 × DC Motors + Chassis",
+    "Transmitter (Arduino + MPU6050 + RF Transmitter)",
+    "MPU6050 → Arduino:",
+    "Receiver (Arduino + RF Receiver + L298N)",
+    "L298N:",
+    "Motor outputs → DC motors",
+    "2. Upload `Receiver.ino` to the car Arduino.",
+    "3. Power up both Arduinos.",
+    "Upgrade to Wi-Fi (ESP8266/ESP32) for longer range.",
+    "Add obstacle avoidance sensor."
+  ],
+  "GreenhouseAutomation": [
+    "🌱 ESP32 Greenhouse Automation System",
+    "ESP32 Dev Board",
+    "DHT22 Temperature & Humidity Sensor",
+    "Soil Moisture Sensor",
+    "Fan + Relay/MOSFET",
+    "Water Pump + Relay/MOSFET",
+    "LED / Grow Light + Relay/MOSFET",
+    "DHT22 → GPIO34",
+    "Soil Sensor → GPIO35",
+    "Fan → GPIO19 (through relay or MOSFET)",
+    "Pump → GPIO18",
+    "1. Upload the sketch to ESP32."
+  ],
+  "HomeApplianceScheduler": [
+    "🏠 ESP32 Home Appliance Scheduler",
+    "ESP32 Dev Board",
+    "2 Relays (or more if needed)",
+    "Relay 1 → GPIO19",
+    "Relay 2 → GPIO18",
+    "1. Upload the sketch to ESP32."
+  ],
+  "LineFollower": [
+    "🛤️ Arduino Line Follower Robot",
+    "Arduino Uno/Nano",
+    "2 IR Sensors (for line detection)",
+    "L298N Motor Driver",
+    "2 DC Motors + Chassis + Wheels",
+    "IR Sensors**",
+    "Left Sensor → D2",
+    "Right Sensor → D3",
+    "Motors (via L298N)**",
+    "2. Upload the code to Arduino."
+  ],
+  "Motion-Activated-Light-Control": [
+    "| Arduino Uno | 1 |",
+    "| PIR Sensor | 1 |",
+    "| LED / Relay | 1 |",
+    "Arduino reads the signal from the sensor.",
+    "| Arduino Pin | Connected To |",
+    "| D7 | PIR OUT |",
+    "| D8 | LED / Relay IN |",
+    "Add LDR to prevent activation during daylight"
+  ],
+  "NodeNexus": [
+    "Arduino-based, sensor-driven DIY project",
+    "2. **Raspberry Pi Multimedia Centre**"
+  ],
+  "ObstacleAvoidingRobot": [
+    "🤖 Arduino Obstacle Avoiding Robot",
+    "Arduino Uno/Nano",
+    "Ultrasonic Sensor (HC-SR04)",
+    "L298N Motor Driver OR Continuous Servo Motors",
+    "Ultrasonic Sensor**",
+    "Motors**",
+    "Left motor → Pin 5 (PWM via Servo lib)",
+    "Right motor → Pin 6 (PWM via Servo lib)",
+    "2. Mount the ultrasonic sensor at the front.",
+    "3. Upload the Arduino sketch."
+  ],
+  "RFID-Attendance": [
+    "🪪 Arduino RFID Attendance System",
+    "Arduino Uno/Nano",
+    "MFRC522 → Arduino**"
+  ],
+  "Room-Environment-Logger": [
+    "| Raspberry Pi Pico | Microcontroller board |",
+    "| DHT22 | Temperature & Humidity Sensor |",
+    "| LDR | Light Intensity Sensor |",
+    "| MQ-135 | Air Quality Sensor |",
+    "LDR provides analog light readings.",
+    "| Pico Pin | Sensor |",
+    "| GP2 | DHT22 Data |",
+    "| A0 | LDR |"
+  ],
+  "Smart-Door-Lock": [
+    "| MFRC522 Pin | ESP32 Pin | Notes |",
+    "2. Servo Motor:**",
+    "GND** $\\rightarrow$ **ESP32 GND**",
+    "3. Passive Buzzer:**",
+    "VCC** $\\rightarrow$ **ESP32 3.3V**",
+    "`ESP32Servo` (Install via Library Manager)",
+    "4.  **Upload:** Upload the code to the ESP32."
+  ],
+  "Smart-Home-Scheduler": [
+    "1.  **Relay Module Connection:**",
+    "GND** $\\rightarrow$ **ESP32 GND**",
+    "VCC** $\\rightarrow$ **ESP32 3.3V**",
+    "SDA** $\\rightarrow$ **ESP32 SDA (GPIO 21)**",
+    "SCL** $\\rightarrow$ **ESP32 SCL (GPIO 22)**",
+    "`WebServer.h` (Built-in to ESP32/ESP8266 Core)"
+  ],
+  "Smart-Plant-Monitoring-System-": [
+    "| 5V Relay Module | 1 | Controls the water pump |",
+    "| Mini Water Pump | 1 | Used for irrigation |",
+    "| ESP32 Pin | Connected To |",
+    "| D4 | DHT11 Data |",
+    "| D34 | Soil Moisture Sensor Analog |",
+    "| D25 | Relay IN |",
+    "1. Open `main.ino` in Arduino IDE.",
+    "2. Select **ESP32 Dev Module** from Tools → Board.",
+    "Include sunlight detection with LDR"
+  ],
+  "Smart-Water-Level-Indicator": [
+    "| ESP8266 | Microcontroller |",
+    "| HC-SR04 Ultrasonic | Distance measurement |",
+    "| Buzzer | Audible alert |",
+    "| ESP8266 Pin | Connected To |",
+    "| D7 | Buzzer |"
+  ],
+  "SmartEnergyMeter": [
+    "⚡ ESP32 Smart Energy Meter Dashboard",
+    "ESP32 Dev Board",
+    "ACS712 Current Sensor (5A / 20A / 30A model)",
+    "ACS712 → ESP32:",
+    "Voltage Divider → ESP32:",
+    "1. Upload the sketch to ESP32."
+  ],
+  "SmartWaterTank": [
+    "💧 ESP32 Smart Water Tank Controller",
+    "ESP32 Dev Board",
+    "Ultrasonic Sensor (HC-SR04)",
+    "Water Pump + Relay Module / MOSFET",
+    "Ultrasonic Sensor**",
+    "Pump**",
+    "Controlled via GPIO19 through Relay/MOSFET",
+    "1. Upload the sketch to ESP32."
+  ],
+  "Solar-Energy-Monitoring-System": [
+    "1.  **Voltage Sensor:**",
+    "VCC** $\\rightarrow$ **ESP32 3.3V**",
+    "GND** $\\rightarrow$ **ESP32 GND**",
+    "Signal (S)** $\\rightarrow$ **ESP32 GPIO 34**",
+    "2.  **Current Sensor (ACS712 DC):**",
+    "VCC** $\\rightarrow$ **ESP32 5V** (or external 5V)",
+    "3.  **Load Relay Module:**",
+    "VCC** $\\rightarrow$ **ESP32 5V**",
+    "IN** $\\rightarrow$ **ESP32 GPIO 27**"
+  ],
+  "TCS3200_Color_Detection": [
+    "Arduino sketch examples",
+    "| TCS3200 Pin | Arduino Pin |",
+    "1. Open the Arduino IDE",
+    "3. Upload the sketch to your Arduino board",
+    "To calibrate the sensor:"
+  ],
+  "Temperature_meter_GPU": [
+    "Controlling cooling fans (like GPU/CPU systems)",
+    "Simple analog interface with Arduino",
+    "Arduino UNO / Nano / ESP8266",
+    "LM35 Temperature Sensor",
+    "(Optional) Relay + Fan for cooling control",
+    "| OUT      | A0 (Arduino Analog Pin) |"
+  ],
+  "Voice-Controlled-Appliances": [
+    "🎤 Voice Controlled Home Appliances (Arduino)",
+    "Say \"Fan Off\" → Appliance 2 OFF",
+    "Arduino Uno/Nano",
+    "4 × Relay module",
+    "Appliances (lamp, fan, etc.)",
+    "HC-05 → Arduino:",
+    "Relays → Arduino:",
+    "1. Upload the Arduino sketch.",
+    "Replace Bluetooth with Wi-Fi (ESP8266/ESP32)."
+  ],
+  "Voice-Controlled-Fan-via-Bluetooth": [
+    "🔊 Voice Controlled Fan",
+    "| Arduino Uno | Main controller |",
+    "| Relay Module | Fan control |",
+    "| DC Fan | Load device |",
+    "| Arduino Pin | Connected To |",
+    "| D8 | Relay IN |",
+    "1. Upload `voice_fan.ino`.",
+    "4. Observe fan operation.",
+    "Wireless fan control"
+  ],
+  "Water-Tank-Level-Indicator": [
+    "Water Tank Level Indicator with Pump Control 💦",
+    "1.  **Ultrasonic Sensor (HC-SR04):**",
+    "VCC** $\\rightarrow$ **ESP32 5V**",
+    "GND** $\\rightarrow$ **ESP32 GND**",
+    "Trig** $\\rightarrow$ **ESP32 GPIO 5**",
+    "Echo** $\\rightarrow$ **ESP32 GPIO 18**",
+    "2.  **Float Sensor:**",
+    "VCC** $\\rightarrow$ **ESP32 3.3V** (or VCC)",
+    "3.  **Pump Relay Module:**",
+    "4.  **Upload:** Upload the code to the ESP32."
+  ],
+  "Weather-Station": [
+    "🌦️ Arduino Weather Station",
+    "Arduino Uno/Nano",
+    "BME280 Sensor (I2C)",
+    "BME280 → Arduino**",
+    "LCD → Arduino**",
+    "3. Upload the sketch to Arduino."
+  ],
+  "WeatherLogger": [
+    "🌦️ ESP32 Local Weather Logger",
+    "ESP32 Dev Board",
+    "BME280 Temperature/Pressure/Humidity Sensor (I2C)",
+    "BME280 → ESP32",
+    "1. Upload the sketch to ESP32."
+  ]
+}
