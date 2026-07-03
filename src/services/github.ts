@@ -9,6 +9,7 @@ export interface GitHubRepo {
   updated_at: string;
   topics: string[];
   default_branch: string;
+  fork: boolean;
 }
 
 export interface PortfolioMetadata {
@@ -87,7 +88,7 @@ export async function fetchGitHubData(username: string): Promise<{ projects: Pro
           projects.push({
             repo,
             metadata,
-            coverUrl: metadata.cover ? `${rawBaseUrl}/portfolio/${metadata.cover}` : null,
+            coverUrl: metadata.cover ? `${rawBaseUrl}/portfolio/${metadata.cover}` : `https://opengraph.githubassets.com/1/${username}/${repo.name}`,
             galleryUrls: metadata.gallery ? metadata.gallery.map(img => `${rawBaseUrl}/portfolio/${img}`) : [],
             architectureUrl: metadata.architecture ? `${rawBaseUrl}/portfolio/${metadata.architecture}` : null,
           });
@@ -98,7 +99,7 @@ export async function fetchGitHubData(username: string): Promise<{ projects: Pro
           projects.push({
             repo,
             metadata: null,
-            coverUrl: null,
+            coverUrl: `https://opengraph.githubassets.com/1/${username}/${repo.name}`,
             galleryUrls: [],
             architectureUrl: null,
           });
