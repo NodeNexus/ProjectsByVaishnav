@@ -233,28 +233,28 @@ export default function Portfolio({ config }: { config: Config }) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="liquid-glass card-hover rounded-[1.75rem] p-10 min-h-[360px] flex flex-col justify-end relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10" />
-              <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-700 bg-[url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center" />
-              <div className="relative z-20">
-                <h3 className="font-heading italic text-4xl mb-3">Microcontrollers</h3>
-                <p className="text-[15px] text-white/75 font-body font-light tracking-wide">
-                  Harnessing the power of ESP32, STM32, and custom silicon for edge intelligence and real-time processing.
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {[
+              { name: "Arduino Uno", image: "/images/hardware/arduino_uno_1783075686637.png", desc: "8-bit AVR Microcontroller" },
+              { name: "ESP32 Dev Board", image: "/images/hardware/esp32_board_1783075698872.png", desc: "Dual-core WiFi/BT MCU" },
+              { name: "HC-SR04", image: "/images/hardware/ultrasonic_sensor_1783075710376.png", desc: "Ultrasonic Sensor" },
+              { name: "DHT11 / DHT22", image: "/images/hardware/dht11_sensor_1783075721243.png", desc: "Temp & Humidity Sensor" },
+              { name: "L298N", image: "/images/hardware/motor_driver_1783075733447.png", desc: "Dual Motor Driver" },
+              { name: "SG90 Servo", image: "/images/hardware/servo_motor_1783075744728.png", desc: "Micro Servo Motor" },
+              { name: "MFRC522", image: "/images/hardware/rfid_module_1783075755922.png", desc: "RFID Reader/Writer" },
+              { name: "5V Relay", image: "/images/hardware/relay_module_1783075767148.png", desc: "Switching Module" }
+            ].map((comp, i) => (
+              <div key={i} className="liquid-glass card-hover rounded-[1.25rem] p-4 flex flex-col group overflow-hidden">
+                <div className="rounded-[1rem] overflow-hidden mb-4 relative aspect-square">
+                  <img src={comp.image} alt={comp.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60" />
+                </div>
+                <h3 className="font-heading italic text-2xl tracking-tight mb-1">{comp.name}</h3>
+                <p className="text-[12px] text-white/55 font-body tracking-wide">
+                  {comp.desc}
                 </p>
               </div>
-            </div>
-
-            <div className="liquid-glass card-hover rounded-[1.75rem] p-10 min-h-[360px] flex flex-col justify-end relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10" />
-              <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-700 bg-[url('https://images.unsplash.com/photo-1555664424-778a1e5e1b48?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center" />
-              <div className="relative z-20">
-                <h3 className="font-heading italic text-4xl mb-3">SBCs & Edge AI</h3>
-                <p className="text-[15px] text-white/75 font-body font-light tracking-wide">
-                  Deploying computer vision and neural networks directly on Raspberry Pi, Jetson Nano, and Coral TPUs.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
