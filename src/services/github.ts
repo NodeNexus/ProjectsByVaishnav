@@ -93,8 +93,8 @@ export async function fetchGitHubData(username: string): Promise<{ projects: Pro
           });
         }
       } else {
-        // Fallback: If no portfolio.json but has significant stars or 'featured' topic, include it anyway
-        if (repo.topics.includes('featured') || repo.stargazers_count > 10) {
+        // Fallback: If no portfolio.json, include it if it's not a fork
+        if (!repo.fork) {
           projects.push({
             repo,
             metadata: null,
@@ -118,7 +118,7 @@ export async function fetchGitHubData(username: string): Promise<{ projects: Pro
   });
 
   const data = {
-    projects,
+    projects: projects.slice(0, 6),
     stats: {
       repositories: repos.length,
       stars: totalStars,

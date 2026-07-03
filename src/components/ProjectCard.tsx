@@ -31,8 +31,8 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-white/20 font-heading text-2xl italic">
-            {title}
+          <div className="w-full h-full flex items-center justify-center hero-gradient text-white/90 font-heading text-6xl italic shadow-inner">
+            {title.substring(0, 2).toUpperCase()}
           </div>
         )}
         <div className="absolute top-4 right-4 liquid-glass rounded-full px-3 py-1 text-[10px] font-medium tracking-widest uppercase flex items-center gap-1">
