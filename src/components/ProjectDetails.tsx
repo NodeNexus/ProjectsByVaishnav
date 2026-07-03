@@ -8,6 +8,18 @@ interface ProjectDetailsProps {
   onClose: () => void;
 }
 
+// Helper to clean up markdown remnants from README extraction
+function cleanHardwareText(text: string) {
+  return text
+    .replace(/\*\*/g, '')
+    .replace(/\$\s*\\rightarrow\s*\$/g, '→')
+    .replace(/\\rightarrow/g, '→')
+    .replace(/\$/g, '')
+    .replace(/`/g, '')
+    .replace(/^(\d+\.|-)\s*/, '') // remove leading bullets or numbers
+    .trim();
+}
+
 export function ProjectDetails({ project, onClose }: ProjectDetailsProps) {
   const { repo, metadata, coverUrl, galleryUrls, architectureUrl } = project;
   const title = metadata?.title || repo.name;
@@ -118,9 +130,12 @@ export function ProjectDetails({ project, onClose }: ProjectDetailsProps) {
           <div className="lg:col-span-4 flex flex-col gap-8">
             <section className="liquid-glass rounded-[1.75rem] p-8">
               <h2 className="text-[11px] font-body text-white/55 mb-6 uppercase tracking-[0.2em]">// Hardware Used</h2>
-              <div className="flex flex-col gap-3">
-                {(metadata?.hardware || (hardwareMap as Record<string, string[]>)[repo.name])?.map(hw => (
-                  <div key={hw} className="text-[14px] text-white/75 tracking-wide">{hw}</div>
+              <div className="flex flex-col gap-4">
+                {(metadata?.hardware || (hardwareMap as Record<string, string[]>)[repo.name])?.map((hw, i) => (
+                  <div key={i} className="text-[14px] text-white/75 tracking-wide flex items-start gap-3">
+                    <span className="text-white/30 mt-1 text-[10px]">■</span>
+                    <span className="leading-relaxed">{cleanHardwareText(hw)}</span>
+                  </div>
                 )) || <div className="text-[14px] text-white/55 italic">Not specified</div>}
               </div>
             </section>
