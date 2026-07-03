@@ -1,5 +1,3 @@
-import { SITE } from '../config/site';
-
 export interface GitHubRepo {
   id: number;
   name: string;
@@ -45,9 +43,11 @@ export interface GitHubStats {
 const CACHE_KEY = 'github_portfolio_data';
 const CACHE_EXPIRY = 1000 * 60 * 60; // 1 hour
 
-export async function fetchGitHubData(): Promise<{ projects: ProjectData[], stats: GitHubStats }> {
+export async function fetchGitHubData(username: string): Promise<{ projects: ProjectData[], stats: GitHubStats }> {
+  if (!username) throw new Error("Username required");
   // Check cache
-  const cachedStr = sessionStorage.getItem(CACHE_KEY);
+  const cacheKey = `${CACHE_KEY}_${username}`;
+  const cachedStr = sessionStorage.getItem(cacheKey);
   if (cachedStr) {
     const cached = JSON.parse(cachedStr);
     if (Date.now() - cached.timestamp < CACHE_EXPIRY) {
@@ -55,7 +55,6 @@ export async function fetchGitHubData(): Promise<{ projects: ProjectData[], stat
     }
   }
 
-  const username = SITE.githubUsername;
   const reposResponse = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`);
   if (!reposResponse.ok) {
     throw new Error('Failed to fetch repositories from GitHub');
