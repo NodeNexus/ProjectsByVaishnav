@@ -92,6 +92,40 @@ body::after {
   pointer-events: none;
 }
 
+.liquid-glass-extreme {
+  background: rgba(255, 255, 255, 0.05);
+  /* The url() filter creates actual spatial distortion of the background */
+  backdrop-filter: url(#liquid-distortion) blur(24px) saturate(180%) contrast(110%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%) contrast(110%);
+  box-shadow: 
+    0 16px 40px -8px rgba(0,0,0,0.8), 
+    inset 0 1px 3px rgba(255,255,255,0.3),
+    inset 0 -1px 2px rgba(255,255,255,0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.liquid-glass-extreme::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(
+    135deg, 
+    rgba(255,255,255,0.5) 0%, 
+    rgba(255,255,255,0.1) 30%, 
+    rgba(255,255,255,0) 50%, 
+    rgba(255,255,255,0.1) 70%, 
+    rgba(255,255,255,0.4) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
 /* Interactive Card Elevate */
 .card-hover:hover {
   transform: translateY(-4px) scale(1.005);
