@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import type { ProjectData } from '../services/github';
 import { ArrowUpRight } from './Icons';
+import hardwareMap from '../data/hardware.json';
 
 interface ProjectDetailsProps {
   project: ProjectData;
@@ -118,7 +119,7 @@ export function ProjectDetails({ project, onClose }: ProjectDetailsProps) {
             <section className="liquid-glass rounded-[1.75rem] p-8">
               <h2 className="text-[11px] font-body text-white/55 mb-6 uppercase tracking-[0.2em]">// Hardware Used</h2>
               <div className="flex flex-col gap-3">
-                {metadata?.hardware?.map(hw => (
+                {(metadata?.hardware || (hardwareMap as Record<string, string[]>)[repo.name])?.map(hw => (
                   <div key={hw} className="text-[14px] text-white/75 tracking-wide">{hw}</div>
                 )) || <div className="text-[14px] text-white/55 italic">Not specified</div>}
               </div>
