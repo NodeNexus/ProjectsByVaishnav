@@ -282,7 +282,7 @@ export default function Portfolio({ config }: { config: Config }) {
         <div className="absolute inset-0 z-0">
           <FadingVideo 
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_024928_1efd0b0d-6c02-45a8-8847-1030900c4f63.mp4"
-            className="w-full h-full object-cover opacity-60"
+            className="w-full h-full object-cover opacity-85"
             style={{ transform: 'scale(1.05)' }}
           />
           <div className="absolute inset-0 vignette-overlay mix-blend-multiply" />
@@ -375,7 +375,7 @@ export default function Portfolio({ config }: { config: Config }) {
         <div className="absolute inset-0 z-0">
           <FadingVideo 
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4"
-            className="w-full h-full object-cover object-top opacity-60"
+            className="w-full h-full object-cover object-top opacity-85"
             style={{ transform: 'scale(1.15)', transformOrigin: 'top center' }}
           />
           <div className="absolute inset-0 vignette-overlay mix-blend-multiply" />
