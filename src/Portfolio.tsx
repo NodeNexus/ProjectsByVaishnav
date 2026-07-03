@@ -382,12 +382,20 @@ export default function Portfolio({ config }: { config: Config }) {
       </section>
 
       {/* Section: Contact */}
-      <section id="contact" className="relative flex flex-col pt-32 pb-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto w-full border-t border-white/5">
-        <h2 className="font-heading italic text-5xl md:text-7xl lg:text-[6rem] leading-[0.85] tracking-[-0.03em] max-w-3xl mb-16">
-          Connect
-        </h2>
+      <section id="contact" className="relative flex flex-col pt-32 pb-32 px-8 md:px-16 lg:px-24 min-h-screen border-t border-white/5">
+        <div className="absolute inset-0 z-0">
+          <FadingVideo 
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4"
+          />
+          <div className="absolute inset-0 capabilities-gradient" />
+        </div>
+        
+        <div className="relative z-10 flex flex-col max-w-[1400px] mx-auto w-full">
+          <h2 className="font-heading italic text-5xl md:text-7xl lg:text-[6rem] leading-[0.85] tracking-[-0.03em] max-w-3xl mb-16">
+            Connect
+          </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <a href={config.githubLink} target="_blank" rel="noopener noreferrer" className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
             <div className="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
               <GitHubIcon className="w-6 h-6 text-white" />
@@ -427,6 +435,7 @@ export default function Portfolio({ config }: { config: Config }) {
               <div className="text-[12px] text-white/55 tracking-wide">View experience</div>
             </div>
           </a>
+        </div>
         </div>
       </section>
     </div>
