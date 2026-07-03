@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FadingVideo } from './components/FadingVideo';
 import { BlurText } from './components/BlurText';
 import { ProjectCard } from './components/ProjectCard';
@@ -52,17 +52,6 @@ function AnimatedCounter({ value }: { value: number }) {
 export default function Portfolio({ config }: { config: Config }) {
   const { data, loading } = useGitHubData(config.githubUsername);
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
-  const { scrollY } = useScroll();
-  const [navHidden, setNavHidden] = useState(false);
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious() || 0;
-    if (latest > previous && latest > 150) {
-      setNavHidden(true);
-    } else {
-      setNavHidden(false);
-    }
-  });
 
   // Prevent scrolling when details view is open
   useEffect(() => {
