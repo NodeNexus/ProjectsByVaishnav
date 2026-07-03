@@ -113,7 +113,7 @@ export default function Portfolio({ config }: { config: Config }) {
             className="liquid-glass rounded-full flex items-center gap-4 p-1.5 pr-5 mb-10 card-hover cursor-pointer"
           >
             <span className="bg-white text-black text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest">Latest</span>
-            <span className="text-[13px] text-white/75 font-medium tracking-wide">Deploying embedded machine learning on custom silicon</span>
+            <span className="text-[13px] text-white/75 font-medium tracking-wide">{config.latestTagText || "Deploying embedded machine learning on custom silicon"}</span>
           </motion.div>
 
           <BlurText 
