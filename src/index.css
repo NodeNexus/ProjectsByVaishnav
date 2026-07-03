@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    background: #000;
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+}
+
+/* Global Grain Overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Premium Liquid Glass */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.015);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  box-shadow: 
+    0 8px 32px -4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08),
+    inset 0 0 20px rgba(255, 255, 255, 0.01);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    145deg, 
+    rgba(255,255,255,0.15) 0%, 
+    rgba(255,255,255,0.02) 40%, 
+    rgba(255,255,255,0) 60%, 
+    rgba(255,255,255,0.03) 80%, 
+    rgba(255,255,255,0.1) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.liquid-glass-strong {
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(48px) saturate(140%);
+  -webkit-backdrop-filter: blur(48px) saturate(140%);
+  box-shadow: 
+    0 12px 48px -12px rgba(0,0,0,0.6), 
+    inset 0 1px 1px rgba(255,255,255,0.15),
+    inset 0 -1px 1px rgba(255,255,255,0.02);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.liquid-glass-strong::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.2px;
+  background: linear-gradient(
+    135deg, 
+    rgba(255,255,255,0.3) 0%, 
+    rgba(255,255,255,0.05) 30%, 
+    rgba(255,255,255,0) 50%, 
+    rgba(255,255,255,0.05) 70%, 
+    rgba(255,255,255,0.2) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Interactive Card Elevate */
+.card-hover:hover {
+  transform: translateY(-4px) scale(1.005);
+  box-shadow: 
+    0 24px 48px -12px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(255, 255, 255, 0.04),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.card-hover:hover::before {
+  opacity: 0.8;
+}
+
+/* Video Vignettes & Overlays */
+.vignette-overlay {
+  background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.85) 120%);
+}
+
+.hero-gradient {
+  background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 60%, #000 100%);
+}
+
+.capabilities-gradient {
+  background: linear-gradient(180deg, #000 0%, rgba(0,0,0,0.4) 20%, rgba(0,0,0,0.6) 80%, #000 100%);
+}
+
+/* Animations */
+.btn-hover {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-hover:hover {
+  transform: scale(1.04);
+  box-shadow: 0 0 24px rgba(255,255,255,0.15);
+}
+
+/* Subtle Link Hovers */
+.nav-link {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:hover {
+  color: rgba(255,255,255,1);
+  text-shadow: 0 0 12px rgba(255,255,255,0.3);
+}
+
+/* Typography refinements */
+h1, h2, h3, h4, h5, h6 {
+  font-optical-sizing: auto;
+}
