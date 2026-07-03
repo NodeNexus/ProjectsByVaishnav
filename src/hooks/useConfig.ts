@@ -10,6 +10,7 @@ export interface Config {
   email: string;
   resume: string;
   twitter: string;
+  latestTagText?: string;
 }
 
 export function useConfig() {

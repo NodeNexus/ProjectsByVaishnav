@@ -147,6 +147,11 @@ export function Admin({ config }: { config: Config }) {
               <label className="text-xs uppercase tracking-widest text-white/50">Sub-headline</label>
               <textarea value={formData.heroSubheadline} onChange={e => handleChange('heroSubheadline', e.target.value)} rows={3} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
             </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-xs uppercase tracking-widest text-white/50">Latest Tag Text</label>
+              <input type="text" value={formData.latestTagText || ''} onChange={e => handleChange('latestTagText', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" placeholder="e.g. Deploying embedded machine learning..." />
+            </div>
           </div>
 
           <div className="space-y-6">
