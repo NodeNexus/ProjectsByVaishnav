@@ -395,7 +395,7 @@ export default function Portfolio({ config }: { config: Config }) {
             </div>
           </a>
 
-          <a href={config.email} className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
+          <a href={config.email.startsWith('mailto:') ? config.email : `mailto:${config.email}`} className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
             <div className="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
               <EmailIcon className="w-5 h-5 text-white" />
             </div>
