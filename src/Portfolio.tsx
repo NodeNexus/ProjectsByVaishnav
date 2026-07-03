@@ -371,11 +371,14 @@ export default function Portfolio({ config }: { config: Config }) {
       </section>
 
       {/* Section: Contact */}
-      <section id="contact" className="relative flex flex-col pt-32 pb-32 px-8 md:px-16 lg:px-24 min-h-screen border-t border-white/5">
+      <section id="contact" className="min-h-screen overflow-hidden bg-black relative flex flex-col pt-32 pb-32 px-8 md:px-16 lg:px-24 border-t border-white/5">
         <div className="absolute inset-0 z-0">
           <FadingVideo 
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4"
+            className="w-full h-full object-cover opacity-60"
+            style={{ transform: 'scale(1.05)' }}
           />
+          <div className="absolute inset-0 vignette-overlay mix-blend-multiply" />
           <div className="absolute inset-0 capabilities-gradient" />
         </div>
         
