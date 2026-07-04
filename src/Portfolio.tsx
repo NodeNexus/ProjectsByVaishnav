@@ -49,6 +49,84 @@ function AnimatedCounter({ value }: { value: number }) {
   return <span>{count}</span>;
 }
 
+const hardcodedProjects: ProjectData[] = [
+  {
+    repo: {
+      id: 1,
+      name: "spider-robot-ml",
+      description: "A machine learning powered spider robot capable of autonomous navigation and terrain adaptation.",
+      html_url: "#",
+      stargazers_count: 120,
+      forks_count: 15,
+      language: "Python",
+      updated_at: new Date().toISOString(),
+      topics: ["robotics", "machine-learning", "hardware"],
+      default_branch: "main",
+      fork: false
+    },
+    metadata: {
+      featured: true,
+      title: "Spider Robot ML",
+      description: "A machine learning powered spider robot capable of autonomous navigation and terrain adaptation.",
+      hardware: ["Raspberry Pi", "Servo Motors", "Camera Module"],
+      software: ["Python", "TensorFlow", "OpenCV"],
+    },
+    coverUrl: "/images/projects/spider_robot.png",
+    galleryUrls: [],
+    architectureUrl: null
+  },
+  {
+    repo: {
+      id: 2,
+      name: "fallout-smartwatch",
+      description: "A functional, Pip-Boy inspired wearable device with real-time sensors.",
+      html_url: "#",
+      stargazers_count: 340,
+      forks_count: 42,
+      language: "C++",
+      updated_at: new Date().toISOString(),
+      topics: ["wearable", "c++", "embedded"],
+      default_branch: "main",
+      fork: false
+    },
+    metadata: {
+      featured: true,
+      title: "Fallout SmartWatch",
+      description: "A functional, Pip-Boy inspired wearable device with real-time sensors.",
+      hardware: ["ESP32", "OLED Display", "IMU Sensor"],
+      software: ["C++", "FreeRTOS"],
+    },
+    coverUrl: "/images/projects/fallout_smartwatch.png",
+    galleryUrls: [],
+    architectureUrl: null
+  },
+  {
+    repo: {
+      id: 3,
+      name: "daily-automator-app",
+      description: "Custom Android applications designed to automate day-to-day tasks and workflows seamlessly from your smartphone.",
+      html_url: "#",
+      stargazers_count: 85,
+      forks_count: 10,
+      language: "Kotlin",
+      updated_at: new Date().toISOString(),
+      topics: ["android", "automation", "kotlin"],
+      default_branch: "main",
+      fork: false
+    },
+    metadata: {
+      featured: true,
+      title: "Android App Development",
+      description: "Custom Android applications designed to automate day-to-day tasks and workflows seamlessly from your smartphone.",
+      hardware: ["Android Device"],
+      software: ["Kotlin", "Android Studio", "Firebase"],
+    },
+    coverUrl: "/images/projects/android_app.png",
+    galleryUrls: [],
+    architectureUrl: null
+  }
+];
+
 export default function Portfolio({ config }: { config: Config }) {
   const { data, loading } = useGitHubData(config.githubUsername);
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
@@ -82,7 +160,7 @@ export default function Portfolio({ config }: { config: Config }) {
         <div className="hidden md:flex liquid-glass-extreme rounded-full p-2 items-center gap-2 relative overflow-hidden">
           <div className="absolute inset-0 bg-white/5 opacity-50 z-0"></div>
           <div className="flex items-center gap-1 px-2 z-10">
-            {["Systems", "Hardware", "GitHub", "Philosophy", "Contact"].map((link) => (
+            {["Systems", "Hardware", "GitHub", "Research", "Contact"].map((link) => (
               <a key={link} href={`#${link.toLowerCase()}`} className="nav-link px-4 py-2 text-[13px] font-medium text-white/75 font-body">
                 {link}
               </a>
@@ -200,23 +278,15 @@ export default function Portfolio({ config }: { config: Config }) {
             </p>
           </div>
 
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2, 3].map(i => (
-                <div key={i} className="liquid-glass rounded-[1.75rem] h-[480px] animate-pulse" />
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {data?.projects.map(project => (
-                <ProjectCard 
-                  key={project.repo.id} 
-                  project={project} 
-                  onClick={() => setSelectedProject(project)} 
-                />
-              ))}
-            </div>
-          )}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {hardcodedProjects.map(project => (
+              <ProjectCard 
+                key={project.repo.id} 
+                project={project} 
+                onClick={() => setSelectedProject(project)} 
+              />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -287,8 +357,8 @@ export default function Portfolio({ config }: { config: Config }) {
         </div>
       </section>
 
-      {/* Section 2: Philosophy */}
-      <section id="philosophy" className="min-h-screen overflow-hidden bg-black relative flex flex-col pt-32 pb-20 px-8 md:px-16 lg:px-24">
+      {/* Section: Current R&D */}
+      <section id="research" className="min-h-screen overflow-hidden bg-black relative flex flex-col pt-32 pb-20 px-8 md:px-16 lg:px-24">
         <div className="absolute inset-0 z-0">
           <FadingVideo 
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_024928_1efd0b0d-6c02-45a8-8847-1030900c4f63.mp4"
@@ -301,9 +371,9 @@ export default function Portfolio({ config }: { config: Config }) {
         
         <div className="relative z-10 flex flex-col min-h-screen max-w-[1400px] mx-auto w-full">
           <div className="mb-auto">
-            <p className="text-[11px] font-body text-white/55 mb-8 uppercase tracking-[0.2em]">// Philosophy</p>
+            <p className="text-[11px] font-body text-white/55 mb-8 uppercase tracking-[0.2em]">// Current R&D</p>
             <h2 className="font-heading italic text-6xl md:text-8xl lg:text-[7.5rem] leading-[0.85] tracking-[-0.03em] max-w-3xl drop-shadow-2xl">
-              Hardware That<br/>Thinks.
+              Exploring The<br/>Bleeding Edge.
             </h2>
           </div>
 
@@ -312,21 +382,19 @@ export default function Portfolio({ config }: { config: Config }) {
             <div className="liquid-glass card-hover rounded-[1.75rem] p-8 min-h-[420px] flex flex-col cursor-default">
               <div className="flex items-start justify-between">
                 <div className="liquid-glass h-12 w-12 rounded-[1rem] flex items-center justify-center shadow-inner">
-                  <ImageIcon className="w-5 h-5 text-white/75" />
+                  <LightbulbIcon className="w-5 h-5 text-white/75" />
                 </div>
                 <div className="flex flex-wrap gap-2 justify-end max-w-[70%]">
-                  {["Systems Design", "PCB Layout", "Scalability"].map(tag => (
-                    <span key={tag} className="liquid-glass rounded-full px-3.5 py-1.5 text-[10px] text-white/75 font-body tracking-wider uppercase whitespace-nowrap btn-hover cursor-pointer">
-                      {tag}
-                    </span>
-                  ))}
+                  <span className="liquid-glass rounded-full px-3.5 py-1.5 text-[10px] text-white/75 font-body tracking-wider uppercase whitespace-nowrap btn-hover cursor-pointer">
+                    ISA
+                  </span>
                 </div>
               </div>
               <div className="flex-1" />
               <div>
-                <h3 className="font-heading italic text-4xl md:text-5xl tracking-[-0.02em] leading-none mb-5">Architecture</h3>
+                <h3 className="font-heading italic text-3xl md:text-4xl tracking-[-0.02em] leading-none mb-5">RISC-V Architectures</h3>
                 <p className="text-[15px] text-white/55 font-body font-light leading-relaxed max-w-[34ch] tracking-wide">
-                  Designing systems that scale from proof of concept to production. Thoughtful component selection, robust schematics, and clean software architecture.
+                  Diving deep into open instruction sets. Exploring custom instructions and fabricating specialized accelerators for machine learning workloads directly at the silicon level.
                 </p>
               </div>
             </div>
@@ -335,21 +403,19 @@ export default function Portfolio({ config }: { config: Config }) {
             <div className="liquid-glass card-hover rounded-[1.75rem] p-8 min-h-[420px] flex flex-col cursor-default">
               <div className="flex items-start justify-between">
                 <div className="liquid-glass h-12 w-12 rounded-[1rem] flex items-center justify-center shadow-inner">
-                  <MovieIcon className="w-5 h-5 text-white/75" />
+                  <ImageIcon className="w-5 h-5 text-white/75" />
                 </div>
                 <div className="flex flex-wrap gap-2 justify-end max-w-[70%]">
-                  {["Computer Vision", "AI", "Edge Computing"].map(tag => (
-                    <span key={tag} className="liquid-glass rounded-full px-3.5 py-1.5 text-[10px] text-white/75 font-body tracking-wider uppercase whitespace-nowrap btn-hover cursor-pointer">
-                      {tag}
-                    </span>
-                  ))}
+                  <span className="liquid-glass rounded-full px-3.5 py-1.5 text-[10px] text-white/75 font-body tracking-wider uppercase whitespace-nowrap btn-hover cursor-pointer">
+                    Memory Safety
+                  </span>
                 </div>
               </div>
               <div className="flex-1" />
               <div>
-                <h3 className="font-heading italic text-4xl md:text-5xl tracking-[-0.02em] leading-none mb-5">Intelligence</h3>
+                <h3 className="font-heading italic text-3xl md:text-4xl tracking-[-0.02em] leading-none mb-5">Rust for Embedded</h3>
                 <p className="text-[15px] text-white/55 font-body font-light leading-relaxed max-w-[34ch] tracking-wide">
-                  Pushing computation to the edge. Implementing real-time machine learning, computer vision, and autonomous decision-making directly on hardware.
+                  Pushing past the limitations of C/C++. Writing memory-safe, fearless concurrency firmware for microcontrollers without sacrificing bare-metal performance.
                 </p>
               </div>
             </div>
@@ -358,21 +424,19 @@ export default function Portfolio({ config }: { config: Config }) {
             <div className="liquid-glass card-hover rounded-[1.75rem] p-8 min-h-[420px] flex flex-col cursor-default">
               <div className="flex items-start justify-between">
                 <div className="liquid-glass h-12 w-12 rounded-[1rem] flex items-center justify-center shadow-inner">
-                  <LightbulbIcon className="w-5 h-5 text-white/75" />
+                  <MovieIcon className="w-5 h-5 text-white/75" />
                 </div>
                 <div className="flex flex-wrap gap-2 justify-end max-w-[70%]">
-                  {["IoT", "Robotics", "Sensors"].map(tag => (
-                    <span key={tag} className="liquid-glass rounded-full px-3.5 py-1.5 text-[10px] text-white/75 font-body tracking-wider uppercase whitespace-nowrap btn-hover cursor-pointer">
-                      {tag}
-                    </span>
-                  ))}
+                  <span className="liquid-glass rounded-full px-3.5 py-1.5 text-[10px] text-white/75 font-body tracking-wider uppercase whitespace-nowrap btn-hover cursor-pointer">
+                    Neuromorphic
+                  </span>
                 </div>
               </div>
               <div className="flex-1" />
               <div>
-                <h3 className="font-heading italic text-4xl md:text-5xl tracking-[-0.02em] leading-none mb-5">Embedded</h3>
+                <h3 className="font-heading italic text-3xl md:text-4xl tracking-[-0.02em] leading-none mb-5">Spiking Networks</h3>
                 <p className="text-[15px] text-white/55 font-body font-light leading-relaxed max-w-[34ch] tracking-wide">
-                  Bridging the gap between code and physical reality. Interfacing sensors, actuators, and microcontrollers to create systems that interact with the world.
+                  Moving beyond traditional deep learning. Experimenting with event-driven sensors and spiking neural networks to drastically reduce power consumption in edge intelligence.
                 </p>
               </div>
             </div>
