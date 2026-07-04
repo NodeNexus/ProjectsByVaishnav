@@ -278,15 +278,23 @@ export default function Portfolio({ config }: { config: Config }) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {hardcodedProjects.map(project => (
-              <ProjectCard 
-                key={project.repo.id} 
-                project={project} 
-                onClick={() => setSelectedProject(project)} 
-              />
-            ))}
-          </div>
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="liquid-glass rounded-[1.75rem] h-[480px] animate-pulse" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {data?.projects.map(project => (
+                <ProjectCard 
+                  key={project.repo.id} 
+                  project={project} 
+                  onClick={() => setSelectedProject(project)} 
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -377,69 +385,14 @@ export default function Portfolio({ config }: { config: Config }) {
             </h2>
           </div>
 
-          <div className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Card 1 */}
-            <div className="liquid-glass card-hover rounded-[1.75rem] p-8 min-h-[420px] flex flex-col cursor-default">
-              <div className="flex items-start justify-between">
-                <div className="liquid-glass h-12 w-12 rounded-[1rem] flex items-center justify-center shadow-inner">
-                  <LightbulbIcon className="w-5 h-5 text-white/75" />
-                </div>
-                <div className="flex flex-wrap gap-2 justify-end max-w-[70%]">
-                  <span className="liquid-glass rounded-full px-3.5 py-1.5 text-[10px] text-white/75 font-body tracking-wider uppercase whitespace-nowrap btn-hover cursor-pointer">
-                    ISA
-                  </span>
-                </div>
-              </div>
-              <div className="flex-1" />
-              <div>
-                <h3 className="font-heading italic text-3xl md:text-4xl tracking-[-0.02em] leading-none mb-5">RISC-V Architectures</h3>
-                <p className="text-[15px] text-white/55 font-body font-light leading-relaxed max-w-[34ch] tracking-wide">
-                  Diving deep into open instruction sets. Exploring custom instructions and fabricating specialized accelerators for machine learning workloads directly at the silicon level.
-                </p>
-              </div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="liquid-glass card-hover rounded-[1.75rem] p-8 min-h-[420px] flex flex-col cursor-default">
-              <div className="flex items-start justify-between">
-                <div className="liquid-glass h-12 w-12 rounded-[1rem] flex items-center justify-center shadow-inner">
-                  <ImageIcon className="w-5 h-5 text-white/75" />
-                </div>
-                <div className="flex flex-wrap gap-2 justify-end max-w-[70%]">
-                  <span className="liquid-glass rounded-full px-3.5 py-1.5 text-[10px] text-white/75 font-body tracking-wider uppercase whitespace-nowrap btn-hover cursor-pointer">
-                    Memory Safety
-                  </span>
-                </div>
-              </div>
-              <div className="flex-1" />
-              <div>
-                <h3 className="font-heading italic text-3xl md:text-4xl tracking-[-0.02em] leading-none mb-5">Rust for Embedded</h3>
-                <p className="text-[15px] text-white/55 font-body font-light leading-relaxed max-w-[34ch] tracking-wide">
-                  Pushing past the limitations of C/C++. Writing memory-safe, fearless concurrency firmware for microcontrollers without sacrificing bare-metal performance.
-                </p>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="liquid-glass card-hover rounded-[1.75rem] p-8 min-h-[420px] flex flex-col cursor-default">
-              <div className="flex items-start justify-between">
-                <div className="liquid-glass h-12 w-12 rounded-[1rem] flex items-center justify-center shadow-inner">
-                  <MovieIcon className="w-5 h-5 text-white/75" />
-                </div>
-                <div className="flex flex-wrap gap-2 justify-end max-w-[70%]">
-                  <span className="liquid-glass rounded-full px-3.5 py-1.5 text-[10px] text-white/75 font-body tracking-wider uppercase whitespace-nowrap btn-hover cursor-pointer">
-                    Neuromorphic
-                  </span>
-                </div>
-              </div>
-              <div className="flex-1" />
-              <div>
-                <h3 className="font-heading italic text-3xl md:text-4xl tracking-[-0.02em] leading-none mb-5">Spiking Networks</h3>
-                <p className="text-[15px] text-white/55 font-body font-light leading-relaxed max-w-[34ch] tracking-wide">
-                  Moving beyond traditional deep learning. Experimenting with event-driven sensors and spiking neural networks to drastically reduce power consumption in edge intelligence.
-                </p>
-              </div>
-            </div>
+          <div className="mt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {hardcodedProjects.map(project => (
+              <ProjectCard 
+                key={project.repo.id} 
+                project={project} 
+                onClick={() => setSelectedProject(project)} 
+              />
+            ))}
           </div>
         </div>
       </section>
