@@ -9,9 +9,6 @@ import type { ProjectData } from './services/github';
 import type { Config } from './hooks/useConfig';
 import { 
   ArrowUpRight, 
-  ImageIcon, 
-  MovieIcon, 
-  LightbulbIcon,
   GitHubIcon,
   LinkedInIcon,
   EmailIcon,
