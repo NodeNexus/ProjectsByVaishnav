@@ -129,12 +129,23 @@ const defaultHardcodedProjects: ProjectData[] = [
 
 export default function Portfolio({ config }: { config: Config }) {
   const { data, loading } = useGitHubData(config.githubUsername);
+  
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
-  const [selectedHardware, setSelectedHardware] = useState<HardwareDetails | null>(null);
+  
+  const [selectedHardware, setSelectedHardware] = useState<HardwareDetails | null>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const hardwareId = params.get('hardware');
+      if (hardwareId) {
+        return hardwareData.find(h => h.id === hardwareId) || null;
+      }
+    }
+    return null;
+  });
+  
   const [showAllHardware, setShowAllHardware] = useState(false);
 
   const researchProjects: ProjectData[] = config.researchProjects?.length ? config.researchProjects.map(rp => ({
-    // ...
     repo: {
       id: rp.id,
       name: rp.title.replace(/\s+/g, '-').toLowerCase(),
@@ -158,7 +169,49 @@ export default function Portfolio({ config }: { config: Config }) {
     coverUrl: rp.coverUrl,
     galleryUrls: [],
     architectureUrl: null
-  })) : defaultHardcodedProjects;
+  })) : [];
+
+  // Sync URL when hardware changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      if (selectedHardware) {
+        url.searchParams.set('hardware', selectedHardware.id);
+      } else {
+        url.searchParams.delete('hardware');
+      }
+      window.history.replaceState({}, '', url.toString());
+    }
+  }, [selectedHardware]);
+
+  // Sync URL when project changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      if (selectedProject) {
+        url.searchParams.set('project', selectedProject.repo.name);
+      } else {
+        url.searchParams.delete('project');
+      }
+      window.history.replaceState({}, '', url.toString());
+    }
+  }, [selectedProject]);
+
+  // Load initial project from URL once data is fetched
+  useEffect(() => {
+    if (!loading && data && typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const projName = params.get('project');
+      if (projName) {
+        const allProjects = [...data.projects, ...researchProjects];
+        const found = allProjects.find(p => p.repo.name === projName);
+        if (found) {
+          setSelectedProject(found);
+        }
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, data]);
 
   // Prevent scrolling when details view is open
   useEffect(() => {
