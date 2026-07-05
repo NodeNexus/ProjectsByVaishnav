@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import type { Config, ResearchProjectConfig } from '../hooks/useConfig';
+import { hardwareData as initialHardwareData, type HardwareDetails } from '../data/hardware_details';
 import { ArrowUpRight } from './Icons';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 export function Admin({ config }: { config: Config }) {
   const [token, setToken] = useState(sessionStorage.getItem('github_pat') || '');
   const [isLoggedIn, setIsLoggedIn] = useState(!!token);
   const [formData, setFormData] = useState<Config>(config);
+  const [hardwareFormData, setHardwareFormData] = useState<HardwareDetails[]>(initialHardwareData);
+  const [showAllHardware, setShowAllHardware] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -36,10 +40,10 @@ export function Admin({ config }: { config: Config }) {
       const fileInfo = await getRes.json();
       const sha = fileInfo.sha;
 
-      const contentStr = JSON.stringify(formData, null, 2);
-      const base64Content = btoa(unescape(encodeURIComponent(contentStr)));
+      const configStr = JSON.stringify(formData, null, 2);
+      const configBase64 = btoa(unescape(encodeURIComponent(configStr)));
 
-      const putRes = await fetch(getUrl, {
+      const putConfigRes = await fetch(getUrl, {
         method: 'PUT',
         headers: {
           Authorization: `token ${token}`,
@@ -47,12 +51,70 @@ export function Admin({ config }: { config: Config }) {
         },
         body: JSON.stringify({
           message: "Update config via WYSIWYG Admin Panel",
-          content: base64Content,
+          content: configBase64,
           sha: sha
         })
       });
 
-      if (!putRes.ok) throw new Error('Failed to push changes to GitHub.');
+      if (!putConfigRes.ok) throw new Error('Failed to push config to GitHub.');
+
+      // --- SAVE HARDWARE ---
+      const hwGetUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/src/data/hardware_details.ts`;
+      const hwGetRes = await fetch(hwGetUrl, {
+        headers: { Authorization: `token ${token}` }
+      });
+      if (!hwGetRes.ok) throw new Error('Failed to fetch hardware_details.ts from GitHub.');
+      const hwFileInfo = await hwGetRes.json();
+      const hwSha = hwFileInfo.sha;
+
+      const tsInterfaces = `export interface HardwarePin {
+  name: string;
+  desc: string;
+}
+
+export interface WiringMapping {
+  sensorPin: string;
+  boardPin: string;
+}
+
+export interface BoardWiring {
+  boardName: string;
+  boardImage: string;
+  mappings: WiringMapping[];
+  boardPins: string[];
+}
+
+export interface HardwareDetails {
+  id: string;
+  name: string;
+  image: string;
+  shortDesc: string;
+  longDesc: string;
+  whatItDoes: string;
+  pins: HardwarePin[];
+  wiring?: Record<'esp32' | 'arduino', BoardWiring>;
+}
+
+export const hardwareData: HardwareDetails[] = `;
+
+      const hwStr = tsInterfaces + JSON.stringify(hardwareFormData, null, 2) + ";\n";
+      const hwBase64 = btoa(unescape(encodeURIComponent(hwStr)));
+
+      const putHwRes = await fetch(hwGetUrl, {
+        method: 'PUT',
+        headers: {
+          Authorization: `token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: "Update hardware details via WYSIWYG Admin Panel",
+          content: hwBase64,
+          sha: hwSha
+        })
+      });
+
+      if (!putHwRes.ok) throw new Error('Failed to push hardware to GitHub.');
+
       setMessage('Successfully saved and pushed to GitHub! Render is deploying...');
     } catch (err: any) {
       setMessage(`Error: ${err.message}`);
@@ -91,7 +153,15 @@ export function Admin({ config }: { config: Config }) {
     });
   };
 
-  const handleImageUpload = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleHardwareChange = (index: number, field: keyof HardwareDetails, value: any) => {
+    setHardwareFormData(prev => {
+      const newHardware = [...prev];
+      newHardware[index] = { ...newHardware[index], [field]: value };
+      return newHardware;
+    });
+  };
+
+  const handleImageUpload = async (index: number, e: React.ChangeEvent<HTMLInputElement>, isHardware: boolean = false) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -102,8 +172,10 @@ export function Admin({ config }: { config: Config }) {
       const reader = new FileReader();
       reader.onload = async (ev) => {
         const base64Data = (ev.target?.result as string).split(',')[1];
-        const filename = `project_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-        const filePath = `public/images/projects/${filename}`;
+        const prefix = isHardware ? 'hardware' : 'project';
+        const folder = isHardware ? 'hardware' : 'projects';
+        const filename = `${prefix}_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        const filePath = `public/images/${folder}/${filename}`;
         
         const putUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
         
@@ -121,7 +193,11 @@ export function Admin({ config }: { config: Config }) {
         
         if (!res.ok) throw new Error('Failed to upload image.');
         
-        handleProjectChange(index, 'coverUrl', `/images/projects/${filename}`);
+        if (isHardware) {
+          handleHardwareChange(index, 'image', `/images/${folder}/${filename}`);
+        } else {
+          handleProjectChange(index, 'coverUrl', `/images/${folder}/${filename}`);
+        }
         setMessage(`Successfully uploaded ${file.name}!`);
         setLoading(false);
       };
@@ -257,7 +333,7 @@ export function Admin({ config }: { config: Config }) {
                   <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity">
                     <label className="bg-white text-black text-xs uppercase tracking-widest px-4 py-2 rounded-full cursor-pointer hover:scale-105 transition-transform">
                       Upload Image
-                      <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(idx, e)} />
+                      <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(idx, e, false)} />
                     </label>
                   </div>
                 </div>
@@ -287,6 +363,65 @@ export function Admin({ config }: { config: Config }) {
             </div>
 
           </div>
+        </div>
+      </section>
+
+      {/* Hardware Section (Replica) */}
+      <section className="min-h-screen relative flex flex-col pt-32 pb-20 px-8 md:px-16 lg:px-24">
+        <div className="relative z-10 flex flex-col max-w-[1400px] mx-auto w-full">
+          <div className="mb-16">
+            <p className="text-[11px] font-body text-white/55 mb-8 uppercase tracking-[0.2em]">// Hardware</p>
+            <h2 className="font-heading italic text-5xl md:text-7xl lg:text-[6rem] leading-[0.85] tracking-[-0.03em] max-w-3xl mb-6">
+              Silicon and Circuits.
+            </h2>
+            <p className="text-lg text-white/55 font-body font-light leading-relaxed max-w-2xl tracking-wide">
+              Designing custom PCBs, integrating microcontrollers, and building the physical interfaces that bring software into the real world.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {(showAllHardware ? hardwareFormData : hardwareFormData.slice(0, 8)).map((comp, idx) => (
+              <div 
+                key={comp.id} 
+                className="liquid-glass rounded-[1.25rem] p-4 flex flex-col group overflow-hidden border border-transparent hover:border-white/20 transition-colors"
+              >
+                <div className="rounded-[1rem] overflow-hidden mb-4 relative aspect-square group/img">
+                  <img src={comp.image} alt={comp.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60" />
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity">
+                    <label className="bg-white text-black text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full cursor-pointer hover:scale-105 transition-transform">
+                      Upload
+                      <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(idx, e, true)} />
+                    </label>
+                  </div>
+                </div>
+                <input 
+                  type="text"
+                  value={comp.name}
+                  onChange={e => handleHardwareChange(idx, 'name', e.target.value)}
+                  className="font-heading italic text-2xl tracking-tight mb-1 bg-transparent outline-none w-full border-b border-transparent focus:border-white/30 pb-0.5 text-white"
+                />
+                <textarea 
+                  value={comp.shortDesc}
+                  onChange={e => handleHardwareChange(idx, 'shortDesc', e.target.value)}
+                  rows={2}
+                  className="text-[12px] text-white/55 font-body tracking-wide bg-transparent outline-none resize-none border-b border-transparent focus:border-white/30"
+                />
+              </div>
+            ))}
+          </div>
+
+          {hardwareFormData.length > 8 && (
+            <div className="mt-12 flex justify-center">
+              <button 
+                onClick={() => setShowAllHardware(!showAllHardware)}
+                className="liquid-glass-strong btn-hover rounded-full px-8 py-4 flex items-center gap-3 text-[14px] uppercase tracking-widest font-medium"
+              >
+                {showAllHardware ? 'Show Less' : 'View All Hardware Components'}
+                {showAllHardware ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
