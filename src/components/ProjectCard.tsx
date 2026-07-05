@@ -38,6 +38,12 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
           <img 
             src={coverUrl} 
             alt={title}
+            onError={(e) => {
+              const fallbackUrl = `https://opengraph.githubassets.com/1/${repo.html_url.split('/')[3] || 'NodeNexus'}/${repo.name}`;
+              if (e.currentTarget.src !== fallbackUrl) {
+                e.currentTarget.src = fallbackUrl;
+              }
+            }}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         )}

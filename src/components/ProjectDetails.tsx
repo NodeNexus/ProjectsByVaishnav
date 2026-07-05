@@ -69,7 +69,17 @@ export function ProjectDetails({ project, onClose }: ProjectDetailsProps) {
         <section className="relative h-[70vh] flex flex-col justify-end px-8 md:px-16 lg:px-24 pb-16">
           <div className="absolute inset-0 z-0">
             {coverUrl ? (
-              <img src={coverUrl} className="w-full h-full object-cover opacity-50" alt="Cover" />
+              <img 
+                src={coverUrl} 
+                className="w-full h-full object-cover opacity-50" 
+                alt="Cover" 
+                onError={(e) => {
+                  const fallbackUrl = `https://opengraph.githubassets.com/1/${repo.html_url.split('/')[3] || 'NodeNexus'}/${repo.name}`;
+                  if (e.currentTarget.src !== fallbackUrl) {
+                    e.currentTarget.src = fallbackUrl;
+                  }
+                }}
+              />
             ) : (
               <div className="w-full h-full bg-white/5" />
             )}
@@ -104,7 +114,7 @@ export function ProjectDetails({ project, onClose }: ProjectDetailsProps) {
                 <h2 className="text-[11px] font-body text-white/55 mb-6 uppercase tracking-[0.2em]">// Gallery</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {galleryUrls.map((img, i) => (
-                    <img key={i} src={img} alt={`Gallery ${i}`} className="w-full h-auto rounded-2xl liquid-glass p-1" />
+                    <img key={i} src={img} alt={`Gallery ${i}`} className="w-full h-auto rounded-2xl liquid-glass p-1" onError={(e) => e.currentTarget.style.display = 'none'} />
                   ))}
                 </div>
               </section>
