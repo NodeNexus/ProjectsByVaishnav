@@ -80,6 +80,32 @@ export const hardwareData: HardwareDetails[] = [
     ]
   },
   {
+    "id": "raspberry_pi_5",
+    "name": "Raspberry Pi 5",
+    "image": "/images/hardware/raspberry_pi_5.png",
+    "shortDesc": "Quad-core ARM Cortex-A76 SBC",
+    "longDesc": "The newest generation of the Raspberry Pi single-board computer, offering desktop-level performance with a quad-core 64-bit Arm processor and PCIe 2.0 capabilities.",
+    "whatItDoes": "Runs full operating systems (like Linux) for advanced AI, edge computing, robotics, and heavy data processing.",
+    "pins": [
+      {
+        "name": "5V/3V3",
+        "desc": "Power supply pins"
+      },
+      {
+        "name": "GND",
+        "desc": "Ground pins"
+      },
+      {
+        "name": "GPIOs",
+        "desc": "40-pin GPIO header for connecting peripherals, sensors, and hats"
+      },
+      {
+        "name": "PCIe",
+        "desc": "PCIe 2.0 x1 interface for fast peripherals"
+      }
+    ]
+  },
+  {
     "id": "hcsr04",
     "name": "HC-SR04",
     "image": "/images/hardware/ultrasonic_sensor_1783075710376.png",
