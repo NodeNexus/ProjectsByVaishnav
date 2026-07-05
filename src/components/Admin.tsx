@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { FadingVideo } from './FadingVideo';
 import type { Config, ResearchProjectConfig } from '../hooks/useConfig';
+import { ArrowUpRight } from './Icons';
 
 export function Admin({ config }: { config: Config }) {
   const [token, setToken] = useState(sessionStorage.getItem('github_pat') || '');
@@ -9,13 +9,8 @@ export function Admin({ config }: { config: Config }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
-  // Extract repo info from githubLink (assuming format https://github.com/Owner/Repo)
-  // For the purpose of this admin panel, we assume the repo is NodeNexus/ProjectsByVaishnav or extract it
-  // Let's extract it safely:
   const match = config.githubLink.match(/github\.com\/([^/]+)(?:\/([^/]+))?/);
   const repoOwner = match ? match[1] : 'NodeNexus';
-  // If no repo name in link, fallback to default or prompt user. We know it's ProjectsByVaishnav from context,
-  // but better to allow them to set the repo name if they want. Let's hardcode the repo name for this specific portfolio for now.
   const repoName = 'ProjectsByVaishnav';
 
   const handleLogin = (e: React.FormEvent) => {
@@ -26,27 +21,21 @@ export function Admin({ config }: { config: Config }) {
     }
   };
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSave = async () => {
     setLoading(true);
     setMessage('');
 
     try {
-      // 1. Fetch file to get current SHA
       const getUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/public/config.json`;
       const getRes = await fetch(getUrl, {
         headers: { Authorization: `token ${token}` }
       });
 
-      if (!getRes.ok) {
-        throw new Error('Failed to fetch config from GitHub. Check token permissions.');
-      }
+      if (!getRes.ok) throw new Error('Failed to fetch config from GitHub. Check token permissions.');
 
       const fileInfo = await getRes.json();
       const sha = fileInfo.sha;
 
-      // 2. Put new file content
-      // Encode string to base64 properly handling unicode if necessary (btoa works for ASCII which is fine here)
       const contentStr = JSON.stringify(formData, null, 2);
       const base64Content = btoa(unescape(encodeURIComponent(contentStr)));
 
@@ -57,17 +46,13 @@ export function Admin({ config }: { config: Config }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          message: "Update config via Admin Panel",
+          message: "Update config via WYSIWYG Admin Panel",
           content: base64Content,
           sha: sha
         })
       });
 
-      if (!putRes.ok) {
-        const errData = await putRes.json();
-        throw new Error(errData.message || 'Failed to push changes to GitHub.');
-      }
-
+      if (!putRes.ok) throw new Error('Failed to push changes to GitHub.');
       setMessage('Successfully saved and pushed to GitHub! Render is deploying...');
     } catch (err: any) {
       setMessage(`Error: ${err.message}`);
@@ -93,7 +78,7 @@ export function Admin({ config }: { config: Config }) {
       ...prev,
       researchProjects: [
         ...(prev.researchProjects || []),
-        { id: Date.now(), title: '', description: '', coverUrl: '', githubUrl: '', hardware: [], software: [] }
+        { id: Date.now(), title: 'New Project', description: 'Description goes here', coverUrl: '', githubUrl: '', hardware: [], software: [] }
       ]
     }));
   };
@@ -134,10 +119,7 @@ export function Admin({ config }: { config: Config }) {
           })
         });
         
-        if (!res.ok) {
-          const errData = await res.json();
-          throw new Error(errData.message || 'Failed to upload image.');
-        }
+        if (!res.ok) throw new Error('Failed to upload image.');
         
         handleProjectChange(index, 'coverUrl', `/images/projects/${filename}`);
         setMessage(`Successfully uploaded ${file.name}!`);
@@ -153,19 +135,11 @@ export function Admin({ config }: { config: Config }) {
   if (!isLoggedIn) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center font-body p-4 relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <FadingVideo 
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260422_112520_ee819691-f2e8-4c54-bb77-3fb72c84eaa5.mp4"
-            className="w-full h-full object-cover opacity-85"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black" />
-        </div>
         <form onSubmit={handleLogin} className="relative z-10 liquid-glass rounded-3xl p-10 max-w-md w-full flex flex-col gap-6">
           <div className="text-center">
             <h2 className="font-heading italic text-4xl mb-2">Admin Access</h2>
             <p className="text-white/50 text-sm">Please authenticate to continue</p>
           </div>
-          
           <div className="flex flex-col gap-2">
             <label className="text-xs uppercase tracking-widest text-white/50">GitHub PAT (repo scope)</label>
             <input 
@@ -176,7 +150,6 @@ export function Admin({ config }: { config: Config }) {
               required
             />
           </div>
-
           <button type="submit" className="bg-white text-black font-semibold rounded-xl py-3 mt-2 hover:bg-white/90 transition-colors">
             Login
           </button>
@@ -186,163 +159,137 @@ export function Admin({ config }: { config: Config }) {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-8 md:p-16 font-body relative">
-      <div className="fixed inset-0 z-0">
-        <FadingVideo 
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260422_112520_ee819691-f2e8-4c54-bb77-3fb72c84eaa5.mp4"
-          className="w-full h-full object-cover opacity-85"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/80 to-black" />
-      </div>
-      <div className="relative z-10 max-w-4xl mx-auto">
-        <div className="flex items-center justify-between mb-12">
-          <h1 className="font-heading italic text-5xl">Dashboard</h1>
-          <button 
-            onClick={() => { sessionStorage.removeItem('github_pat'); setIsLoggedIn(false); }}
-            className="text-xs uppercase tracking-widest text-white/50 hover:text-white"
-          >
-            Logout
-          </button>
-        </div>
-
+    <div className="w-full bg-black text-white font-body selection:bg-white selection:text-black min-h-screen relative">
+      
+      {/* Floating Save Button */}
+      <div className="fixed bottom-8 right-8 z-[100] flex flex-col items-end gap-2">
         {message && (
-          <div className={`p-4 rounded-xl mb-8 border ${message.startsWith('Error') ? 'border-red-500/50 bg-red-500/10' : 'border-green-500/50 bg-green-500/10'}`}>
+          <div className={`p-4 rounded-xl text-sm max-w-xs shadow-2xl backdrop-blur-md border ${message.startsWith('Error') ? 'border-red-500/50 bg-red-500/20' : 'border-green-500/50 bg-green-500/20'}`}>
             {message}
           </div>
         )}
+        <button 
+          onClick={handleSave}
+          disabled={loading}
+          className="bg-white text-black font-semibold rounded-full px-8 py-4 shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:scale-105 transition-all disabled:opacity-50 disabled:hover:scale-100 flex items-center gap-2"
+        >
+          {loading ? 'Deploying...' : 'Save & Deploy'}
+        </button>
+      </div>
 
-        <form onSubmit={handleSave} className="space-y-12">
+      {/* Navbar (Replica) */}
+      <nav className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-24">
+        <div className="liquid-glass-extreme h-12 px-6 rounded-full flex items-center justify-center relative overflow-hidden">
+          <input 
+            type="text"
+            value={formData.name}
+            onChange={e => handleChange('name', e.target.value)}
+            className="font-heading font-medium italic text-xl mt-1 z-10 bg-transparent outline-none w-32 text-center text-white"
+          />
+        </div>
+        <button 
+          onClick={() => { sessionStorage.removeItem('github_pat'); setIsLoggedIn(false); }}
+          className="liquid-glass-extreme rounded-full px-5 py-2 text-[11px] uppercase tracking-widest text-white/50 hover:text-white"
+        >
+          Logout
+        </button>
+      </nav>
+
+      {/* Hero Section (Replica) */}
+      <section className="h-screen bg-black relative flex flex-col pt-32 px-4">
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center">
           
-          <div className="space-y-6">
-            <h3 className="text-xl font-medium border-b border-white/10 pb-2">Hero Section</h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex flex-col gap-2">
-                <label className="text-xs uppercase tracking-widest text-white/50">Your Name (Logo)</label>
-                <input type="text" value={formData.name} onChange={e => handleChange('name', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label className="text-xs uppercase tracking-widest text-white/50">Headline</label>
-              <input type="text" value={formData.heroHeadline} onChange={e => handleChange('heroHeadline', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label className="text-xs uppercase tracking-widest text-white/50">Sub-headline</label>
-              <textarea value={formData.heroSubheadline} onChange={e => handleChange('heroSubheadline', e.target.value)} rows={3} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label className="text-xs uppercase tracking-widest text-white/50">Latest Tag Text</label>
-              <input type="text" value={formData.latestTagText || ''} onChange={e => handleChange('latestTagText', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" placeholder="e.g. Deploying embedded machine learning..." />
-            </div>
+          <div className="liquid-glass rounded-full flex items-center gap-4 p-1.5 pr-5 mb-10 w-full max-w-md mx-auto">
+            <span className="bg-white text-black text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest">Latest</span>
+            <input 
+              type="text"
+              value={formData.latestTagText || ''}
+              onChange={e => handleChange('latestTagText', e.target.value)}
+              className="text-[13px] text-white/75 font-medium tracking-wide bg-transparent outline-none flex-1 border-b border-white/20 focus:border-white transition-colors pb-0.5"
+            />
           </div>
 
-          <div className="space-y-6">
-            <h3 className="text-xl font-medium border-b border-white/10 pb-2">GitHub Integration</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex flex-col gap-2">
-                <label className="text-xs uppercase tracking-widest text-white/50">Username</label>
-                <input type="text" value={formData.githubUsername} onChange={e => handleChange('githubUsername', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-xs uppercase tracking-widest text-white/50">GitHub URL</label>
-                <input type="text" value={formData.githubLink} onChange={e => handleChange('githubLink', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
-              </div>
+          <textarea
+            value={formData.heroHeadline}
+            onChange={e => handleChange('heroHeadline', e.target.value)}
+            rows={2}
+            className="text-6xl md:text-7xl lg:text-[6.5rem] font-heading italic text-white leading-[0.85] tracking-[-0.04em] w-full max-w-[1000px] mx-auto text-center bg-transparent outline-none resize-none overflow-hidden"
+          />
+
+          <textarea
+            value={formData.heroSubheadline}
+            onChange={e => handleChange('heroSubheadline', e.target.value)}
+            rows={3}
+            className="text-base md:text-lg text-white/75 w-full max-w-2xl font-body font-light leading-relaxed mt-10 tracking-wide text-center bg-transparent outline-none resize-none border-b border-white/20 focus:border-white transition-colors pb-2 mx-auto"
+          />
+
+          <div className="flex items-center gap-8 mt-12">
+            <div className="liquid-glass-strong rounded-full px-6 py-3.5 flex items-center gap-2 text-[13px] uppercase tracking-widest font-medium opacity-50 cursor-not-allowed">
+              Explore Systems <ArrowUpRight className="w-4 h-4" />
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="space-y-6">
-            <h3 className="text-xl font-medium border-b border-white/10 pb-2">Social & Links</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex flex-col gap-2">
-                <label className="text-xs uppercase tracking-widest text-white/50">LinkedIn</label>
-                <input type="text" value={formData.linkedin} onChange={e => handleChange('linkedin', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-xs uppercase tracking-widest text-white/50">Email</label>
-                <input type="text" value={formData.email} onChange={e => handleChange('email', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-xs uppercase tracking-widest text-white/50">X (Twitter)</label>
-                <input type="text" value={formData.twitter} onChange={e => handleChange('twitter', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-xs uppercase tracking-widest text-white/50">Resume (PDF Link)</label>
-                <input type="text" value={formData.resume} onChange={e => handleChange('resume', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
-              </div>
-            </div>
-          </div>
+      {/* Projects Section (Replica) */}
+      <section className="min-h-screen bg-black relative flex flex-col pt-32 pb-20 px-8 md:px-16 lg:px-24 border-t border-white/10">
+        <div className="relative z-10 flex flex-col max-w-[1400px] mx-auto w-full">
+          <h2 className="font-heading italic text-5xl md:text-6xl mb-12 flex items-center gap-4">
+            <span className="text-white/30">/01</span> 
+            Featured Systems
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {(formData.researchProjects || []).map((project, idx) => (
+              <div key={project.id} className="liquid-glass rounded-[1.75rem] overflow-hidden flex flex-col h-[420px] relative group border border-transparent hover:border-white/20 transition-colors">
+                
+                <button 
+                  onClick={() => removeProject(idx)}
+                  className="absolute top-4 right-4 z-50 bg-red-500/80 text-white text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full hover:bg-red-500"
+                >
+                  Delete
+                </button>
 
-          <div className="space-y-6">
-            <div className="flex items-center justify-between border-b border-white/10 pb-2">
-              <h3 className="text-xl font-medium">Research Projects</h3>
-              <button type="button" onClick={addProject} className="text-xs uppercase tracking-widest text-white/75 bg-white/10 px-4 py-2 rounded-lg hover:bg-white/20 transition-colors">
-                + Add Project
-              </button>
-            </div>
-            
-            <div className="space-y-8">
-              {(formData.researchProjects || []).map((project, idx) => (
-                <div key={project.id} className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-4 relative">
-                  <button type="button" onClick={() => removeProject(idx)} className="absolute top-4 right-4 text-xs text-red-400 hover:text-red-300">
-                    Remove
-                  </button>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs uppercase tracking-widest text-white/50">Project Title</label>
-                      <input type="text" value={project.title} onChange={e => handleProjectChange(idx, 'title', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs uppercase tracking-widest text-white/50">Cover Image URL</label>
-                      <div className="flex gap-2">
-                        <input type="text" value={project.coverUrl} onChange={e => handleProjectChange(idx, 'coverUrl', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30 flex-1" />
-                        <label className="bg-white/10 hover:bg-white/20 transition-colors rounded-xl px-4 flex items-center justify-center cursor-pointer text-xs uppercase tracking-widest text-white/75 shrink-0">
-                          Upload
-                          <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(idx, e)} disabled={loading} />
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <label className="text-xs uppercase tracking-widest text-white/50">Description</label>
-                    <textarea value={project.description} onChange={e => handleProjectChange(idx, 'description', e.target.value)} rows={2} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <label className="text-xs uppercase tracking-widest text-white/50">GitHub URL (Optional)</label>
-                    <input type="text" value={project.githubUrl || ''} onChange={e => handleProjectChange(idx, 'githubUrl', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs uppercase tracking-widest text-white/50">Hardware (comma separated)</label>
-                      <input type="text" value={(project.hardware || []).join(', ')} onChange={e => handleProjectChange(idx, 'hardware', e.target.value.split(',').map(s => s.trim()).filter(Boolean))} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs uppercase tracking-widest text-white/50">Software (comma separated)</label>
-                      <input type="text" value={(project.software || []).join(', ')} onChange={e => handleProjectChange(idx, 'software', e.target.value.split(',').map(s => s.trim()).filter(Boolean))} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
-                    </div>
+                <div className="relative h-[220px] w-full overflow-hidden bg-white/5 shrink-0 border-b border-white/10 group/img">
+                  {project.coverUrl && (
+                    <img src={project.coverUrl} className="w-full h-full object-cover" alt="Cover" />
+                  )}
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity">
+                    <label className="bg-white text-black text-xs uppercase tracking-widest px-4 py-2 rounded-full cursor-pointer hover:scale-105 transition-transform">
+                      Upload Image
+                      <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(idx, e)} />
+                    </label>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="pt-8">
-            <button 
-              type="submit" 
-              disabled={loading}
-              className="bg-white text-black font-semibold rounded-xl px-12 py-4 hover:bg-white/90 transition-colors disabled:opacity-50 flex items-center gap-2"
+                
+                <div className="p-7 flex flex-col flex-1 bg-black/40">
+                  <input 
+                    type="text"
+                    value={project.title}
+                    onChange={e => handleProjectChange(idx, 'title', e.target.value)}
+                    className="font-heading italic text-[28px] md:text-[32px] tracking-[-0.02em] leading-none mb-3 text-white bg-transparent outline-none w-full border-b border-transparent focus:border-white/30 pb-1"
+                  />
+                  <textarea 
+                    value={project.description}
+                    onChange={e => handleProjectChange(idx, 'description', e.target.value)}
+                    className="text-[13px] text-white/60 font-body font-light leading-relaxed flex-1 bg-transparent outline-none resize-none border-b border-transparent focus:border-white/30"
+                  />
+                </div>
+              </div>
+            ))}
+            
+            <div 
+              onClick={addProject}
+              className="liquid-glass rounded-[1.75rem] flex flex-col items-center justify-center h-[420px] cursor-pointer hover:bg-white/10 transition-colors border border-dashed border-white/20 hover:border-white/50"
             >
-              {loading ? 'Committing to GitHub...' : 'Save Changes'}
-            </button>
-            <p className="text-xs text-white/30 mt-4 max-w-xl leading-relaxed">
-              * Note: Because this is a static site, saving changes will directly push a commit to your GitHub repository. Render will automatically detect this commit and rebuild your portfolio with the new settings.
-            </p>
-          </div>
+              <div className="text-4xl text-white/30 mb-2">+</div>
+              <span className="text-[11px] uppercase tracking-widest text-white/50">Add New Project</span>
+            </div>
 
-        </form>
-      </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }
