@@ -158,7 +158,6 @@ export function Admin({ config }: { config: Config }) {
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260422_112520_ee819691-f2e8-4c54-bb77-3fb72c84eaa5.mp4"
             className="w-full h-full object-cover opacity-85"
           />
-          <div className="absolute inset-0 vignette-overlay mix-blend-multiply" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black" />
         </div>
         <form onSubmit={handleLogin} className="relative z-10 liquid-glass rounded-3xl p-10 max-w-md w-full flex flex-col gap-6">
@@ -193,7 +192,6 @@ export function Admin({ config }: { config: Config }) {
           src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260422_112520_ee819691-f2e8-4c54-bb77-3fb72c84eaa5.mp4"
           className="w-full h-full object-cover opacity-85"
         />
-        <div className="absolute inset-0 vignette-overlay mix-blend-multiply" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/80 to-black" />
       </div>
       <div className="relative z-10 max-w-4xl mx-auto">
