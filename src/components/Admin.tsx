@@ -106,6 +106,50 @@ export function Admin({ config }: { config: Config }) {
     });
   };
 
+  const handleImageUpload = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setLoading(true);
+      setMessage(`Uploading ${file.name}...`);
+      
+      const reader = new FileReader();
+      reader.onload = async (ev) => {
+        const base64Data = (ev.target?.result as string).split(',')[1];
+        const filename = `project_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        const filePath = `public/images/projects/${filename}`;
+        
+        const putUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+        
+        const res = await fetch(putUrl, {
+          method: 'PUT',
+          headers: {
+            Authorization: `token ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: `Upload image ${filename} via Admin Panel`,
+            content: base64Data
+          })
+        });
+        
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.message || 'Failed to upload image.');
+        }
+        
+        handleProjectChange(index, 'coverUrl', `/images/projects/${filename}`);
+        setMessage(`Successfully uploaded ${file.name}!`);
+        setLoading(false);
+      };
+      reader.readAsDataURL(file);
+    } catch (err: any) {
+      setMessage(`Error: ${err.message}`);
+      setLoading(false);
+    }
+  };
+
   if (!isLoggedIn) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center font-body p-4 relative overflow-hidden">
@@ -254,7 +298,13 @@ export function Admin({ config }: { config: Config }) {
                     </div>
                     <div className="flex flex-col gap-2">
                       <label className="text-xs uppercase tracking-widest text-white/50">Cover Image URL</label>
-                      <input type="text" value={project.coverUrl} onChange={e => handleProjectChange(idx, 'coverUrl', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
+                      <div className="flex gap-2">
+                        <input type="text" value={project.coverUrl} onChange={e => handleProjectChange(idx, 'coverUrl', e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30 flex-1" />
+                        <label className="bg-white/10 hover:bg-white/20 transition-colors rounded-xl px-4 flex items-center justify-center cursor-pointer text-xs uppercase tracking-widest text-white/75 shrink-0">
+                          Upload
+                          <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(idx, e)} disabled={loading} />
+                        </label>
+                      </div>
                     </div>
                   </div>
                   <div className="flex flex-col gap-2">
