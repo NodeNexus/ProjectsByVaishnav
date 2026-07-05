@@ -82,7 +82,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "raspberry_pi_5",
     "name": "Raspberry Pi 5",
-    "image": "/images/hardware/raspberry_pi_5.png",
+    "image": "/images/hardware/hardware_1783235255450_Gemini_Generated_Image_aq55zaq55zaq55za.png",
     "shortDesc": "Quad-core ARM Cortex-A76 SBC",
     "longDesc": "The newest generation of the Raspberry Pi single-board computer, offering desktop-level performance with a quad-core 64-bit Arm processor and PCIe 2.0 capabilities.",
     "whatItDoes": "Runs full operating systems (like Linux) for advanced AI, edge computing, robotics, and heavy data processing.",
