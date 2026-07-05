@@ -288,5 +288,248 @@ export const hardwareData: HardwareDetails[] = [
         ]
       }
     }
+  },
+  {
+    id: 'ds18b20',
+    name: "DS18B20",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "1-Wire Digital Temp Sensor",
+    longDesc: "A digital thermometer provides 9-bit to 12-bit Celsius temperature measurements and has an alarm function with nonvolatile user-programmable upper and lower trigger points.",
+    whatItDoes: "Measures temperature digitally using a single data wire for communication.",
+    pins: [{ name: "VDD", desc: "Power supply" }, { name: "DQ", desc: "Data in/out" }, { name: "GND", desc: "Ground" }]
+  },
+  {
+    id: 'bmp280',
+    name: "BMP280",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Barometric Pressure Sensor",
+    longDesc: "An absolute barometric pressure sensor especially designed for mobile applications.",
+    whatItDoes: "Measures atmospheric pressure and temperature to determine altitude or weather changes.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }]
+  },
+  {
+    id: 'tcs34725',
+    name: "TCS34725",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "RGB Color Sensor",
+    longDesc: "Provides red, green, blue (RGB) and clear light sensing values.",
+    whatItDoes: "Detects the color of objects or ambient light accurately using optical sensors.",
+    pins: [{ name: "VIN", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }]
+  },
+  {
+    id: 'bh1750',
+    name: "BH1750",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Digital Light Sensor",
+    longDesc: "A digital ambient light sensor IC for I2C bus interface.",
+    whatItDoes: "Measures ambient light intensity in lux without needing complex calculations.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }, { name: "ADD", desc: "I2C Address" }]
+  },
+  {
+    id: 'vl53l0x',
+    name: "VL53L0X",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Time-of-Flight Distance Sensor",
+    longDesc: "A new generation Time-of-Flight (ToF) laser-ranging module housed in the smallest package on the market.",
+    whatItDoes: "Accurately measures absolute distance up to 2m regardless of target reflectance.",
+    pins: [{ name: "VIN", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }]
+  },
+  {
+    id: 'hcsr501',
+    name: "HC-SR501 (PIR)",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Passive Infrared Sensor",
+    longDesc: "Based on infrared technology, automatic control module, using Germany imported LHI778 probe design.",
+    whatItDoes: "Detects motion from humans or animals by sensing infrared radiation.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "OUT", desc: "Digital Output" }, { name: "GND", desc: "Ground" }]
+  },
+  {
+    id: 'a3144',
+    name: "A3144 Hall Effect",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Magnetic Field Sensor",
+    longDesc: "A continuous-time switch with a digital output that triggers when a magnetic field is present.",
+    whatItDoes: "Detects the presence of a magnet, useful for speed measurement or door switches.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "OUT", desc: "Digital Output" }]
+  },
+  {
+    id: 'mpu6050',
+    name: "MPU6050",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "6-DOF Accelerometer & Gyro",
+    longDesc: "Contains a MEMS accelerometer and a MEMS gyro in a single chip. It is very accurate, as it contains 16-bits analog to digital conversion hardware for each channel.",
+    whatItDoes: "Tracks orientation and acceleration in 3D space.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }, { name: "INT", desc: "Interrupt" }]
+  },
+  {
+    id: 'hmc5883l',
+    name: "HMC5883L",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "3-Axis Digital Compass",
+    longDesc: "A multi-chip module designed for low-field magnetic sensing with a digital interface.",
+    whatItDoes: "Measures the Earth's magnetic field to provide heading information (digital compass).",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }]
+  },
+  {
+    id: 'ky038',
+    name: "KY-038",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Sound Sensor Module",
+    longDesc: "Features a microphone and an LM393 comparator to detect sound.",
+    whatItDoes: "Detects acoustic sound and outputs a digital signal when noise crosses a threshold.",
+    pins: [{ name: "A0", desc: "Analog Output" }, { name: "GND", desc: "Ground" }, { name: "VCC", desc: "Power" }, { name: "D0", desc: "Digital Output" }]
+  },
+  {
+    id: 'flame',
+    name: "Flame Sensor",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Fire Detection Sensor",
+    longDesc: "Can detect a flame or a light source of a wavelength in the range of 760nm-1100nm.",
+    whatItDoes: "Used for fire alarms or fire-fighting robots to detect the presence of fire.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "D0", desc: "Digital Output" }, { name: "A0", desc: "Analog Output" }]
+  },
+  {
+    id: 'mq2',
+    name: "MQ-2",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Gas Sensor",
+    longDesc: "Sensitive for LPG, i-butane, propane, methane, alcohol, Hydrogen, smoke.",
+    whatItDoes: "Detects the presence of combustible gases and smoke in the air.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "D0", desc: "Digital Output" }, { name: "A0", desc: "Analog Output" }]
+  },
+  {
+    id: 'mq135',
+    name: "MQ-135",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Air Quality Sensor",
+    longDesc: "Used in air quality control equipment for buildings/offices, sensitive to NH3, NOx, alcohol, Benzene, smoke, CO2, etc.",
+    whatItDoes: "Monitors indoor air quality by detecting harmful gases.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "D0", desc: "Digital Output" }, { name: "A0", desc: "Analog Output" }]
+  },
+  {
+    id: 'soil_moisture',
+    name: "Capacitive Soil Moisture",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Soil Hydration Sensor",
+    longDesc: "Measures soil moisture levels by capacitive sensing rather than resistive sensing like other sensors on the market.",
+    whatItDoes: "Determines how wet or dry the soil is for automated plant watering systems.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "AOUT", desc: "Analog Output" }]
+  },
+  {
+    id: 'rain',
+    name: "Rain Sensor Module",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Water Drop Sensor",
+    longDesc: "An analog sensor that can detect water droplets or rain.",
+    whatItDoes: "Acts as a switch when raindrops fall through the raining board.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "D0", desc: "Digital Output" }, { name: "A0", desc: "Analog Output" }]
+  },
+  {
+    id: 'water_level',
+    name: "Water Level Sensor",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Liquid Level Sensor",
+    longDesc: "An easy-to-use, cost-effective high level/drop recognition sensor.",
+    whatItDoes: "Measures the depth of water based on the conductivity of the exposed traces.",
+    pins: [{ name: "S", desc: "Analog Signal" }, { name: "+", desc: "Power" }, { name: "-", desc: "Ground" }]
+  },
+  {
+    id: 'yfs201',
+    name: "YF-S201",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Water Flow Sensor",
+    longDesc: "Consists of a plastic valve body, a water rotor, and a hall-effect sensor.",
+    whatItDoes: "Measures the rate of liquid flowing through it by counting hall effect pulses.",
+    pins: [{ name: "Red", desc: "5V Power" }, { name: "Black", desc: "Ground" }, { name: "Yellow", desc: "PWM Output Signal" }]
+  },
+  {
+    id: 'hx711',
+    name: "HX711 + Load Cell",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Weight Scale Amplifier",
+    longDesc: "A precision 24-bit analog-to-digital converter (ADC) designed for weigh scales and industrial control applications.",
+    whatItDoes: "Translates the small resistance changes in a load cell into a digital weight measurement.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "DT", desc: "Data Output" }, { name: "SCK", desc: "Clock Input" }]
+  },
+  {
+    id: 'max30102',
+    name: "MAX30102",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Pulse Oximeter",
+    longDesc: "An integrated pulse oximetry and heart-rate monitor biosensor module.",
+    whatItDoes: "Measures heart rate and blood oxygen levels by emitting and measuring light.",
+    pins: [{ name: "VIN", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }, { name: "INT", desc: "Interrupt" }]
+  },
+  {
+    id: 'mlx90614',
+    name: "MLX90614",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "IR Temp Sensor",
+    longDesc: "An infrared thermometer for non-contact temperature measurements.",
+    whatItDoes: "Measures the surface temperature of objects from a distance without touching them.",
+    pins: [{ name: "VIN", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }]
+  },
+  {
+    id: 'acs712',
+    name: "ACS712",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Current Sensor",
+    longDesc: "Provides economical and precise solutions for AC or DC current sensing in industrial, commercial, and communications systems.",
+    whatItDoes: "Measures electrical current flowing through a wire using the Hall effect.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "OUT", desc: "Analog Output" }]
+  },
+  {
+    id: 'ina219',
+    name: "INA219",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "DC Current Sensor",
+    longDesc: "A shunt and power monitor with an I2C- or SMBUS-compatible interface.",
+    whatItDoes: "Accurately measures high-side voltage and DC current draw in a circuit.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }, { name: "VIN+", desc: "Load Power In" }, { name: "VIN-", desc: "Load Power Out" }]
+  },
+  {
+    id: 'neo6m',
+    name: "NEO-6M GPS",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "GPS Module",
+    longDesc: "A stand-alone GPS receiver featuring the high performance u-blox 6 positioning engine.",
+    whatItDoes: "Receives signals from satellites to determine exact global geographic coordinates and time.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "TX", desc: "Serial Transmit" }, { name: "RX", desc: "Serial Receive" }]
+  },
+  {
+    id: 'pn532',
+    name: "PN532",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "NFC/RFID Reader",
+    longDesc: "The most popular NFC chip, used in almost every phone that does NFC.",
+    whatItDoes: "Reads and writes NFC tags, communicates with phones, or acts as an NFC tag itself.",
+    pins: [{ name: "5V", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SDA/TX", desc: "I2C Data / Serial TX" }, { name: "SCL/RX", desc: "I2C Clock / Serial RX" }]
+  },
+  {
+    id: 'apds9960',
+    name: "APDS9960",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "Gesture Sensor",
+    longDesc: "Features advanced gesture detection, proximity detection, digital Ambient Light Sense (ALS) and Color Sense (RGBC).",
+    whatItDoes: "Detects hand swipes (left, right, up, down) and measures light/color.",
+    pins: [{ name: "VL", desc: "IR LED Power" }, { name: "GND", desc: "Ground" }, { name: "VCC", desc: "Power" }, { name: "SDA", desc: "I2C Data" }, { name: "SCL", desc: "I2C Clock" }, { name: "INT", desc: "Interrupt" }]
+  },
+  {
+    id: 'veml6075',
+    name: "VEML6075",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "UVA/UVB Sensor",
+    longDesc: "Incorporates a photodiode, amplifiers, and analog/digital circuits into a single chip using a CMOS process.",
+    whatItDoes: "Senses both UVA and UVB light bands to calculate the UV index.",
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SDA", desc: "I2C Data" }, { name: "SCL", desc: "I2C Clock" }]
+  },
+  {
+    id: 'mhz19b',
+    name: "MH-Z19B",
+    image: "/images/hardware/generic_sensor.png",
+    shortDesc: "CO2 Sensor",
+    longDesc: "A common type, intelligent, small-scale sensor, using non-dispersive infrared (NDIR) principle to detect the existence of CO2.",
+    whatItDoes: "Measures Carbon Dioxide concentrations in the air with high accuracy.",
+    pins: [{ name: "Vin", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "Tx", desc: "Serial Transmit" }, { name: "Rx", desc: "Serial Receive" }, { name: "PWM", desc: "PWM Output" }]
   }
 ];
