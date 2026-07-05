@@ -46,7 +46,7 @@ function AnimatedCounter({ value }: { value: number }) {
   return <span>{count}</span>;
 }
 
-const hardcodedProjects: ProjectData[] = [
+const defaultHardcodedProjects: ProjectData[] = [
   {
     repo: {
       id: 1,
@@ -127,6 +127,32 @@ const hardcodedProjects: ProjectData[] = [
 export default function Portfolio({ config }: { config: Config }) {
   const { data, loading } = useGitHubData(config.githubUsername);
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
+
+  const researchProjects: ProjectData[] = config.researchProjects?.length ? config.researchProjects.map(rp => ({
+    repo: {
+      id: rp.id,
+      name: rp.title.replace(/\s+/g, '-').toLowerCase(),
+      description: rp.description,
+      html_url: rp.githubUrl || "#",
+      stargazers_count: 0,
+      forks_count: 0,
+      language: "",
+      updated_at: new Date().toISOString(),
+      topics: ["research"],
+      default_branch: "main",
+      fork: false
+    },
+    metadata: {
+      featured: true,
+      title: rp.title,
+      description: rp.description,
+      hardware: rp.hardware,
+      software: rp.software,
+    },
+    coverUrl: rp.coverUrl,
+    galleryUrls: [],
+    architectureUrl: null
+  })) : defaultHardcodedProjects;
 
   // Prevent scrolling when details view is open
   useEffect(() => {
@@ -386,7 +412,7 @@ export default function Portfolio({ config }: { config: Config }) {
           </div>
 
           <div className="mt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {hardcodedProjects.map(project => (
+            {researchProjects.map(project => (
               <ProjectCard 
                 key={project.repo.id} 
                 project={project} 
