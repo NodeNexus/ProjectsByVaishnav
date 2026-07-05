@@ -145,13 +145,9 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
                     <div className="flex-1 relative">
                       <style>
                         {`
-                          @keyframes wire-flow-forward {
-                            from { stroke-dashoffset: 100; }
+                          @keyframes wire-flow {
+                            from { stroke-dashoffset: 50; }
                             to { stroke-dashoffset: 0; }
-                          }
-                          @keyframes wire-flow-reverse {
-                            from { stroke-dashoffset: 0; }
-                            to { stroke-dashoffset: 100; }
                           }
                         `}
                       </style>
@@ -174,14 +170,12 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
                           const pName = mapping.sensorPin.toUpperCase();
                           let direction = 'reverse'; // Default: Sensor to Board
                           if (['VCC', 'VDD', 'VIN', '5V', '3.3V', '3V3', '+', 'RED', 'VL', 'GND', '-', 'BLACK'].includes(pName)) {
-                            direction = 'forward'; // Board to Sensor
+                            direction = 'normal'; // Board to Sensor
                           } else if (['sg90', 'relay5v', 'l298n'].includes(component.id)) {
-                            direction = 'forward'; // Control signals to Actuator
+                            direction = 'normal'; // Control signals to Actuator
                           } else if (['TRIG', 'MOSI', 'SCK', 'SCL', 'RST', 'CS', 'ENA', 'ENB'].includes(pName)) {
-                            direction = 'forward'; // Master out to Slave in
+                            direction = 'normal'; // Master out to Slave in
                           }
-
-                          const animName = direction === 'forward' ? 'wire-flow-forward' : 'wire-flow-reverse';
 
                           return (
                             <g key={`wire-${idx}`}>
@@ -214,7 +208,11 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
                                 strokeLinecap="round"
                                 strokeDasharray="5 45"
                                 vectorEffect="non-scaling-stroke"
-                                style={{ animation: `${animName} ${1 + (idx % 3) * 0.3}s linear infinite`, filter: `drop-shadow(0 0 4px ${color}) drop-shadow(0 0 8px ${color})` }}
+                                style={{ 
+                                  animation: `wire-flow ${1 + (idx % 3) * 0.3}s linear infinite`,
+                                  animationDirection: direction as any,
+                                  filter: `drop-shadow(0 0 4px ${color}) drop-shadow(0 0 8px ${color})` 
+                                }}
                               />
                             </g>
                           );
