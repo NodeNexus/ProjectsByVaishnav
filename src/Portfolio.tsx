@@ -4,7 +4,9 @@ import { FadingVideo } from './components/FadingVideo';
 import { BlurText } from './components/BlurText';
 import { ProjectCard } from './components/ProjectCard';
 import { ProjectDetails } from './components/ProjectDetails';
-import type { Config, ResearchProjectConfig } from './hooks/useConfig';
+import { useGitHubData } from './hooks/useGitHubData';
+import type { ProjectData } from './services/github';
+import type { Config } from './hooks/useConfig';
 import { hardwareData, type HardwareDetails } from './data/hardware_details';
 import { HardwareDetailsView } from './components/HardwareDetails';
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -22,12 +24,37 @@ const motionProps = {
   transition: { duration: 0.8, ease: 'easeOut' as const }
 };
 
+// Counter Component for animating numbers (simplified approach)
+function AnimatedCounter({ value }: { value: number }) {
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    let start = 0;
+    const duration = 1500;
+    const increment = value / (duration / 16);
+    
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= value) {
+        setCount(value);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
+    
+    return () => clearInterval(timer);
+  }, [value]);
 
+  return <span>{count}</span>;
+}
 
 
 
 export default function Portfolio({ config }: { config: Config }) {
-  const [selectedProject, setSelectedProject] = useState<ResearchProjectConfig | null>(null);
+  const { data, loading } = useGitHubData(config.githubUsername);
+  
+  const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
   
   const [selectedHardware, setSelectedHardware] = useState<HardwareDetails | null>(() => {
     if (typeof window !== 'undefined') {
@@ -42,7 +69,31 @@ export default function Portfolio({ config }: { config: Config }) {
   
   const [showAllHardware, setShowAllHardware] = useState(false);
 
-  const projects: ResearchProjectConfig[] = config.researchProjects || [];
+  const researchProjects: ProjectData[] = config.researchProjects?.length ? config.researchProjects.map(rp => ({
+    repo: {
+      id: rp.id,
+      name: rp.title.replace(/\s+/g, '-').toLowerCase(),
+      description: rp.description,
+      html_url: rp.githubUrl || "#",
+      stargazers_count: 0,
+      forks_count: 0,
+      language: "",
+      updated_at: new Date().toISOString(),
+      topics: ["research"],
+      default_branch: "main",
+      fork: false
+    },
+    metadata: {
+      featured: true,
+      title: rp.title,
+      description: rp.description,
+      hardware: rp.hardware,
+      software: rp.software,
+    },
+    coverUrl: rp.coverUrl,
+    galleryUrls: [],
+    architectureUrl: null
+  })) : [];
 
   // Sync URL when hardware changes
   useEffect(() => {
@@ -62,7 +113,7 @@ export default function Portfolio({ config }: { config: Config }) {
     if (typeof window !== 'undefined') {
       const url = new URL(window.location.href);
       if (selectedProject) {
-        url.searchParams.set('project', selectedProject.title);
+        url.searchParams.set('project', selectedProject.repo.name);
       } else {
         url.searchParams.delete('project');
       }
@@ -70,20 +121,21 @@ export default function Portfolio({ config }: { config: Config }) {
     }
   }, [selectedProject]);
 
-  // Load initial project from URL
+  // Load initial project from URL once data is fetched
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (!loading && data && typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
       const projName = params.get('project');
       if (projName) {
-        const found = projects.find(p => p.title === projName);
+        const allProjects = [...data.projects, ...researchProjects];
+        const found = allProjects.find(p => p.repo.name === projName);
         if (found) {
           setSelectedProject(found);
         }
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [loading, data]);
 
   // Prevent scrolling when details view is open
   useEffect(() => {
@@ -194,7 +246,31 @@ export default function Portfolio({ config }: { config: Config }) {
             </a>
           </motion.div>
 
-          {/* Dynamic Hero Statistics Removed */  }
+          {/* Dynamic Hero Statistics */}
+          <motion.div 
+            {...motionProps} 
+            transition={{ ...motionProps.transition, delay: 1.3 }}
+            className="flex gap-6 mt-20 flex-wrap justify-center"
+          >
+            <div className="liquid-glass card-hover p-6 w-[200px] rounded-[1.5rem] text-left flex flex-col cursor-default">
+              <span className="text-[11px] text-white/55 font-light tracking-widest uppercase leading-relaxed mb-4">Repositories</span>
+              <span className="text-5xl font-heading italic tracking-[-0.02em] leading-none">
+                {loading ? '...' : <AnimatedCounter value={data?.stats.repositories || 0} />}
+              </span>
+            </div>
+            <div className="liquid-glass card-hover p-6 w-[200px] rounded-[1.5rem] text-left flex flex-col cursor-default">
+              <span className="text-[11px] text-white/55 font-light tracking-widest uppercase leading-relaxed mb-4">Total Stars</span>
+              <span className="text-5xl font-heading italic tracking-[-0.02em] leading-none">
+                {loading ? '...' : <AnimatedCounter value={data?.stats.stars || 0} />}
+              </span>
+            </div>
+            <div className="liquid-glass card-hover p-6 w-[200px] rounded-[1.5rem] text-left flex flex-col cursor-default">
+              <span className="text-[11px] text-white/55 font-light tracking-widest uppercase leading-relaxed mb-4">Systems Built</span>
+              <span className="text-5xl font-heading italic tracking-[-0.02em] leading-none">
+                {loading ? '...' : <AnimatedCounter value={data?.stats.projectsCompleted || 0} />}
+              </span>
+            </div>
+          </motion.div>
         </div>
 
         {/* Technology Trust Bar */}
@@ -225,20 +301,24 @@ export default function Portfolio({ config }: { config: Config }) {
               Every repository represents solving a real engineering problem through thoughtful hardware and software architecture.
             </p>
           </div>
-          <h2 className="font-heading italic text-5xl md:text-6xl mb-12 flex items-center gap-4">
-            <span className="text-white/30">/01</span> 
-            Featured Systems
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project) => (
-              <ProjectCard 
-                key={project.id} 
-                project={project} 
-                onClick={() => setSelectedProject(project)} 
-              />
-            ))}
-          </div>
+
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="liquid-glass rounded-[1.75rem] h-[480px] animate-pulse" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {data?.projects.map(project => (
+                <ProjectCard 
+                  key={project.repo.id} 
+                  project={project} 
+                  onClick={() => setSelectedProject(project)} 
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -264,9 +344,27 @@ export default function Portfolio({ config }: { config: Config }) {
               >
                 <div className="rounded-[1rem] overflow-hidden mb-4 relative aspect-square">
                   <img src={comp.image} alt={comp.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60" />
+                  
+                  {/* Simulated LED Blinks */}
+                  {comp.id === 'arduino_uno' && (
+                    <>
+                      <div className="absolute top-[45%] right-[18%] w-1.5 h-1.5 bg-cyan-200 rounded-full blur-[1px] animate-ping z-20 opacity-70" style={{ animationDuration: '0.5s' }} />
+                      <div className="absolute top-[45%] right-[18%] w-4 h-4 bg-cyan-400 rounded-full blur-[4px] animate-pulse z-20 mix-blend-screen" />
+                      
+                      <div className="absolute top-[52%] left-[45%] w-1.5 h-1.5 bg-orange-200 rounded-full blur-[1px] animate-ping z-20 opacity-60" style={{ animationDuration: '1.2s' }} />
+                      <div className="absolute top-[52%] left-[45%] w-3 h-3 bg-orange-400 rounded-full blur-[3px] animate-pulse z-20 mix-blend-screen" />
+                    </>
+                  )}
+                  {comp.id === 'esp32' && (
+                    <>
+                      <div className="absolute bottom-[28%] left-[25%] w-2 h-2 bg-orange-300 rounded-full blur-[1px] animate-ping z-20 opacity-80" style={{ animationDuration: '2s' }} />
+                      <div className="absolute bottom-[28%] left-[25%] w-5 h-5 bg-red-500 rounded-full blur-[6px] animate-pulse z-20 mix-blend-screen" />
+                    </>
+                  )}
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 pointer-events-none" />
                 </div>
-                <h3 className="font-heading italic text-2xl tracking-tight mb-1">{comp.name}</h3>
+                <h3 className="font-heading italic text-2xl tracking-tight mb-1 relative z-30">{comp.name}</h3>
                 <p className="text-[12px] text-white/55 font-body tracking-wide">
                   {comp.shortDesc}
                 </p>
@@ -337,9 +435,9 @@ export default function Portfolio({ config }: { config: Config }) {
           </div>
 
           <div className="mt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
+            {researchProjects.map(project => (
               <ProjectCard 
-                key={project.id} 
+                key={project.repo.id} 
                 project={project} 
                 onClick={() => setSelectedProject(project)} 
               />
