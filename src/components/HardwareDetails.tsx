@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { HardwareDetails, BoardWiring } from '../data/hardware_details';
 import { Cpu, Zap, Activity } from 'lucide-react';
+import { FadingVideo } from './FadingVideo';
 
 interface HardwareDetailsProps {
   component: HardwareDetails;
@@ -36,11 +37,10 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
 
         {/* Hero Section */}
         <section className="relative h-[70vh] flex flex-col justify-end px-8 md:px-16 lg:px-24 pb-16">
-          <div className="absolute inset-0 z-0 bg-white/5 flex items-center justify-center overflow-hidden">
-            <img 
-              src={component.image} 
-              className="w-full h-full object-contain opacity-20 scale-150 blur-xl" 
-              alt="Cover Background" 
+          <div className="absolute inset-0 z-0 bg-black flex items-center justify-center overflow-hidden">
+            <FadingVideo 
+              src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260506_031045_0e1165dd-ab48-46e3-ad3d-5fe77f217647.mp4"
+              className="w-full h-full object-cover opacity-60"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/20" />
             <div className="absolute inset-0 capabilities-gradient opacity-30 mix-blend-overlay" />
