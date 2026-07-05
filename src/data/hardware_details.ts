@@ -292,7 +292,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'ds18b20',
     name: "DS18B20",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/ds18b20.png",
     shortDesc: "1-Wire Digital Temp Sensor",
     longDesc: "A digital thermometer provides 9-bit to 12-bit Celsius temperature measurements and has an alarm function with nonvolatile user-programmable upper and lower trigger points.",
     whatItDoes: "Measures temperature digitally using a single data wire for communication.",
@@ -301,7 +301,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'bmp280',
     name: "BMP280",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/bmp280.png",
     shortDesc: "Barometric Pressure Sensor",
     longDesc: "An absolute barometric pressure sensor especially designed for mobile applications.",
     whatItDoes: "Measures atmospheric pressure and temperature to determine altitude or weather changes.",
@@ -310,7 +310,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'tcs34725',
     name: "TCS34725",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/tcs34725.png",
     shortDesc: "RGB Color Sensor",
     longDesc: "Provides red, green, blue (RGB) and clear light sensing values.",
     whatItDoes: "Detects the color of objects or ambient light accurately using optical sensors.",
@@ -319,7 +319,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'bh1750',
     name: "BH1750",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/bh1750.png",
     shortDesc: "Digital Light Sensor",
     longDesc: "A digital ambient light sensor IC for I2C bus interface.",
     whatItDoes: "Measures ambient light intensity in lux without needing complex calculations.",
@@ -328,7 +328,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'vl53l0x',
     name: "VL53L0X",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/vl53l0x.png",
     shortDesc: "Time-of-Flight Distance Sensor",
     longDesc: "A new generation Time-of-Flight (ToF) laser-ranging module housed in the smallest package on the market.",
     whatItDoes: "Accurately measures absolute distance up to 2m regardless of target reflectance.",
@@ -337,7 +337,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'hcsr501',
     name: "HC-SR501 (PIR)",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/hcsr501.png",
     shortDesc: "Passive Infrared Sensor",
     longDesc: "Based on infrared technology, automatic control module, using Germany imported LHI778 probe design.",
     whatItDoes: "Detects motion from humans or animals by sensing infrared radiation.",
@@ -346,7 +346,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'a3144',
     name: "A3144 Hall Effect",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/a3144.png",
     shortDesc: "Magnetic Field Sensor",
     longDesc: "A continuous-time switch with a digital output that triggers when a magnetic field is present.",
     whatItDoes: "Detects the presence of a magnet, useful for speed measurement or door switches.",
@@ -355,7 +355,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'mpu6050',
     name: "MPU6050",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/mpu6050.png",
     shortDesc: "6-DOF Accelerometer & Gyro",
     longDesc: "Contains a MEMS accelerometer and a MEMS gyro in a single chip. It is very accurate, as it contains 16-bits analog to digital conversion hardware for each channel.",
     whatItDoes: "Tracks orientation and acceleration in 3D space.",
@@ -364,7 +364,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'hmc5883l',
     name: "HMC5883L",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/hmc5883l.png",
     shortDesc: "3-Axis Digital Compass",
     longDesc: "A multi-chip module designed for low-field magnetic sensing with a digital interface.",
     whatItDoes: "Measures the Earth's magnetic field to provide heading information (digital compass).",
@@ -373,7 +373,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'ky038',
     name: "KY-038",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/ky038.png",
     shortDesc: "Sound Sensor Module",
     longDesc: "Features a microphone and an LM393 comparator to detect sound.",
     whatItDoes: "Detects acoustic sound and outputs a digital signal when noise crosses a threshold.",
@@ -382,7 +382,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'flame',
     name: "Flame Sensor",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/flame.png",
     shortDesc: "Fire Detection Sensor",
     longDesc: "Can detect a flame or a light source of a wavelength in the range of 760nm-1100nm.",
     whatItDoes: "Used for fire alarms or fire-fighting robots to detect the presence of fire.",
@@ -391,7 +391,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'mq2',
     name: "MQ-2",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/mq2.png",
     shortDesc: "Gas Sensor",
     longDesc: "Sensitive for LPG, i-butane, propane, methane, alcohol, Hydrogen, smoke.",
     whatItDoes: "Detects the presence of combustible gases and smoke in the air.",
@@ -400,7 +400,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'mq135',
     name: "MQ-135",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/mq135.png",
     shortDesc: "Air Quality Sensor",
     longDesc: "Used in air quality control equipment for buildings/offices, sensitive to NH3, NOx, alcohol, Benzene, smoke, CO2, etc.",
     whatItDoes: "Monitors indoor air quality by detecting harmful gases.",
@@ -409,7 +409,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'soil_moisture',
     name: "Capacitive Soil Moisture",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/soil_moisture.png",
     shortDesc: "Soil Hydration Sensor",
     longDesc: "Measures soil moisture levels by capacitive sensing rather than resistive sensing like other sensors on the market.",
     whatItDoes: "Determines how wet or dry the soil is for automated plant watering systems.",
@@ -418,7 +418,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'rain',
     name: "Rain Sensor Module",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/rain.png",
     shortDesc: "Water Drop Sensor",
     longDesc: "An analog sensor that can detect water droplets or rain.",
     whatItDoes: "Acts as a switch when raindrops fall through the raining board.",
@@ -427,7 +427,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     id: 'water_level',
     name: "Water Level Sensor",
-    image: "/images/hardware/generic_sensor.png",
+    image: "/images/hardware/water_level.png",
     shortDesc: "Liquid Level Sensor",
     longDesc: "An easy-to-use, cost-effective high level/drop recognition sensor.",
     whatItDoes: "Measures the depth of water based on the conductivity of the exposed traces.",
