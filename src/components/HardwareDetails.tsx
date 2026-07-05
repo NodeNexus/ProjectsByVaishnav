@@ -152,7 +152,7 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
                         `}
                       </style>
                       <svg 
-                        className="absolute inset-0 w-full h-full pointer-events-none drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]"
+                        className="absolute inset-0 w-full h-full pointer-events-none"
                         viewBox="0 0 100 100"
                         preserveAspectRatio="none"
                       >
@@ -179,14 +179,24 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
 
                           return (
                             <g key={`wire-${idx}`}>
-                              {/* Outer glow effect */}
+                              {/* Widest outer glow effect (static) */}
                               <path 
                                 d={`M 0,${y1} C 50,${y1} 50,${y2} 100,${y2}`}
                                 fill="none"
                                 stroke={color}
-                                strokeWidth="8"
+                                strokeWidth="12"
                                 strokeLinecap="round"
-                                opacity="0.15"
+                                opacity="0.08"
+                                vectorEffect="non-scaling-stroke"
+                              />
+                              {/* Inner glow effect (static) */}
+                              <path 
+                                d={`M 0,${y1} C 50,${y1} 50,${y2} 100,${y2}`}
+                                fill="none"
+                                stroke={color}
+                                strokeWidth="6"
+                                strokeLinecap="round"
+                                opacity="0.2"
                                 vectorEffect="non-scaling-stroke"
                               />
                               {/* Solid base wire */}
@@ -196,10 +206,10 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
                                 stroke={color}
                                 strokeWidth="2"
                                 strokeLinecap="round"
-                                opacity="0.3"
+                                opacity="0.4"
                                 vectorEffect="non-scaling-stroke"
                               />
-                              {/* Animated energy pulse */}
+                              {/* Animated energy pulse (Hardware Accelerated) */}
                               <path 
                                 d={`M 0,${y1} C 50,${y1} 50,${y2} 100,${y2}`}
                                 fill="none"
@@ -210,8 +220,7 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
                                 vectorEffect="non-scaling-stroke"
                                 style={{ 
                                   animation: `wire-flow ${1 + (idx % 3) * 0.3}s linear infinite`,
-                                  animationDirection: direction as any,
-                                  filter: `drop-shadow(0 0 4px ${color}) drop-shadow(0 0 8px ${color})` 
+                                  animationDirection: direction as any
                                 }}
                               />
                             </g>
