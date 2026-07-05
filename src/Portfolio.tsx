@@ -9,6 +9,7 @@ import type { ProjectData } from './services/github';
 import type { Config } from './hooks/useConfig';
 import { hardwareData, type HardwareDetails } from './data/hardware_details';
 import { HardwareDetailsView } from './components/HardwareDetails';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { 
   ArrowUpRight, 
   GitHubIcon,
@@ -130,6 +131,7 @@ export default function Portfolio({ config }: { config: Config }) {
   const { data, loading } = useGitHubData(config.githubUsername);
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
   const [selectedHardware, setSelectedHardware] = useState<HardwareDetails | null>(null);
+  const [showAllHardware, setShowAllHardware] = useState(false);
 
   const researchProjects: ProjectData[] = config.researchProjects?.length ? config.researchProjects.map(rp => ({
     // ...
@@ -357,7 +359,7 @@ export default function Portfolio({ config }: { config: Config }) {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {hardwareData.map((comp) => (
+            {(showAllHardware ? hardwareData : hardwareData.slice(0, 8)).map((comp) => (
               <div 
                 key={comp.id} 
                 className="liquid-glass card-hover rounded-[1.25rem] p-4 flex flex-col group overflow-hidden cursor-pointer"
@@ -374,6 +376,18 @@ export default function Portfolio({ config }: { config: Config }) {
               </div>
             ))}
           </div>
+
+          {hardwareData.length > 8 && (
+            <div className="mt-12 flex justify-center">
+              <button 
+                onClick={() => setShowAllHardware(!showAllHardware)}
+                className="liquid-glass-strong btn-hover rounded-full px-8 py-4 flex items-center gap-3 text-[14px] uppercase tracking-widest font-medium"
+              >
+                {showAllHardware ? 'Show Less' : 'View All Hardware Components'}
+                {showAllHardware ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
