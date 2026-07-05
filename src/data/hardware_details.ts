@@ -296,7 +296,29 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "1-Wire Digital Temp Sensor",
     longDesc: "A digital thermometer provides 9-bit to 12-bit Celsius temperature measurements and has an alarm function with nonvolatile user-programmable upper and lower trigger points.",
     whatItDoes: "Measures temperature digitally using a single data wire for communication.",
-    pins: [{ name: "VDD", desc: "Power supply" }, { name: "DQ", desc: "Data in/out" }, { name: "GND", desc: "Ground" }]
+    pins: [{ name: "VDD", desc: "Power supply" }, { name: "DQ", desc: "Data in/out" }, { name: "GND", desc: "Ground" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","D2","GND"],
+        mappings: [
+          { sensorPin: "VDD", boardPin: "5V" },
+          { sensorPin: "DQ", boardPin: "D2" },
+          { sensorPin: "GND", boardPin: "GND" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","G4","GND"],
+        mappings: [
+          { sensorPin: "VDD", boardPin: "3V3" },
+          { sensorPin: "DQ", boardPin: "G4" },
+          { sensorPin: "GND", boardPin: "GND" }
+        ]
+      }
+    }
   },
   {
     id: 'bmp280',
@@ -305,7 +327,31 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Barometric Pressure Sensor",
     longDesc: "An absolute barometric pressure sensor especially designed for mobile applications.",
     whatItDoes: "Measures atmospheric pressure and temperature to determine altitude or weather changes.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","A5","A4"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "A5" },
+          { sensorPin: "SDA", boardPin: "A4" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G22","G21"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "G22" },
+          { sensorPin: "SDA", boardPin: "G21" }
+        ]
+      }
+    }
   },
   {
     id: 'tcs34725',
@@ -314,7 +360,31 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "RGB Color Sensor",
     longDesc: "Provides red, green, blue (RGB) and clear light sensing values.",
     whatItDoes: "Detects the color of objects or ambient light accurately using optical sensors.",
-    pins: [{ name: "VIN", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }]
+    pins: [{ name: "VIN", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","A5","A4"],
+        mappings: [
+          { sensorPin: "VIN", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "A5" },
+          { sensorPin: "SDA", boardPin: "A4" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G22","G21"],
+        mappings: [
+          { sensorPin: "VIN", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "G22" },
+          { sensorPin: "SDA", boardPin: "G21" }
+        ]
+      }
+    }
   },
   {
     id: 'bh1750',
@@ -323,7 +393,33 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Digital Light Sensor",
     longDesc: "A digital ambient light sensor IC for I2C bus interface.",
     whatItDoes: "Measures ambient light intensity in lux without needing complex calculations.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }, { name: "ADD", desc: "I2C Address" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }, { name: "ADD", desc: "I2C Address" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","A5","A4","D3"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "A5" },
+          { sensorPin: "SDA", boardPin: "A4" },
+          { sensorPin: "ADD", boardPin: "D3" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G22","G21","G5"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "G22" },
+          { sensorPin: "SDA", boardPin: "G21" },
+          { sensorPin: "ADD", boardPin: "G5" }
+        ]
+      }
+    }
   },
   {
     id: 'vl53l0x',
@@ -332,7 +428,31 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Time-of-Flight Distance Sensor",
     longDesc: "A new generation Time-of-Flight (ToF) laser-ranging module housed in the smallest package on the market.",
     whatItDoes: "Accurately measures absolute distance up to 2m regardless of target reflectance.",
-    pins: [{ name: "VIN", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }]
+    pins: [{ name: "VIN", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","A5","A4"],
+        mappings: [
+          { sensorPin: "VIN", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "A5" },
+          { sensorPin: "SDA", boardPin: "A4" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G22","G21"],
+        mappings: [
+          { sensorPin: "VIN", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "G22" },
+          { sensorPin: "SDA", boardPin: "G21" }
+        ]
+      }
+    }
   },
   {
     id: 'hcsr501',
@@ -341,7 +461,29 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Passive Infrared Sensor",
     longDesc: "Based on infrared technology, automatic control module, using Germany imported LHI778 probe design.",
     whatItDoes: "Detects motion from humans or animals by sensing infrared radiation.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "OUT", desc: "Digital Output" }, { name: "GND", desc: "Ground" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "OUT", desc: "Digital Output" }, { name: "GND", desc: "Ground" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","D4","GND"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "OUT", boardPin: "D4" },
+          { sensorPin: "GND", boardPin: "GND" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","G6","GND"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "OUT", boardPin: "G6" },
+          { sensorPin: "GND", boardPin: "GND" }
+        ]
+      }
+    }
   },
   {
     id: 'a3144',
@@ -350,7 +492,29 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Magnetic Field Sensor",
     longDesc: "A continuous-time switch with a digital output that triggers when a magnetic field is present.",
     whatItDoes: "Detects the presence of a magnet, useful for speed measurement or door switches.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "OUT", desc: "Digital Output" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "OUT", desc: "Digital Output" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","D5"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "OUT", boardPin: "D5" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G7"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "OUT", boardPin: "G7" }
+        ]
+      }
+    }
   },
   {
     id: 'mpu6050',
@@ -359,7 +523,33 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "6-DOF Accelerometer & Gyro",
     longDesc: "Contains a MEMS accelerometer and a MEMS gyro in a single chip. It is very accurate, as it contains 16-bits analog to digital conversion hardware for each channel.",
     whatItDoes: "Tracks orientation and acceleration in 3D space.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }, { name: "INT", desc: "Interrupt" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }, { name: "INT", desc: "Interrupt" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","A5","A4","D6"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "A5" },
+          { sensorPin: "SDA", boardPin: "A4" },
+          { sensorPin: "INT", boardPin: "D6" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G22","G21","G8"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "G22" },
+          { sensorPin: "SDA", boardPin: "G21" },
+          { sensorPin: "INT", boardPin: "G8" }
+        ]
+      }
+    }
   },
   {
     id: 'hmc5883l',
@@ -368,7 +558,31 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "3-Axis Digital Compass",
     longDesc: "A multi-chip module designed for low-field magnetic sensing with a digital interface.",
     whatItDoes: "Measures the Earth's magnetic field to provide heading information (digital compass).",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","A5","A4"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "A5" },
+          { sensorPin: "SDA", boardPin: "A4" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G22","G21"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "G22" },
+          { sensorPin: "SDA", boardPin: "G21" }
+        ]
+      }
+    }
   },
   {
     id: 'ky038',
@@ -377,7 +591,31 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Sound Sensor Module",
     longDesc: "Features a microphone and an LM393 comparator to detect sound.",
     whatItDoes: "Detects acoustic sound and outputs a digital signal when noise crosses a threshold.",
-    pins: [{ name: "A0", desc: "Analog Output" }, { name: "GND", desc: "Ground" }, { name: "VCC", desc: "Power" }, { name: "D0", desc: "Digital Output" }]
+    pins: [{ name: "A0", desc: "Analog Output" }, { name: "GND", desc: "Ground" }, { name: "VCC", desc: "Power" }, { name: "D0", desc: "Digital Output" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["A0","GND","5V","D7"],
+        mappings: [
+          { sensorPin: "A0", boardPin: "A0" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "D0", boardPin: "D7" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["G34","GND","3V3","G9"],
+        mappings: [
+          { sensorPin: "A0", boardPin: "G34" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "D0", boardPin: "G9" }
+        ]
+      }
+    }
   },
   {
     id: 'flame',
@@ -386,7 +624,31 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Fire Detection Sensor",
     longDesc: "Can detect a flame or a light source of a wavelength in the range of 760nm-1100nm.",
     whatItDoes: "Used for fire alarms or fire-fighting robots to detect the presence of fire.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "D0", desc: "Digital Output" }, { name: "A0", desc: "Analog Output" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "D0", desc: "Digital Output" }, { name: "A0", desc: "Analog Output" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","D8","A0"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "D0", boardPin: "D8" },
+          { sensorPin: "A0", boardPin: "A0" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G10","G34"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "D0", boardPin: "G10" },
+          { sensorPin: "A0", boardPin: "G34" }
+        ]
+      }
+    }
   },
   {
     id: 'mq2',
@@ -395,7 +657,31 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Gas Sensor",
     longDesc: "Sensitive for LPG, i-butane, propane, methane, alcohol, Hydrogen, smoke.",
     whatItDoes: "Detects the presence of combustible gases and smoke in the air.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "D0", desc: "Digital Output" }, { name: "A0", desc: "Analog Output" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "D0", desc: "Digital Output" }, { name: "A0", desc: "Analog Output" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","D9","A0"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "D0", boardPin: "D9" },
+          { sensorPin: "A0", boardPin: "A0" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G11","G34"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "D0", boardPin: "G11" },
+          { sensorPin: "A0", boardPin: "G34" }
+        ]
+      }
+    }
   },
   {
     id: 'mq135',
@@ -404,7 +690,31 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Air Quality Sensor",
     longDesc: "Used in air quality control equipment for buildings/offices, sensitive to NH3, NOx, alcohol, Benzene, smoke, CO2, etc.",
     whatItDoes: "Monitors indoor air quality by detecting harmful gases.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "D0", desc: "Digital Output" }, { name: "A0", desc: "Analog Output" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "D0", desc: "Digital Output" }, { name: "A0", desc: "Analog Output" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","D10","A0"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "D0", boardPin: "D10" },
+          { sensorPin: "A0", boardPin: "A0" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G12","G34"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "D0", boardPin: "G12" },
+          { sensorPin: "A0", boardPin: "G34" }
+        ]
+      }
+    }
   },
   {
     id: 'soil_moisture',
@@ -413,7 +723,29 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Soil Hydration Sensor",
     longDesc: "Measures soil moisture levels by capacitive sensing rather than resistive sensing like other sensors on the market.",
     whatItDoes: "Determines how wet or dry the soil is for automated plant watering systems.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "AOUT", desc: "Analog Output" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "AOUT", desc: "Analog Output" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","A0"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "AOUT", boardPin: "A0" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G34"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "AOUT", boardPin: "G34" }
+        ]
+      }
+    }
   },
   {
     id: 'rain',
@@ -422,7 +754,31 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Water Drop Sensor",
     longDesc: "An analog sensor that can detect water droplets or rain.",
     whatItDoes: "Acts as a switch when raindrops fall through the raining board.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "D0", desc: "Digital Output" }, { name: "A0", desc: "Analog Output" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "D0", desc: "Digital Output" }, { name: "A0", desc: "Analog Output" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","D11","A0"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "D0", boardPin: "D11" },
+          { sensorPin: "A0", boardPin: "A0" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G13","G34"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "D0", boardPin: "G13" },
+          { sensorPin: "A0", boardPin: "G34" }
+        ]
+      }
+    }
   },
   {
     id: 'water_level',
@@ -431,7 +787,29 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Liquid Level Sensor",
     longDesc: "An easy-to-use, cost-effective high level/drop recognition sensor.",
     whatItDoes: "Measures the depth of water based on the conductivity of the exposed traces.",
-    pins: [{ name: "S", desc: "Analog Signal" }, { name: "+", desc: "Power" }, { name: "-", desc: "Ground" }]
+    pins: [{ name: "S", desc: "Analog Signal" }, { name: "+", desc: "Power" }, { name: "-", desc: "Ground" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["A0","5V","GND"],
+        mappings: [
+          { sensorPin: "S", boardPin: "A0" },
+          { sensorPin: "+", boardPin: "5V" },
+          { sensorPin: "-", boardPin: "GND" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["G34","3V3","GND"],
+        mappings: [
+          { sensorPin: "S", boardPin: "G34" },
+          { sensorPin: "+", boardPin: "3V3" },
+          { sensorPin: "-", boardPin: "GND" }
+        ]
+      }
+    }
   },
   {
     id: 'yfs201',
@@ -440,7 +818,29 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Water Flow Sensor",
     longDesc: "Consists of a plastic valve body, a water rotor, and a hall-effect sensor.",
     whatItDoes: "Measures the rate of liquid flowing through it by counting hall effect pulses.",
-    pins: [{ name: "Red", desc: "5V Power" }, { name: "Black", desc: "Ground" }, { name: "Yellow", desc: "PWM Output Signal" }]
+    pins: [{ name: "Red", desc: "5V Power" }, { name: "Black", desc: "Ground" }, { name: "Yellow", desc: "PWM Output Signal" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","D12"],
+        mappings: [
+          { sensorPin: "Red", boardPin: "5V" },
+          { sensorPin: "Black", boardPin: "GND" },
+          { sensorPin: "Yellow", boardPin: "D12" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G14"],
+        mappings: [
+          { sensorPin: "Red", boardPin: "3V3" },
+          { sensorPin: "Black", boardPin: "GND" },
+          { sensorPin: "Yellow", boardPin: "G14" }
+        ]
+      }
+    }
   },
   {
     id: 'hx711',
@@ -449,7 +849,31 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Weight Scale Amplifier",
     longDesc: "A precision 24-bit analog-to-digital converter (ADC) designed for weigh scales and industrial control applications.",
     whatItDoes: "Translates the small resistance changes in a load cell into a digital weight measurement.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "DT", desc: "Data Output" }, { name: "SCK", desc: "Clock Input" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "DT", desc: "Data Output" }, { name: "SCK", desc: "Clock Input" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","D13","D2"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "DT", boardPin: "D13" },
+          { sensorPin: "SCK", boardPin: "D2" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G15","G16"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "DT", boardPin: "G15" },
+          { sensorPin: "SCK", boardPin: "G16" }
+        ]
+      }
+    }
   },
   {
     id: 'max30102',
@@ -458,7 +882,33 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Pulse Oximeter",
     longDesc: "An integrated pulse oximetry and heart-rate monitor biosensor module.",
     whatItDoes: "Measures heart rate and blood oxygen levels by emitting and measuring light.",
-    pins: [{ name: "VIN", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }, { name: "INT", desc: "Interrupt" }]
+    pins: [{ name: "VIN", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }, { name: "INT", desc: "Interrupt" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","A5","A4","D3"],
+        mappings: [
+          { sensorPin: "VIN", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "A5" },
+          { sensorPin: "SDA", boardPin: "A4" },
+          { sensorPin: "INT", boardPin: "D3" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G22","G21","G17"],
+        mappings: [
+          { sensorPin: "VIN", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "G22" },
+          { sensorPin: "SDA", boardPin: "G21" },
+          { sensorPin: "INT", boardPin: "G17" }
+        ]
+      }
+    }
   },
   {
     id: 'mlx90614',
@@ -467,7 +917,31 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "IR Temp Sensor",
     longDesc: "An infrared thermometer for non-contact temperature measurements.",
     whatItDoes: "Measures the surface temperature of objects from a distance without touching them.",
-    pins: [{ name: "VIN", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }]
+    pins: [{ name: "VIN", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","A5","A4"],
+        mappings: [
+          { sensorPin: "VIN", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "A5" },
+          { sensorPin: "SDA", boardPin: "A4" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G22","G21"],
+        mappings: [
+          { sensorPin: "VIN", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "G22" },
+          { sensorPin: "SDA", boardPin: "G21" }
+        ]
+      }
+    }
   },
   {
     id: 'acs712',
@@ -476,7 +950,29 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Current Sensor",
     longDesc: "Provides economical and precise solutions for AC or DC current sensing in industrial, commercial, and communications systems.",
     whatItDoes: "Measures electrical current flowing through a wire using the Hall effect.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "OUT", desc: "Analog Output" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "OUT", desc: "Analog Output" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","D4"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "OUT", boardPin: "D4" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G18"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "OUT", boardPin: "G18" }
+        ]
+      }
+    }
   },
   {
     id: 'ina219',
@@ -485,7 +981,35 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "DC Current Sensor",
     longDesc: "A shunt and power monitor with an I2C- or SMBUS-compatible interface.",
     whatItDoes: "Accurately measures high-side voltage and DC current draw in a circuit.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }, { name: "VIN+", desc: "Load Power In" }, { name: "VIN-", desc: "Load Power Out" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SCL", desc: "I2C Clock" }, { name: "SDA", desc: "I2C Data" }, { name: "VIN+", desc: "Load Power In" }, { name: "VIN-", desc: "Load Power Out" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","A5","A4"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "A5" },
+          { sensorPin: "SDA", boardPin: "A4" },
+          { sensorPin: "VIN+", boardPin: "5V" },
+          { sensorPin: "VIN-", boardPin: "5V" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G22","G21"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SCL", boardPin: "G22" },
+          { sensorPin: "SDA", boardPin: "G21" },
+          { sensorPin: "VIN+", boardPin: "3V3" },
+          { sensorPin: "VIN-", boardPin: "3V3" }
+        ]
+      }
+    }
   },
   {
     id: 'neo6m',
@@ -494,7 +1018,31 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "GPS Module",
     longDesc: "A stand-alone GPS receiver featuring the high performance u-blox 6 positioning engine.",
     whatItDoes: "Receives signals from satellites to determine exact global geographic coordinates and time.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "TX", desc: "Serial Transmit" }, { name: "RX", desc: "Serial Receive" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "TX", desc: "Serial Transmit" }, { name: "RX", desc: "Serial Receive" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","D1","D0"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "TX", boardPin: "D1" },
+          { sensorPin: "RX", boardPin: "D0" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G17","G16"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "TX", boardPin: "G17" },
+          { sensorPin: "RX", boardPin: "G16" }
+        ]
+      }
+    }
   },
   {
     id: 'pn532',
@@ -503,7 +1051,31 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "NFC/RFID Reader",
     longDesc: "The most popular NFC chip, used in almost every phone that does NFC.",
     whatItDoes: "Reads and writes NFC tags, communicates with phones, or acts as an NFC tag itself.",
-    pins: [{ name: "5V", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SDA/TX", desc: "I2C Data / Serial TX" }, { name: "SCL/RX", desc: "I2C Clock / Serial RX" }]
+    pins: [{ name: "5V", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SDA/TX", desc: "I2C Data / Serial TX" }, { name: "SCL/RX", desc: "I2C Clock / Serial RX" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","A4","A5"],
+        mappings: [
+          { sensorPin: "5V", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SDA/TX", boardPin: "A4" },
+          { sensorPin: "SCL/RX", boardPin: "A5" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G21","G22"],
+        mappings: [
+          { sensorPin: "5V", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SDA/TX", boardPin: "G21" },
+          { sensorPin: "SCL/RX", boardPin: "G22" }
+        ]
+      }
+    }
   },
   {
     id: 'apds9960',
@@ -512,7 +1084,35 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "Gesture Sensor",
     longDesc: "Features advanced gesture detection, proximity detection, digital Ambient Light Sense (ALS) and Color Sense (RGBC).",
     whatItDoes: "Detects hand swipes (left, right, up, down) and measures light/color.",
-    pins: [{ name: "VL", desc: "IR LED Power" }, { name: "GND", desc: "Ground" }, { name: "VCC", desc: "Power" }, { name: "SDA", desc: "I2C Data" }, { name: "SCL", desc: "I2C Clock" }, { name: "INT", desc: "Interrupt" }]
+    pins: [{ name: "VL", desc: "IR LED Power" }, { name: "GND", desc: "Ground" }, { name: "VCC", desc: "Power" }, { name: "SDA", desc: "I2C Data" }, { name: "SCL", desc: "I2C Clock" }, { name: "INT", desc: "Interrupt" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","A4","A5","D5"],
+        mappings: [
+          { sensorPin: "VL", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "SDA", boardPin: "A4" },
+          { sensorPin: "SCL", boardPin: "A5" },
+          { sensorPin: "INT", boardPin: "D5" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G21","G22","G19"],
+        mappings: [
+          { sensorPin: "VL", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "SDA", boardPin: "G21" },
+          { sensorPin: "SCL", boardPin: "G22" },
+          { sensorPin: "INT", boardPin: "G19" }
+        ]
+      }
+    }
   },
   {
     id: 'veml6075',
@@ -521,7 +1121,31 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "UVA/UVB Sensor",
     longDesc: "Incorporates a photodiode, amplifiers, and analog/digital circuits into a single chip using a CMOS process.",
     whatItDoes: "Senses both UVA and UVB light bands to calculate the UV index.",
-    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SDA", desc: "I2C Data" }, { name: "SCL", desc: "I2C Clock" }]
+    pins: [{ name: "VCC", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "SDA", desc: "I2C Data" }, { name: "SCL", desc: "I2C Clock" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","A4","A5"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SDA", boardPin: "A4" },
+          { sensorPin: "SCL", boardPin: "A5" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G21","G22"],
+        mappings: [
+          { sensorPin: "VCC", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "SDA", boardPin: "G21" },
+          { sensorPin: "SCL", boardPin: "G22" }
+        ]
+      }
+    }
   },
   {
     id: 'mhz19b',
@@ -530,6 +1154,32 @@ export const hardwareData: HardwareDetails[] = [
     shortDesc: "CO2 Sensor",
     longDesc: "A common type, intelligent, small-scale sensor, using non-dispersive infrared (NDIR) principle to detect the existence of CO2.",
     whatItDoes: "Measures Carbon Dioxide concentrations in the air with high accuracy.",
-    pins: [{ name: "Vin", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "Tx", desc: "Serial Transmit" }, { name: "Rx", desc: "Serial Receive" }, { name: "PWM", desc: "PWM Output" }]
+    pins: [{ name: "Vin", desc: "Power" }, { name: "GND", desc: "Ground" }, { name: "Tx", desc: "Serial Transmit" }, { name: "Rx", desc: "Serial Receive" }, { name: "PWM", desc: "PWM Output" }],
+    wiring: {
+      arduino: {
+        boardName: "Arduino Uno R4",
+        boardImage: "/images/hardware/arduino_uno_1783075686637.png",
+        boardPins: ["5V","GND","D1","D0","D6"],
+        mappings: [
+          { sensorPin: "Vin", boardPin: "5V" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "Tx", boardPin: "D1" },
+          { sensorPin: "Rx", boardPin: "D0" },
+          { sensorPin: "PWM", boardPin: "D6" }
+        ]
+      },
+      esp32: {
+        boardName: "ESP32 Dev Board",
+        boardImage: "/images/hardware/esp32_board_1783075698872.png",
+        boardPins: ["3V3","GND","G17","G16","G20"],
+        mappings: [
+          { sensorPin: "Vin", boardPin: "3V3" },
+          { sensorPin: "GND", boardPin: "GND" },
+          { sensorPin: "Tx", boardPin: "G17" },
+          { sensorPin: "Rx", boardPin: "G16" },
+          { sensorPin: "PWM", boardPin: "G20" }
+        ]
+      }
+    }
   }
 ];
