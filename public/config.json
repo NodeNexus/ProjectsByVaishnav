@@ -16,8 +16,16 @@
       "description": "A machine learning powered spider robot capable of autonomous navigation and terrain adaptation.",
       "coverUrl": "/images/projects/spider_robot.png",
       "githubUrl": "#",
-      "hardware": ["Raspberry Pi", "Servo Motors", "Camera Module"],
-      "software": ["Python", "TensorFlow", "OpenCV"]
+      "hardware": [
+        "Raspberry Pi",
+        "Servo Motors",
+        "Camera Module"
+      ],
+      "software": [
+        "Python",
+        "TensorFlow",
+        "OpenCV"
+      ]
     },
     {
       "id": 2,
@@ -25,8 +33,15 @@
       "description": "A functional, Pip-Boy inspired wearable device with real-time sensors.",
       "coverUrl": "/images/projects/fallout_smartwatch.png",
       "githubUrl": "#",
-      "hardware": ["ESP32", "OLED Display", "IMU Sensor"],
-      "software": ["C++", "FreeRTOS"]
+      "hardware": [
+        "ESP32",
+        "OLED Display",
+        "IMU Sensor"
+      ],
+      "software": [
+        "C++",
+        "FreeRTOS"
+      ]
     },
     {
       "id": 3,
@@ -34,8 +49,14 @@
       "description": "Custom Android applications designed to automate day-to-day tasks and workflows seamlessly from your smartphone.",
       "coverUrl": "/images/projects/android_app.png",
       "githubUrl": "#",
-      "hardware": ["Android Device"],
-      "software": ["Kotlin", "Android Studio", "Firebase"]
+      "hardware": [
+        "Android Device"
+      ],
+      "software": [
+        "Kotlin",
+        "Android Studio",
+        "Firebase"
+      ]
     }
   ]
 }
