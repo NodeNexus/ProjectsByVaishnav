@@ -344,9 +344,27 @@ export default function Portfolio({ config }: { config: Config }) {
               >
                 <div className="rounded-[1rem] overflow-hidden mb-4 relative aspect-square">
                   <img src={comp.image} alt={comp.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60" />
+                  
+                  {/* Simulated LED Blinks */}
+                  {comp.id === 'arduino_uno' && (
+                    <>
+                      <div className="absolute top-[45%] right-[18%] w-1.5 h-1.5 bg-cyan-200 rounded-full blur-[1px] animate-ping z-20 opacity-70" style={{ animationDuration: '0.5s' }} />
+                      <div className="absolute top-[45%] right-[18%] w-4 h-4 bg-cyan-400 rounded-full blur-[4px] animate-pulse z-20 mix-blend-screen" />
+                      
+                      <div className="absolute top-[52%] left-[45%] w-1.5 h-1.5 bg-orange-200 rounded-full blur-[1px] animate-ping z-20 opacity-60" style={{ animationDuration: '1.2s' }} />
+                      <div className="absolute top-[52%] left-[45%] w-3 h-3 bg-orange-400 rounded-full blur-[3px] animate-pulse z-20 mix-blend-screen" />
+                    </>
+                  )}
+                  {comp.id === 'esp32' && (
+                    <>
+                      <div className="absolute bottom-[28%] left-[25%] w-2 h-2 bg-orange-300 rounded-full blur-[1px] animate-ping z-20 opacity-80" style={{ animationDuration: '2s' }} />
+                      <div className="absolute bottom-[28%] left-[25%] w-5 h-5 bg-red-500 rounded-full blur-[6px] animate-pulse z-20 mix-blend-screen" />
+                    </>
+                  )}
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 pointer-events-none" />
                 </div>
-                <h3 className="font-heading italic text-2xl tracking-tight mb-1">{comp.name}</h3>
+                <h3 className="font-heading italic text-2xl tracking-tight mb-1 relative z-30">{comp.name}</h3>
                 <p className="text-[12px] text-white/55 font-body tracking-wide">
                   {comp.shortDesc}
                 </p>
