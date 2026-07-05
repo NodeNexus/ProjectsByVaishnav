@@ -7,6 +7,8 @@ import { ProjectDetails } from './components/ProjectDetails';
 import { useGitHubData } from './hooks/useGitHubData';
 import type { ProjectData } from './services/github';
 import type { Config } from './hooks/useConfig';
+import { hardwareData, type HardwareDetails } from './data/hardware_details';
+import { HardwareDetailsView } from './components/HardwareDetails';
 import { 
   ArrowUpRight, 
   GitHubIcon,
@@ -127,8 +129,10 @@ const defaultHardcodedProjects: ProjectData[] = [
 export default function Portfolio({ config }: { config: Config }) {
   const { data, loading } = useGitHubData(config.githubUsername);
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
+  const [selectedHardware, setSelectedHardware] = useState<HardwareDetails | null>(null);
 
   const researchProjects: ProjectData[] = config.researchProjects?.length ? config.researchProjects.map(rp => ({
+    // ...
     repo: {
       id: rp.id,
       name: rp.title.replace(/\s+/g, '-').toLowerCase(),
@@ -156,12 +160,15 @@ export default function Portfolio({ config }: { config: Config }) {
 
   // Prevent scrolling when details view is open
   useEffect(() => {
-    if (selectedProject) {
+    if (selectedProject || selectedHardware) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
     }
-  }, [selectedProject]);
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [selectedProject, selectedHardware]);
 
   return (
     <div className="w-full bg-black text-white font-body selection:bg-white selection:text-black min-h-screen relative">
@@ -170,6 +177,15 @@ export default function Portfolio({ config }: { config: Config }) {
       <AnimatePresence>
         {selectedProject && (
           <ProjectDetails project={selectedProject} onClose={() => setSelectedProject(null)} />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {selectedHardware && (
+          <HardwareDetailsView 
+            component={selectedHardware} 
+            onClose={() => setSelectedHardware(null)} 
+          />
         )}
       </AnimatePresence>
 
@@ -341,24 +357,19 @@ export default function Portfolio({ config }: { config: Config }) {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {[
-              { name: "Arduino Uno", image: "/images/hardware/arduino_uno_1783075686637.png", desc: "8-bit AVR Microcontroller" },
-              { name: "ESP32 Dev Board", image: "/images/hardware/esp32_board_1783075698872.png", desc: "Dual-core WiFi/BT MCU" },
-              { name: "HC-SR04", image: "/images/hardware/ultrasonic_sensor_1783075710376.png", desc: "Ultrasonic Sensor" },
-              { name: "DHT11 / DHT22", image: "/images/hardware/dht11_sensor_1783075721243.png", desc: "Temp & Humidity Sensor" },
-              { name: "L298N", image: "/images/hardware/motor_driver_1783075733447.png", desc: "Dual Motor Driver" },
-              { name: "SG90 Servo", image: "/images/hardware/servo_motor_1783075744728.png", desc: "Micro Servo Motor" },
-              { name: "MFRC522", image: "/images/hardware/rfid_module_1783075755922.png", desc: "RFID Reader/Writer" },
-              { name: "5V Relay", image: "/images/hardware/relay_module_1783075767148.png", desc: "Switching Module" }
-            ].map((comp, i) => (
-              <div key={i} className="liquid-glass card-hover rounded-[1.25rem] p-4 flex flex-col group overflow-hidden">
+            {hardwareData.map((comp) => (
+              <div 
+                key={comp.id} 
+                className="liquid-glass card-hover rounded-[1.25rem] p-4 flex flex-col group overflow-hidden cursor-pointer"
+                onClick={() => setSelectedHardware(comp)}
+              >
                 <div className="rounded-[1rem] overflow-hidden mb-4 relative aspect-square">
                   <img src={comp.image} alt={comp.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60" />
                 </div>
                 <h3 className="font-heading italic text-2xl tracking-tight mb-1">{comp.name}</h3>
                 <p className="text-[12px] text-white/55 font-body tracking-wide">
-                  {comp.desc}
+                  {comp.shortDesc}
                 </p>
               </div>
             ))}
