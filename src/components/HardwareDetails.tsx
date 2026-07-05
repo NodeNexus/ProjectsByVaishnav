@@ -143,37 +143,61 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
 
                     {/* SVG Wires Layer */}
                     <div className="flex-1 relative">
-                      <svg className="absolute inset-0 w-full h-full pointer-events-none drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">
+                      <style>
+                        {`
+                          @keyframes wire-flow {
+                            from { stroke-dashoffset: 100; }
+                            to { stroke-dashoffset: 0; }
+                          }
+                        `}
+                      </style>
+                      <svg 
+                        className="absolute inset-0 w-full h-full pointer-events-none drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]"
+                        viewBox="0 0 100 100"
+                        preserveAspectRatio="none"
+                      >
                         {wiring.mappings.map((mapping, idx) => {
                           const boardIndex = wiring.boardPins.indexOf(mapping.boardPin);
                           const sensorIndex = component.pins.findIndex(p => p.name === mapping.sensorPin);
                           
                           if (boardIndex === -1 || sensorIndex === -1) return null;
 
-                          const y1 = `calc(${(boardIndex + 0.5) * (100 / wiring.boardPins.length)}%)`;
-                          const y2 = `calc(${(sensorIndex + 0.5) * (100 / component.pins.length)}%)`;
+                          const y1 = (boardIndex + 0.5) * (100 / wiring.boardPins.length);
+                          const y2 = (sensorIndex + 0.5) * (100 / component.pins.length);
                           const color = WireColors[idx % WireColors.length];
 
                           return (
                             <g key={`wire-${idx}`}>
-                              {/* Inner glowing wire */}
-                              <path 
-                                d={`M 0,${y1} C 50%,${y1} 50%,${y2} 100%,${y2}`}
-                                fill="none"
-                                stroke={color}
-                                strokeWidth="3"
-                                strokeLinecap="round"
-                                className="animate-pulse"
-                                style={{ animationDuration: `${2 + idx * 0.5}s` }}
-                              />
                               {/* Outer glow effect */}
                               <path 
-                                d={`M 0,${y1} C 50%,${y1} 50%,${y2} 100%,${y2}`}
+                                d={`M 0,${y1} C 50,${y1} 50,${y2} 100,${y2}`}
                                 fill="none"
                                 stroke={color}
                                 strokeWidth="8"
                                 strokeLinecap="round"
+                                opacity="0.15"
+                                vectorEffect="non-scaling-stroke"
+                              />
+                              {/* Solid base wire */}
+                              <path 
+                                d={`M 0,${y1} C 50,${y1} 50,${y2} 100,${y2}`}
+                                fill="none"
+                                stroke={color}
+                                strokeWidth="2"
+                                strokeLinecap="round"
                                 opacity="0.3"
+                                vectorEffect="non-scaling-stroke"
+                              />
+                              {/* Animated energy pulse */}
+                              <path 
+                                d={`M 0,${y1} C 50,${y1} 50,${y2} 100,${y2}`}
+                                fill="none"
+                                stroke="#ffffff"
+                                strokeWidth="3"
+                                strokeLinecap="round"
+                                strokeDasharray="5 45"
+                                vectorEffect="non-scaling-stroke"
+                                style={{ animation: `wire-flow ${1 + (idx % 3) * 0.3}s linear infinite`, filter: `drop-shadow(0 0 4px ${color}) drop-shadow(0 0 8px ${color})` }}
                               />
                             </g>
                           );
