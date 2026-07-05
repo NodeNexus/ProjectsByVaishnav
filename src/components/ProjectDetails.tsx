@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
-import type { ResearchProjectConfig } from '../hooks/useConfig';
+import type { ProjectData } from '../services/github';
 import { ArrowUpRight } from './Icons';
+import hardwareMap from '../data/hardware.json';
 
 interface ProjectDetailsProps {
-  project: ResearchProjectConfig;
+  project: ProjectData;
   onClose: () => void;
 }
 
@@ -20,7 +21,9 @@ function cleanHardwareText(text: string) {
 }
 
 export function ProjectDetails({ project, onClose }: ProjectDetailsProps) {
-  const { title, description, coverUrl, githubUrl, hardware } = project;
+  const { repo, metadata, coverUrl, galleryUrls, architectureUrl } = project;
+  const title = metadata?.title || repo.name;
+  const description = metadata?.description || repo.description || 'No description available.';
 
   return (
     <motion.div 
@@ -41,14 +44,22 @@ export function ProjectDetails({ project, onClose }: ProjectDetailsProps) {
           </button>
           
           <div className="flex items-center gap-4">
-            {githubUrl && githubUrl !== "#" && (
+            <a 
+              href={repo.html_url} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="liquid-glass-strong rounded-full px-5 py-2 flex items-center gap-1.5 text-[11px] uppercase tracking-widest font-semibold btn-hover"
+            >
+              GitHub <ArrowUpRight className="w-3 h-3" />
+            </a>
+            {metadata?.demo && (
               <a 
-                href={githubUrl} 
+                href={metadata.demo} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="liquid-glass-strong rounded-full px-5 py-2 flex items-center gap-1.5 text-[11px] uppercase tracking-widest font-semibold btn-hover"
+                className="bg-white text-black rounded-full px-5 py-2 flex items-center gap-1.5 text-[11px] uppercase tracking-widest font-semibold btn-hover"
               >
-                GitHub <ArrowUpRight className="w-3 h-3" />
+                Live Demo <ArrowUpRight className="w-3 h-3" />
               </a>
             )}
           </div>
@@ -62,6 +73,12 @@ export function ProjectDetails({ project, onClose }: ProjectDetailsProps) {
                 src={coverUrl} 
                 className="w-full h-full object-cover opacity-50" 
                 alt="Cover" 
+                onError={(e) => {
+                  const fallbackUrl = `https://opengraph.githubassets.com/1/${repo.html_url.split('/')[3] || 'NodeNexus'}/${repo.name}`;
+                  if (e.currentTarget.src !== fallbackUrl) {
+                    e.currentTarget.src = fallbackUrl;
+                  }
+                }}
               />
             ) : (
               <div className="w-full h-full bg-white/5" />
@@ -91,10 +108,32 @@ export function ProjectDetails({ project, onClose }: ProjectDetailsProps) {
               </p>
             </section>
 
+            {/* Gallery */}
+            {galleryUrls.length > 0 && (
+              <section>
+                <h2 className="text-[11px] font-body text-white/55 mb-6 uppercase tracking-[0.2em]">// Gallery</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {galleryUrls.map((img, i) => (
+                    <img key={i} src={img} alt={`Gallery ${i}`} className="w-full h-auto rounded-2xl liquid-glass p-1" onError={(e) => e.currentTarget.style.display = 'none'} />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Architecture */}
+            {architectureUrl && (
+              <section>
+                <h2 className="text-[11px] font-body text-white/55 mb-6 uppercase tracking-[0.2em]">// Architecture</h2>
+                <img src={architectureUrl} alt="Architecture Diagram" className="w-full h-auto rounded-2xl liquid-glass p-2" />
+              </section>
+            )}
+
             {/* Readme Section Fallback */}
-            <section className="liquid-glass rounded-2xl p-8 text-center text-white/55 font-light">
-              Detailed specifications and architecture diagrams are available within the repository.
-            </section>
+            {!galleryUrls.length && !architectureUrl && (
+              <section className="liquid-glass rounded-2xl p-8 text-center text-white/55 font-light">
+                Detailed specifications and architecture diagrams are available within the repository.
+              </section>
+            )}
           </div>
 
           {/* Sidebar */}
@@ -102,15 +141,48 @@ export function ProjectDetails({ project, onClose }: ProjectDetailsProps) {
             <section className="liquid-glass rounded-[1.75rem] p-8">
               <h2 className="text-[11px] font-body text-white/55 mb-6 uppercase tracking-[0.2em]">// Hardware Used</h2>
               <div className="flex flex-col gap-4">
-                {hardware && hardware.length > 0 ? hardware.map((hw, i) => (
+                {(metadata?.hardware || (hardwareMap as Record<string, string[]>)[repo.name])?.map((hw, i) => (
                   <div key={i} className="text-[14px] text-white/75 tracking-wide flex items-start gap-3">
                     <span className="text-white/30 mt-1 text-[10px]">■</span>
                     <span className="leading-relaxed">{cleanHardwareText(hw)}</span>
                   </div>
-                )) : <div className="text-[14px] text-white/55 italic">Not specified</div>}
+                )) || <div className="text-[14px] text-white/55 italic">Not specified</div>}
+              </div>
+            </section>
+
+            <section className="liquid-glass rounded-[1.75rem] p-8">
+              <h2 className="text-[11px] font-body text-white/55 mb-6 uppercase tracking-[0.2em]">// Software Stack</h2>
+              <div className="flex flex-wrap gap-2">
+                {Array.from(new Set([
+                  ...(metadata?.software || repo.topics || []),
+                  ((metadata?.hardware || (hardwareMap as Record<string, string[]>)[repo.name])?.length ? 'Arduino IDE' : 'Antigravity IDE')
+                ])).map(sw => (
+                  <span key={sw} className="liquid-glass rounded-full px-3.5 py-1.5 text-[10px] text-white/75 font-body tracking-wider uppercase">
+                    {sw}
+                  </span>
+                ))}
+              </div>
+            </section>
+
+            <section className="liquid-glass rounded-[1.75rem] p-8">
+              <h2 className="text-[11px] font-body text-white/55 mb-6 uppercase tracking-[0.2em]">// Stats</h2>
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <div className="text-[11px] text-white/55 uppercase tracking-widest mb-2">Stars</div>
+                  <div className="font-heading italic text-3xl">{repo.stargazers_count}</div>
+                </div>
+                <div>
+                  <div className="text-[11px] text-white/55 uppercase tracking-widest mb-2">Forks</div>
+                  <div className="font-heading italic text-3xl">{repo.forks_count}</div>
+                </div>
+                <div>
+                  <div className="text-[11px] text-white/55 uppercase tracking-widest mb-2">Language</div>
+                  <div className="font-heading italic text-2xl mt-1">{repo.language || 'N/A'}</div>
+                </div>
               </div>
             </section>
           </div>
+
         </div>
       </div>
     </motion.div>
