@@ -1,5 +1,15 @@
 import { useState, useEffect } from 'react';
 
+export interface ResearchProjectConfig {
+  id: number;
+  title: string;
+  description: string;
+  coverUrl: string;
+  githubUrl: string;
+  hardware: string[];
+  software: string[];
+}
+
 export interface Config {
   name: string;
   heroHeadline: string;
@@ -11,6 +21,7 @@ export interface Config {
   resume: string;
   twitter: string;
   latestTagText?: string;
+  researchProjects?: ResearchProjectConfig[];
 }
 
 export function useConfig() {
