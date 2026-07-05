@@ -176,7 +176,10 @@ export default function Portfolio({ config }: { config: Config }) {
       {/* Navbar */}
       <nav className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-24">
         <div 
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.history.pushState(null, '', window.location.pathname);
+          }}
           className="liquid-glass-extreme h-12 px-6 rounded-full flex items-center justify-center btn-hover cursor-pointer relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-white/5 opacity-50 z-0"></div>
