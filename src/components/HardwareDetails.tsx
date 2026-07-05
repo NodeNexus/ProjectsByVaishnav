@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { HardwareDetails, BoardWiring } from '../data/hardware_details';
+import type { HardwareDetails, BoardWiring } from '../data/hardware_details';
 import { X, Cpu, Zap, Activity } from 'lucide-react';
 
 interface HardwareDetailsProps {
