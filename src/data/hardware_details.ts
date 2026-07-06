@@ -18,6 +18,7 @@ export interface BoardWiring {
 export interface HardwareDetails {
   id: string;
   name: string;
+  category: string;
   image: string;
   shortDesc: string;
   longDesc: string;
@@ -30,6 +31,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "arduino_uno",
     "name": "Arduino Uno ",
+    "category": "Microcontroller",
     "image": "/images/hardware/arduino_uno_clean.png",
     "shortDesc": "32-bit ARM Cortex-M4 Microcontroller",
     "longDesc": "The Arduino UNO R4 Minima brings the 32-bit computing power of the Renesas RA4M1 microcontroller to the classic UNO form factor.",
@@ -56,6 +58,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "esp32",
     "name": "ESP32 Dev Board",
+    "category": "Microcontroller",
     "image": "/images/hardware/esp32_clean.png",
     "shortDesc": "Dual-core WiFi/BT MCU",
     "longDesc": "A powerful, feature-rich MCU with integrated Wi-Fi and Bluetooth capabilities, perfect for IoT applications.",
@@ -82,6 +85,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "raspberry_pi_5",
     "name": "Raspberry Pi 5",
+    "category": "Microcontroller",
     "image": "/images/hardware/raspberry_pi_5_clean.png",
     "shortDesc": "Quad-core ARM Cortex-A76 SBC",
     "longDesc": "The newest generation of the Raspberry Pi single-board computer, offering desktop-level performance with a quad-core 64-bit Arm processor and PCIe 2.0 capabilities.",
@@ -108,6 +112,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "hcsr04",
     "name": "HC-SR04",
+    "category": "Sensor",
     "image": "/images/hardware/hcsr04_clean.png",
     "shortDesc": "Ultrasonic Distance Sensor",
     "longDesc": "Uses sonar to determine the distance to an object, offering excellent non-contact range detection with high accuracy and stable readings.",
@@ -192,6 +197,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "dht11",
     "name": "DHT11 / DHT22",
+    "category": "Sensor",
     "image": "/images/hardware/dht11_clean.png",
     "shortDesc": "Temp & Humidity Sensor",
     "longDesc": "A basic, ultra low-cost digital temperature and humidity sensor. It uses a capacitive humidity sensor and a thermistor to measure the surrounding air.",
@@ -262,6 +268,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "l298n",
     "name": "L298N",
+    "category": "Actuator",
     "image": "/images/hardware/l298n_clean.png",
     "shortDesc": "Dual Motor Driver",
     "longDesc": "A dual H-Bridge motor driver which allows speed and direction control of two DC motors at the same time.",
@@ -374,6 +381,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "sg90",
     "name": "SG90 Servo",
+    "category": "Actuator",
     "image": "/images/hardware/servo_motor_1783075744728.png",
     "shortDesc": "Micro Servo Motor",
     "longDesc": "A lightweight, high-quality and lightning-fast servo motor. It can rotate approximately 180 degrees (90 in each direction).",
@@ -444,6 +452,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "mfrc522",
     "name": "MFRC522",
+    "category": "Sensor",
     "image": "/images/hardware/rfid_module_1783075755922.png",
     "shortDesc": "RFID Reader/Writer",
     "longDesc": "A highly integrated reader/writer IC for contactless communication at 13.56 MHz, utilizing SPI communication.",
@@ -570,6 +579,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "relay5v",
     "name": "5V Relay",
+    "category": "Actuator",
     "image": "/images/hardware/relay_module_1783075767148.png",
     "shortDesc": "Switching Module",
     "longDesc": "An electrically operated switch that allows you to turn on or off a circuit using voltage and/or current much higher than a microcontroller can handle.",
@@ -640,6 +650,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "ds18b20",
     "name": "DS18B20",
+    "category": "Sensor",
     "image": "/images/hardware/ds18b20.png",
     "shortDesc": "1-Wire Digital Temp Sensor",
     "longDesc": "A digital thermometer provides 9-bit to 12-bit Celsius temperature measurements and has an alarm function with nonvolatile user-programmable upper and lower trigger points.",
@@ -710,6 +721,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "bmp280",
     "name": "BMP280",
+    "category": "Sensor",
     "image": "/images/hardware/bmp280.png",
     "shortDesc": "Barometric Pressure Sensor",
     "longDesc": "An absolute barometric pressure sensor especially designed for mobile applications.",
@@ -794,6 +806,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "tcs34725",
     "name": "TCS34725",
+    "category": "Sensor",
     "image": "/images/hardware/tcs34725.png",
     "shortDesc": "RGB Color Sensor",
     "longDesc": "Provides red, green, blue (RGB) and clear light sensing values.",
@@ -878,6 +891,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "bh1750",
     "name": "BH1750",
+    "category": "Sensor",
     "image": "/images/hardware/bh1750.png",
     "shortDesc": "Digital Light Sensor",
     "longDesc": "A digital ambient light sensor IC for I2C bus interface.",
@@ -976,6 +990,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "vl53l0x",
     "name": "VL53L0X",
+    "category": "Sensor",
     "image": "/images/hardware/vl53l0x.png",
     "shortDesc": "Time-of-Flight Distance Sensor",
     "longDesc": "A new generation Time-of-Flight (ToF) laser-ranging module housed in the smallest package on the market.",
@@ -1060,6 +1075,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "hcsr501",
     "name": "HC-SR501 (PIR)",
+    "category": "Sensor",
     "image": "/images/hardware/hcsr501.png",
     "shortDesc": "Passive Infrared Sensor",
     "longDesc": "Based on infrared technology, automatic control module, using Germany imported LHI778 probe design.",
@@ -1130,6 +1146,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "a3144",
     "name": "A3144 Hall Effect",
+    "category": "Sensor",
     "image": "/images/hardware/a3144.png",
     "shortDesc": "Magnetic Field Sensor",
     "longDesc": "A continuous-time switch with a digital output that triggers when a magnetic field is present.",
@@ -1200,6 +1217,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "mpu6050",
     "name": "MPU6050",
+    "category": "Sensor",
     "image": "/images/hardware/mpu6050.png",
     "shortDesc": "6-DOF Accelerometer & Gyro",
     "longDesc": "Contains a MEMS accelerometer and a MEMS gyro in a single chip. It is very accurate, as it contains 16-bits analog to digital conversion hardware for each channel.",
@@ -1298,6 +1316,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "hmc5883l",
     "name": "HMC5883L",
+    "category": "Sensor",
     "image": "/images/hardware/hmc5883l.png",
     "shortDesc": "3-Axis Digital Compass",
     "longDesc": "A multi-chip module designed for low-field magnetic sensing with a digital interface.",
@@ -1382,6 +1401,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "ky038",
     "name": "KY-038",
+    "category": "Sensor",
     "image": "/images/hardware/ky038.png",
     "shortDesc": "Sound Sensor Module",
     "longDesc": "Features a microphone and an LM393 comparator to detect sound.",
@@ -1466,6 +1486,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "flame",
     "name": "Flame Sensor",
+    "category": "Sensor",
     "image": "/images/hardware/flame.png",
     "shortDesc": "Fire Detection Sensor",
     "longDesc": "Can detect a flame or a light source of a wavelength in the range of 760nm-1100nm.",
@@ -1550,6 +1571,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "mq2",
     "name": "MQ-2",
+    "category": "Sensor",
     "image": "/images/hardware/mq2.png",
     "shortDesc": "Gas Sensor",
     "longDesc": "Sensitive for LPG, i-butane, propane, methane, alcohol, Hydrogen, smoke.",
@@ -1634,6 +1656,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "mq135",
     "name": "MQ-135",
+    "category": "Sensor",
     "image": "/images/hardware/mq135.png",
     "shortDesc": "Air Quality Sensor",
     "longDesc": "Used in air quality control equipment for buildings/offices, sensitive to NH3, NOx, alcohol, Benzene, smoke, CO2, etc.",
@@ -1718,6 +1741,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "soil_moisture",
     "name": "Capacitive Soil Moisture",
+    "category": "Sensor",
     "image": "/images/hardware/soil_moisture.png",
     "shortDesc": "Soil Hydration Sensor",
     "longDesc": "Measures soil moisture levels by capacitive sensing rather than resistive sensing like other sensors on the market.",
@@ -1788,6 +1812,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "rain",
     "name": "Rain Sensor Module",
+    "category": "Sensor",
     "image": "/images/hardware/rain.png",
     "shortDesc": "Water Drop Sensor",
     "longDesc": "An analog sensor that can detect water droplets or rain.",
@@ -1872,6 +1897,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "water_level",
     "name": "Water Level Sensor",
+    "category": "Sensor",
     "image": "/images/hardware/water_level.png",
     "shortDesc": "Liquid Level Sensor",
     "longDesc": "An easy-to-use, cost-effective high level/drop recognition sensor.",
@@ -1942,6 +1968,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "yfs201",
     "name": "YF-S201",
+    "category": "Sensor",
     "image": "/images/hardware/yf_s201.png",
     "shortDesc": "Water Flow Sensor",
     "longDesc": "Consists of a plastic valve body, a water rotor, and a hall-effect sensor.",
@@ -2012,6 +2039,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "hx711",
     "name": "HX711 + Load Cell",
+    "category": "Sensor",
     "image": "/images/hardware/hx711.png",
     "shortDesc": "Weight Scale Amplifier",
     "longDesc": "A precision 24-bit analog-to-digital converter (ADC) designed for weigh scales and industrial control applications.",
@@ -2096,6 +2124,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "max30102",
     "name": "MAX30102",
+    "category": "Sensor",
     "image": "/images/hardware/max30102.png",
     "shortDesc": "Pulse Oximeter",
     "longDesc": "An integrated pulse oximetry and heart-rate monitor biosensor module.",
@@ -2194,6 +2223,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "mlx90614",
     "name": "MLX90614",
+    "category": "Sensor",
     "image": "/images/hardware/mlx90614.png",
     "shortDesc": "IR Temp Sensor",
     "longDesc": "An infrared thermometer for non-contact temperature measurements.",
@@ -2278,6 +2308,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "acs712",
     "name": "ACS712",
+    "category": "Power",
     "image": "/images/hardware/acs712.png",
     "shortDesc": "Current Sensor",
     "longDesc": "Provides economical and precise solutions for AC or DC current sensing in industrial, commercial, and communications systems.",
@@ -2348,6 +2379,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "ina219",
     "name": "INA219",
+    "category": "Power",
     "image": "/images/hardware/ina219.png",
     "shortDesc": "DC Current Sensor",
     "longDesc": "A shunt and power monitor with an I2C- or SMBUS-compatible interface.",
@@ -2456,6 +2488,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "neo6m",
     "name": "NEO-6M GPS",
+    "category": "Module/Other",
     "image": "/images/hardware/neo6m.png",
     "shortDesc": "GPS Module",
     "longDesc": "A stand-alone GPS receiver featuring the high performance u-blox 6 positioning engine.",
@@ -2540,6 +2573,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "pn532",
     "name": "PN532",
+    "category": "Module/Other",
     "image": "/images/hardware/pn532.png",
     "shortDesc": "NFC/RFID Reader",
     "longDesc": "The most popular NFC chip, used in almost every phone that does NFC.",
@@ -2624,6 +2658,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "apds9960",
     "name": "APDS9960",
+    "category": "Sensor",
     "image": "/images/hardware/apds9960.png",
     "shortDesc": "Gesture Sensor",
     "longDesc": "Features advanced gesture detection, proximity detection, digital Ambient Light Sense (ALS) and Color Sense (RGBC).",
@@ -2734,6 +2769,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "veml6075",
     "name": "VEML6075",
+    "category": "Sensor",
     "image": "/images/hardware/veml6075.png",
     "shortDesc": "UVA/UVB Sensor",
     "longDesc": "Incorporates a photodiode, amplifiers, and analog/digital circuits into a single chip using a CMOS process.",
@@ -2818,6 +2854,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "mhz19b",
     "name": "MH-Z19B",
+    "category": "Sensor",
     "image": "/images/hardware/mh_z19b.png",
     "shortDesc": "CO2 Sensor",
     "longDesc": "A common type, intelligent, small-scale sensor, using non-dispersive infrared (NDIR) principle to detect the existence of CO2.",
