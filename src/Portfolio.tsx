@@ -9,7 +9,7 @@ import type { ProjectData } from './services/github';
 import type { Config } from './hooks/useConfig';
 import { hardwareData, type HardwareDetails } from './data/hardware_details';
 import { HardwareDetailsView } from './components/HardwareDetails';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, Search } from 'lucide-react';
 import {
   ArrowUpRight,
   GitHubIcon,
@@ -69,6 +69,17 @@ export default function Portfolio({ config }: { config: Config }) {
 
   const [showAllHardware, setShowAllHardware] = useState(false);
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const categories = ['All', ...Array.from(new Set(hardwareData.map(h => h.category)))];
+
+  const filteredHardware = hardwareData.filter(comp => {
+    const matchesSearch = comp.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          comp.shortDesc.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === 'All' || comp.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
   const researchProjects: ProjectData[] = config.researchProjects?.length ? config.researchProjects.map(rp => ({
     repo: {
       id: rp.id,
@@ -335,8 +346,42 @@ export default function Portfolio({ config }: { config: Config }) {
             </p>
           </div>
 
+          <div className="flex flex-col md:flex-row gap-6 mb-12 items-start md:items-center justify-between">
+            <div className="relative w-full md:w-96">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Search className="w-5 h-5 text-white/40" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search hardware..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-white/5 border border-white/10 rounded-full py-3 pl-12 pr-4 text-[13px] text-white placeholder-white/40 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all font-body"
+              />
+            </div>
+            
+            <div className="flex gap-2 overflow-x-auto w-full pb-2 md:pb-0 hide-scrollbar">
+              {categories.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setSelectedCategory(cat);
+                    setShowAllHardware(false);
+                  }}
+                  className={`whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-medium tracking-wide transition-all ${
+                    selectedCategory === cat 
+                      ? 'bg-white text-black' 
+                      : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/5'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {(showAllHardware ? hardwareData : hardwareData.slice(0, 8)).map((comp) => (
+            {(showAllHardware ? filteredHardware : filteredHardware.slice(0, 8)).map((comp) => (
               <div
                 key={comp.id}
                 className="liquid-glass card-hover rounded-[1.25rem] p-4 flex flex-col group overflow-hidden cursor-pointer"
@@ -356,15 +401,21 @@ export default function Portfolio({ config }: { config: Config }) {
             ))}
           </div>
 
-          {hardwareData.length > 8 && (
+          {filteredHardware.length > 8 && (
             <div className="mt-12 flex justify-center">
               <button
                 onClick={() => setShowAllHardware(!showAllHardware)}
                 className="liquid-glass-strong btn-hover rounded-full px-8 py-4 flex items-center gap-3 text-[14px] uppercase tracking-widest font-medium"
               >
-                {showAllHardware ? 'Show Less' : 'View All Hardware Components'}
+                {showAllHardware ? 'Show Less' : `View All ${filteredHardware.length} Components`}
                 {showAllHardware ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
               </button>
+            </div>
+          )}
+
+          {filteredHardware.length === 0 && (
+            <div className="mt-12 text-center py-20 text-white/55 font-body">
+              No hardware components found matching your search criteria.
             </div>
           )}
         </div>
