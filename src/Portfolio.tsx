@@ -10,8 +10,8 @@ import type { Config } from './hooks/useConfig';
 import { hardwareData, type HardwareDetails } from './data/hardware_details';
 import { HardwareDetailsView } from './components/HardwareDetails';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { 
-  ArrowUpRight, 
+import {
+  ArrowUpRight,
   GitHubIcon,
   LinkedInIcon,
   EmailIcon,
@@ -27,12 +27,12 @@ const motionProps = {
 // Counter Component for animating numbers (simplified approach)
 function AnimatedCounter({ value }: { value: number }) {
   const [count, setCount] = useState(0);
-  
+
   useEffect(() => {
     let start = 0;
     const duration = 1500;
     const increment = value / (duration / 16);
-    
+
     const timer = setInterval(() => {
       start += increment;
       if (start >= value) {
@@ -42,7 +42,7 @@ function AnimatedCounter({ value }: { value: number }) {
         setCount(Math.floor(start));
       }
     }, 16);
-    
+
     return () => clearInterval(timer);
   }, [value]);
 
@@ -53,9 +53,9 @@ function AnimatedCounter({ value }: { value: number }) {
 
 export default function Portfolio({ config }: { config: Config }) {
   const { data, loading } = useGitHubData(config.githubUsername);
-  
+
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
-  
+
   const [selectedHardware, setSelectedHardware] = useState<HardwareDetails | null>(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
@@ -66,7 +66,7 @@ export default function Portfolio({ config }: { config: Config }) {
     }
     return null;
   });
-  
+
   const [showAllHardware, setShowAllHardware] = useState(false);
 
   const researchProjects: ProjectData[] = config.researchProjects?.length ? config.researchProjects.map(rp => ({
@@ -134,7 +134,7 @@ export default function Portfolio({ config }: { config: Config }) {
         }
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, data]);
 
   // Prevent scrolling when details view is open
@@ -151,7 +151,7 @@ export default function Portfolio({ config }: { config: Config }) {
 
   return (
     <div className="w-full bg-black text-white font-body selection:bg-white selection:text-black min-h-screen relative">
-      
+
       {/* Project Details Overlay */}
       <AnimatePresence>
         {selectedProject && (
@@ -161,16 +161,16 @@ export default function Portfolio({ config }: { config: Config }) {
 
       <AnimatePresence>
         {selectedHardware && (
-          <HardwareDetailsView 
-            component={selectedHardware} 
-            onClose={() => setSelectedHardware(null)} 
+          <HardwareDetailsView
+            component={selectedHardware}
+            onClose={() => setSelectedHardware(null)}
           />
         )}
       </AnimatePresence>
 
       {/* Navbar */}
       <nav className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-24">
-        <div 
+        <div
           onClick={() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             window.history.pushState(null, '', window.location.pathname);
@@ -180,7 +180,7 @@ export default function Portfolio({ config }: { config: Config }) {
           <div className="absolute inset-0 bg-white/5 opacity-50 z-0"></div>
           <span className="font-heading font-medium italic text-xl mt-1 z-10">{config.name}</span>
         </div>
-        
+
         <div className="hidden md:flex liquid-glass-extreme rounded-full p-2 items-center gap-2 relative overflow-hidden">
           <div className="absolute inset-0 bg-white/5 opacity-50 z-0"></div>
           <div className="flex items-center gap-1 px-2 z-10">
@@ -201,7 +201,7 @@ export default function Portfolio({ config }: { config: Config }) {
       {/* Section 1: Hero */}
       <section className="h-screen overflow-hidden bg-black relative flex flex-col">
         <div className="absolute inset-0 z-0">
-          <FadingVideo 
+          <FadingVideo
             src="https://stream.mux.com/4IMYGcL01xjs7ek5ANO17JC4VQVUTsojZlnw4fXzwSxc.m3u8"
             className="w-full h-full object-cover object-top opacity-85"
             style={{ transform: 'scale(1.1)' }}
@@ -209,10 +209,10 @@ export default function Portfolio({ config }: { config: Config }) {
           <div className="absolute inset-0 vignette-overlay mix-blend-multiply" />
           <div className="absolute inset-0 hero-gradient" />
         </div>
-        
+
         <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-32 px-4 text-center">
-          <motion.div 
-            {...motionProps} 
+          <motion.div
+            {...motionProps}
             transition={{ ...motionProps.transition, delay: 0.4 }}
             className="liquid-glass rounded-full flex items-center gap-4 p-1.5 pr-5 mb-10 card-hover cursor-pointer"
           >
@@ -220,21 +220,21 @@ export default function Portfolio({ config }: { config: Config }) {
             <span className="text-[13px] text-white/75 font-medium tracking-wide">{config.latestTagText || "Deploying embedded machine learning on custom silicon"}</span>
           </motion.div>
 
-          <BlurText 
-            text={config.heroHeadline} 
-            className="text-6xl md:text-7xl lg:text-[6.5rem] font-heading italic text-white leading-[0.85] tracking-[-0.04em] max-w-[1000px] mx-auto drop-shadow-2xl" 
+          <BlurText
+            text={config.heroHeadline}
+            className="text-6xl md:text-7xl lg:text-[6.5rem] font-heading italic text-white leading-[0.85] tracking-[-0.04em] max-w-[1000px] mx-auto drop-shadow-2xl"
           />
 
-          <motion.p 
-            {...motionProps} 
+          <motion.p
+            {...motionProps}
             transition={{ ...motionProps.transition, delay: 0.8 }}
             className="text-base md:text-lg text-white/75 max-w-2xl font-body font-light leading-relaxed mt-10 tracking-wide"
           >
             {config.heroSubheadline}
           </motion.p>
 
-          <motion.div 
-            {...motionProps} 
+          <motion.div
+            {...motionProps}
             transition={{ ...motionProps.transition, delay: 1.1 }}
             className="flex items-center gap-8 mt-12"
           >
@@ -247,8 +247,8 @@ export default function Portfolio({ config }: { config: Config }) {
           </motion.div>
 
           {/* Dynamic Hero Statistics */}
-          <motion.div 
-            {...motionProps} 
+          <motion.div
+            {...motionProps}
             transition={{ ...motionProps.transition, delay: 1.3 }}
             className="flex gap-6 mt-20 flex-wrap justify-center"
           >
@@ -274,8 +274,8 @@ export default function Portfolio({ config }: { config: Config }) {
         </div>
 
         {/* Technology Trust Bar */}
-        <motion.div 
-          {...motionProps} 
+        <motion.div
+          {...motionProps}
           transition={{ ...motionProps.transition, delay: 1.4 }}
           className="relative z-10 flex flex-col items-center gap-8 pb-12 mt-12"
         >
@@ -311,10 +311,10 @@ export default function Portfolio({ config }: { config: Config }) {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {data?.projects.map(project => (
-                <ProjectCard 
-                  key={project.repo.id} 
-                  project={project} 
-                  onClick={() => setSelectedProject(project)} 
+                <ProjectCard
+                  key={project.repo.id}
+                  project={project}
+                  onClick={() => setSelectedProject(project)}
                 />
               ))}
             </div>
@@ -337,20 +337,20 @@ export default function Portfolio({ config }: { config: Config }) {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {(showAllHardware ? hardwareData : hardwareData.slice(0, 8)).map((comp) => (
-              <div 
-                key={comp.id} 
+              <div
+                key={comp.id}
                 className="liquid-glass card-hover rounded-[1.25rem] p-4 flex flex-col group overflow-hidden cursor-pointer"
                 onClick={() => setSelectedHardware(comp)}
               >
                 <div className="rounded-[1rem] overflow-hidden mb-4 relative aspect-square">
                   <img src={comp.image} alt={comp.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  
+
                   {/* Simulated LED Blinks */}
                   {comp.id === 'arduino_uno' && (
                     <>
                       <div className="absolute top-[45%] right-[18%] w-1.5 h-1.5 bg-cyan-200 rounded-full blur-[1px] animate-ping z-20 opacity-70" style={{ animationDuration: '0.5s' }} />
                       <div className="absolute top-[45%] right-[18%] w-4 h-4 bg-cyan-400 rounded-full blur-[4px] animate-pulse z-20 mix-blend-screen" />
-                      
+
                       <div className="absolute top-[52%] left-[45%] w-1.5 h-1.5 bg-orange-200 rounded-full blur-[1px] animate-ping z-20 opacity-60" style={{ animationDuration: '1.2s' }} />
                       <div className="absolute top-[52%] left-[45%] w-3 h-3 bg-orange-400 rounded-full blur-[3px] animate-pulse z-20 mix-blend-screen" />
                     </>
@@ -374,7 +374,7 @@ export default function Portfolio({ config }: { config: Config }) {
 
           {hardwareData.length > 8 && (
             <div className="mt-12 flex justify-center">
-              <button 
+              <button
                 onClick={() => setShowAllHardware(!showAllHardware)}
                 className="liquid-glass-strong btn-hover rounded-full px-8 py-4 flex items-center gap-3 text-[14px] uppercase tracking-widest font-medium"
               >
@@ -389,7 +389,7 @@ export default function Portfolio({ config }: { config: Config }) {
       {/* Section: GitHub */}
       <section id="github" className="min-h-[80vh] overflow-hidden bg-black relative flex flex-col items-center justify-center pt-32 pb-20 px-8 md:px-16 lg:px-24 text-center">
         <div className="absolute inset-0 z-0">
-          <FadingVideo 
+          <FadingVideo
             src="https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8"
             className="w-full h-full object-cover object-top opacity-85"
             style={{ transform: 'scale(1.15)', transformOrigin: 'top center' }}
@@ -397,7 +397,7 @@ export default function Portfolio({ config }: { config: Config }) {
           <div className="absolute inset-0 vignette-overlay mix-blend-multiply" />
           <div className="absolute inset-0 capabilities-gradient" />
         </div>
-        
+
         <div className="relative z-10 flex flex-col items-center max-w-3xl mx-auto">
           <div className="liquid-glass h-24 w-24 rounded-full flex items-center justify-center mb-10 shadow-[0_0_60px_rgba(255,255,255,0.05)] card-hover">
             <GitHubIcon className="w-12 h-12 text-white" />
@@ -417,7 +417,7 @@ export default function Portfolio({ config }: { config: Config }) {
       {/* Section: Current R&D */}
       <section id="research" className="min-h-screen overflow-hidden bg-black relative flex flex-col pt-32 pb-20 px-8 md:px-16 lg:px-24">
         <div className="absolute inset-0 z-0">
-          <FadingVideo 
+          <FadingVideo
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_024928_1efd0b0d-6c02-45a8-8847-1030900c4f63.mp4"
             className="w-full h-full object-cover opacity-85"
             style={{ transform: 'scale(1.05)' }}
@@ -425,21 +425,21 @@ export default function Portfolio({ config }: { config: Config }) {
           <div className="absolute inset-0 vignette-overlay mix-blend-multiply" />
           <div className="absolute inset-0 capabilities-gradient" />
         </div>
-        
+
         <div className="relative z-10 flex flex-col min-h-screen max-w-[1400px] mx-auto w-full">
           <div className="mb-auto">
             <p className="text-[11px] font-body text-white/55 mb-8 uppercase tracking-[0.2em]">// Current R&D</p>
             <h2 className="font-heading italic text-6xl md:text-8xl lg:text-[7.5rem] leading-[0.85] tracking-[-0.03em] max-w-3xl drop-shadow-2xl">
-              Exploring The<br/>Bleeding Edge.
+              Exploring The<br />Bleeding Edge.
             </h2>
           </div>
 
           <div className="mt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {researchProjects.map(project => (
-              <ProjectCard 
-                key={project.repo.id} 
-                project={project} 
-                onClick={() => setSelectedProject(project)} 
+              <ProjectCard
+                key={project.repo.id}
+                project={project}
+                onClick={() => setSelectedProject(project)}
               />
             ))}
           </div>
@@ -449,7 +449,7 @@ export default function Portfolio({ config }: { config: Config }) {
       {/* Section: Contact */}
       <section id="contact" className="min-h-screen overflow-hidden bg-black relative flex flex-col pt-32 pb-32 px-8 md:px-16 lg:px-24 border-t border-white/5">
         <div className="absolute inset-0 z-0">
-          <FadingVideo 
+          <FadingVideo
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4"
             className="w-full h-full object-cover object-top opacity-85"
             style={{ transform: 'scale(1.15)', transformOrigin: 'top center' }}
@@ -457,53 +457,53 @@ export default function Portfolio({ config }: { config: Config }) {
           <div className="absolute inset-0 vignette-overlay mix-blend-multiply" />
           <div className="absolute inset-0 capabilities-gradient" />
         </div>
-        
+
         <div className="relative z-10 flex flex-col max-w-[1400px] mx-auto w-full">
           <h2 className="font-heading italic text-5xl md:text-7xl lg:text-[6rem] leading-[0.85] tracking-[-0.03em] max-w-3xl mb-16">
             Connect
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <a href={config.githubLink} target="_blank" rel="noopener noreferrer" className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
-            <div className="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
-              <GitHubIcon className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <div className="text-[14px] text-white font-medium tracking-wide mb-1">GitHub</div>
-              <div className="text-[12px] text-white/55 tracking-wide">View repositories</div>
-            </div>
-          </a>
+            <a href={config.githubLink} target="_blank" rel="noopener noreferrer" className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
+              <div className="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                <GitHubIcon className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <div className="text-[14px] text-white font-medium tracking-wide mb-1">GitHub</div>
+                <div className="text-[12px] text-white/55 tracking-wide">View repositories</div>
+              </div>
+            </a>
 
-          <a href={config.linkedin} target="_blank" rel="noopener noreferrer" className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
-            <div className="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
-              <LinkedInIcon className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <div className="text-[14px] text-white font-medium tracking-wide mb-1">LinkedIn</div>
-              <div className="text-[12px] text-white/55 tracking-wide">Connect professionally</div>
-            </div>
-          </a>
+            <a href={config.linkedin} target="_blank" rel="noopener noreferrer" className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
+              <div className="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                <LinkedInIcon className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <div className="text-[14px] text-white font-medium tracking-wide mb-1">LinkedIn</div>
+                <div className="text-[12px] text-white/55 tracking-wide">Connect professionally</div>
+              </div>
+            </a>
 
-          <a href={config.email.startsWith('mailto:') ? config.email : `mailto:${config.email}`} className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
-            <div className="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
-              <EmailIcon className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <div className="text-[14px] text-white font-medium tracking-wide mb-1">Email</div>
-              <div className="text-[12px] text-white/55 tracking-wide">Start a conversation</div>
-            </div>
-          </a>
+            <a href={config.email.startsWith('mailto:') ? config.email : `mailto:${config.email}`} className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
+              <div className="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                <EmailIcon className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <div className="text-[14px] text-white font-medium tracking-wide mb-1">Email</div>
+                <div className="text-[12px] text-white/55 tracking-wide">Start a conversation</div>
+              </div>
+            </a>
 
-          <a href={config.resume} target="_blank" rel="noopener noreferrer" className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
-            <div className="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
-              <ResumeIcon className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <div className="text-[14px] text-white font-medium tracking-wide mb-1">Resume</div>
-              <div className="text-[12px] text-white/55 tracking-wide">View experience</div>
-            </div>
-          </a>
-        </div>
+            <a href={config.resume} target="_blank" rel="noopener noreferrer" className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
+              <div className="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                <ResumeIcon className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <div className="text-[14px] text-white font-medium tracking-wide mb-1">Resume</div>
+                <div className="text-[12px] text-white/55 tracking-wide">View experience</div>
+              </div>
+            </a>
+          </div>
         </div>
       </section>
     </div>

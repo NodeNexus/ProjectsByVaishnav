@@ -17,7 +17,7 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
   const wiring: BoardWiring | undefined = selectedBoard && component.wiring ? component.wiring[selectedBoard] : undefined;
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -27,7 +27,7 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
       <div className="min-h-screen flex flex-col relative pb-32">
         {/* Navigation Bar inside Details */}
         <nav className="fixed top-6 left-0 right-0 z-[110] flex items-center justify-between px-8 lg:px-24">
-          <button 
+          <button
             onClick={onClose}
             className="liquid-glass rounded-full px-5 py-2 text-[11px] font-medium tracking-widest uppercase btn-hover text-white/75"
           >
@@ -38,14 +38,14 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
         {/* Hero Section */}
         <section className="relative h-[70vh] flex flex-col justify-end px-8 md:px-16 lg:px-24 pb-16">
           <div className="absolute inset-0 z-0 bg-black flex items-center justify-center overflow-hidden">
-            <FadingVideo 
+            <FadingVideo
               src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260506_031045_0e1165dd-ab48-46e3-ad3d-5fe77f217647.mp4"
               className="w-full h-full object-cover opacity-60"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/20" />
             <div className="absolute inset-0 capabilities-gradient opacity-30 mix-blend-overlay" />
           </div>
-          
+
           <div className="relative z-10 max-w-[1400px] w-full mx-auto flex flex-col md:flex-row items-end gap-12">
             <div className="w-48 h-48 md:w-64 md:h-64 shrink-0 bg-white/5 rounded-3xl p-6 border border-white/10 liquid-glass flex items-center justify-center">
               <img src={component.image} alt={component.name} className="w-full h-full object-contain drop-shadow-2xl" />
@@ -66,7 +66,7 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
 
         {/* Details Layout */}
         <div className="px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 mt-16">
-          
+
           <div className="lg:col-span-8 flex flex-col gap-16">
             {/* Overview */}
             <section>
@@ -74,7 +74,7 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
               <p className="text-[16px] text-white/75 font-body font-light leading-relaxed tracking-wide mb-8">
                 {component.longDesc}
               </p>
-              
+
               <div className="p-6 bg-white/5 border border-white/10 rounded-2xl flex gap-4 items-start liquid-glass">
                 <Activity className="w-6 h-6 text-white mt-1 shrink-0 opacity-70" />
                 <div>
@@ -88,16 +88,16 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
             <section>
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
                 <h2 className="text-[11px] font-body text-white/55 uppercase tracking-[0.2em]">// Wiring Visualizer</h2>
-                
+
                 {component.wiring && (
                   <div className="flex gap-2">
-                    <button 
+                    <button
                       onClick={() => setSelectedBoard('esp32')}
                       className={`px-5 py-2 text-[11px] uppercase tracking-widest rounded-full transition-all ${selectedBoard === 'esp32' ? 'bg-white text-black font-semibold' : 'bg-white/10 hover:bg-white/20 text-white/75 font-medium'}`}
                     >
                       ESP32
                     </button>
-                    <button 
+                    <button
                       onClick={() => setSelectedBoard('arduino')}
                       className={`px-5 py-2 text-[11px] uppercase tracking-widest rounded-full transition-all ${selectedBoard === 'arduino' ? 'bg-white text-black font-semibold' : 'bg-white/10 hover:bg-white/20 text-white/75 font-medium'}`}
                     >
@@ -151,7 +151,7 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
                           }
                         `}
                       </style>
-                      <svg 
+                      <svg
                         className="absolute inset-0 w-full h-full pointer-events-none"
                         viewBox="0 0 100 100"
                         preserveAspectRatio="none"
@@ -159,7 +159,7 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
                         {wiring.mappings.map((mapping, idx) => {
                           const boardIndex = wiring.boardPins.indexOf(mapping.boardPin);
                           const sensorIndex = component.pins.findIndex(p => p.name === mapping.sensorPin);
-                          
+
                           if (boardIndex === -1 || sensorIndex === -1) return null;
 
                           const y1 = (boardIndex + 0.5) * (100 / wiring.boardPins.length);
@@ -180,7 +180,7 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
                           return (
                             <g key={`wire-${idx}`}>
                               {/* Widest outer glow effect (static) */}
-                              <path 
+                              <path
                                 d={`M 0,${y1} C 50,${y1} 50,${y2} 100,${y2}`}
                                 fill="none"
                                 stroke={color}
@@ -190,7 +190,7 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
                                 vectorEffect="non-scaling-stroke"
                               />
                               {/* Inner glow effect (static) */}
-                              <path 
+                              <path
                                 d={`M 0,${y1} C 50,${y1} 50,${y2} 100,${y2}`}
                                 fill="none"
                                 stroke={color}
@@ -200,7 +200,7 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
                                 vectorEffect="non-scaling-stroke"
                               />
                               {/* Solid base wire */}
-                              <path 
+                              <path
                                 d={`M 0,${y1} C 50,${y1} 50,${y2} 100,${y2}`}
                                 fill="none"
                                 stroke={color}
@@ -210,7 +210,7 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
                                 vectorEffect="non-scaling-stroke"
                               />
                               {/* Animated energy pulse (Hardware Accelerated) */}
-                              <path 
+                              <path
                                 d={`M 0,${y1} C 50,${y1} 50,${y2} 100,${y2}`}
                                 fill="none"
                                 stroke="#ffffff"
@@ -218,7 +218,7 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
                                 strokeLinecap="round"
                                 strokeDasharray="5 45"
                                 vectorEffect="non-scaling-stroke"
-                                style={{ 
+                                style={{
                                   animation: `wire-flow ${1 + (idx % 3) * 0.3}s linear infinite`,
                                   animationDirection: direction as any
                                 }}
