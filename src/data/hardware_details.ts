@@ -30,7 +30,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "arduino_uno",
     "name": "Arduino Uno ",
-    "image": "/images/hardware/arduino_uno_1783075686637.png",
+    "image": "/images/hardware/arduino_uno_clean.png",
     "shortDesc": "32-bit ARM Cortex-M4 Microcontroller",
     "longDesc": "The Arduino UNO R4 Minima brings the 32-bit computing power of the Renesas RA4M1 microcontroller to the classic UNO form factor.",
     "whatItDoes": "Acts as the brain for simple to moderately complex electronics projects, reading sensors and controlling outputs.",
@@ -56,7 +56,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "esp32",
     "name": "ESP32 Dev Board",
-    "image": "/images/hardware/esp32_board_1783075698872.png",
+    "image": "/images/hardware/esp32_clean.png",
     "shortDesc": "Dual-core WiFi/BT MCU",
     "longDesc": "A powerful, feature-rich MCU with integrated Wi-Fi and Bluetooth capabilities, perfect for IoT applications.",
     "whatItDoes": "Connects your electronics projects to the internet while offering substantial processing power for complex algorithms.",
@@ -82,7 +82,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "raspberry_pi_5",
     "name": "Raspberry Pi 5",
-    "image": "/images/hardware/hardware_1783235255450_Gemini_Generated_Image_aq55zaq55zaq55za.png",
+    "image": "/images/hardware/raspberry_pi_5_clean.png",
     "shortDesc": "Quad-core ARM Cortex-A76 SBC",
     "longDesc": "The newest generation of the Raspberry Pi single-board computer, offering desktop-level performance with a quad-core 64-bit Arm processor and PCIe 2.0 capabilities.",
     "whatItDoes": "Runs full operating systems (like Linux) for advanced AI, edge computing, robotics, and heavy data processing.",
@@ -108,7 +108,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "hcsr04",
     "name": "HC-SR04",
-    "image": "/images/hardware/ultrasonic_sensor_1783075710376.png",
+    "image": "/images/hardware/hcsr04_clean.png",
     "shortDesc": "Ultrasonic Distance Sensor",
     "longDesc": "Uses sonar to determine the distance to an object, offering excellent non-contact range detection with high accuracy and stable readings.",
     "whatItDoes": "Measures distance by sending out an ultrasonic pulse and measuring the time it takes for the echo to return.",
@@ -192,7 +192,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "dht11",
     "name": "DHT11 / DHT22",
-    "image": "/images/hardware/dht11_sensor_1783075721243.png",
+    "image": "/images/hardware/dht11_clean.png",
     "shortDesc": "Temp & Humidity Sensor",
     "longDesc": "A basic, ultra low-cost digital temperature and humidity sensor. It uses a capacitive humidity sensor and a thermistor to measure the surrounding air.",
     "whatItDoes": "Spits out a digital signal on the data pin providing reliable ambient temperature and humidity readings.",
@@ -262,7 +262,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "l298n",
     "name": "L298N",
-    "image": "/images/hardware/motor_driver_1783075733447.png",
+    "image": "/images/hardware/l298n_clean.png",
     "shortDesc": "Dual Motor Driver",
     "longDesc": "A dual H-Bridge motor driver which allows speed and direction control of two DC motors at the same time.",
     "whatItDoes": "Provides the high current needed to drive motors, which microcontrollers cannot supply directly, while interpreting low-current control signals.",
