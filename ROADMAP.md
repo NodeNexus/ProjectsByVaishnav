@@ -34,7 +34,7 @@ This document outlines the progress we've made so far on your portfolio web appl
 - [ ] **Project Cover Images**: Generate or refine high-quality cover images for your main projects (Spider Robot, Fallout Watch) to match the cinematic hardware aesthetic.
 
 ### Phase 2: Enhanced Interactivity
-- [ ] **Create My Own Circuit**: A drag-and-drop canvas where users can build their own custom circuits by connecting the available hardware components.
+- [ ] **Create My Own Circuit**: A drag-and-drop canvas where users can build their own custom circuits by connecting the available hardware components. When pins are connected correctly, it will automatically generate the corresponding Arduino setup code in a side panel that can be directly copied and pasted into the Arduino IDE.
 - [ ] **Hardware Search & Filtering**: With 36 components, adding a search bar and category filters (e.g., "Sensors", "Microcontrollers", "Actuators") will drastically improve navigation.
 - [ ] **Interactive Pinout Viewer**: Enhance the hardware details view to show interactive, clickable pin diagrams rather than just static text lists.
 - [ ] **Code Snippet Integration**: Add expandable sections containing boilerplate setup code (C++/Python) for each hardware component.
