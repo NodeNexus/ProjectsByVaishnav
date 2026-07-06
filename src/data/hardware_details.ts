@@ -1942,7 +1942,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "yfs201",
     "name": "YF-S201",
-    "image": "/images/hardware/generic_sensor.png",
+    "image": "/images/hardware/yf_s201.png",
     "shortDesc": "Water Flow Sensor",
     "longDesc": "Consists of a plastic valve body, a water rotor, and a hall-effect sensor.",
     "whatItDoes": "Measures the rate of liquid flowing through it by counting hall effect pulses.",
@@ -2012,7 +2012,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "hx711",
     "name": "HX711 + Load Cell",
-    "image": "/images/hardware/generic_sensor.png",
+    "image": "/images/hardware/hx711.png",
     "shortDesc": "Weight Scale Amplifier",
     "longDesc": "A precision 24-bit analog-to-digital converter (ADC) designed for weigh scales and industrial control applications.",
     "whatItDoes": "Translates the small resistance changes in a load cell into a digital weight measurement.",
@@ -2096,7 +2096,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "max30102",
     "name": "MAX30102",
-    "image": "/images/hardware/generic_sensor.png",
+    "image": "/images/hardware/max30102.png",
     "shortDesc": "Pulse Oximeter",
     "longDesc": "An integrated pulse oximetry and heart-rate monitor biosensor module.",
     "whatItDoes": "Measures heart rate and blood oxygen levels by emitting and measuring light.",
@@ -2194,7 +2194,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "mlx90614",
     "name": "MLX90614",
-    "image": "/images/hardware/generic_sensor.png",
+    "image": "/images/hardware/mlx90614.png",
     "shortDesc": "IR Temp Sensor",
     "longDesc": "An infrared thermometer for non-contact temperature measurements.",
     "whatItDoes": "Measures the surface temperature of objects from a distance without touching them.",
@@ -2278,7 +2278,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "acs712",
     "name": "ACS712",
-    "image": "/images/hardware/generic_sensor.png",
+    "image": "/images/hardware/acs712.png",
     "shortDesc": "Current Sensor",
     "longDesc": "Provides economical and precise solutions for AC or DC current sensing in industrial, commercial, and communications systems.",
     "whatItDoes": "Measures electrical current flowing through a wire using the Hall effect.",
@@ -2348,7 +2348,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "ina219",
     "name": "INA219",
-    "image": "/images/hardware/generic_sensor.png",
+    "image": "/images/hardware/ina219.png",
     "shortDesc": "DC Current Sensor",
     "longDesc": "A shunt and power monitor with an I2C- or SMBUS-compatible interface.",
     "whatItDoes": "Accurately measures high-side voltage and DC current draw in a circuit.",
@@ -2456,7 +2456,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "neo6m",
     "name": "NEO-6M GPS",
-    "image": "/images/hardware/generic_sensor.png",
+    "image": "/images/hardware/neo6m.png",
     "shortDesc": "GPS Module",
     "longDesc": "A stand-alone GPS receiver featuring the high performance u-blox 6 positioning engine.",
     "whatItDoes": "Receives signals from satellites to determine exact global geographic coordinates and time.",
@@ -2540,7 +2540,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "pn532",
     "name": "PN532",
-    "image": "/images/hardware/generic_sensor.png",
+    "image": "/images/hardware/pn532.png",
     "shortDesc": "NFC/RFID Reader",
     "longDesc": "The most popular NFC chip, used in almost every phone that does NFC.",
     "whatItDoes": "Reads and writes NFC tags, communicates with phones, or acts as an NFC tag itself.",
@@ -2624,7 +2624,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "apds9960",
     "name": "APDS9960",
-    "image": "/images/hardware/generic_sensor.png",
+    "image": "/images/hardware/apds9960.png",
     "shortDesc": "Gesture Sensor",
     "longDesc": "Features advanced gesture detection, proximity detection, digital Ambient Light Sense (ALS) and Color Sense (RGBC).",
     "whatItDoes": "Detects hand swipes (left, right, up, down) and measures light/color.",
@@ -2734,7 +2734,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "veml6075",
     "name": "VEML6075",
-    "image": "/images/hardware/generic_sensor.png",
+    "image": "/images/hardware/veml6075.png",
     "shortDesc": "UVA/UVB Sensor",
     "longDesc": "Incorporates a photodiode, amplifiers, and analog/digital circuits into a single chip using a CMOS process.",
     "whatItDoes": "Senses both UVA and UVB light bands to calculate the UV index.",
@@ -2818,7 +2818,7 @@ export const hardwareData: HardwareDetails[] = [
   {
     "id": "mhz19b",
     "name": "MH-Z19B",
-    "image": "/images/hardware/generic_sensor.png",
+    "image": "/images/hardware/mh_z19b.png",
     "shortDesc": "CO2 Sensor",
     "longDesc": "A common type, intelligent, small-scale sensor, using non-dispersive infrared (NDIR) principle to detect the existence of CO2.",
     "whatItDoes": "Measures Carbon Dioxide concentrations in the air with high accuracy.",
