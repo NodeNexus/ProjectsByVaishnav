@@ -30,7 +30,7 @@ This document outlines the progress we've made so far on your portfolio web appl
 ## 🔮 What Can Be Done In the Future
 
 ### Phase 1: Completing the Visuals
-- [ ] **Generate Remaining Assets**: Once the image generation quota resets, process the remaining 30 sensors in `IMAGE_PROMPTS.md` to ensure a 100% consistent and premium look across the entire hardware library.
+- [x] **Generate Remaining Assets**: Once the image generation quota resets, process the remaining 30 sensors in `IMAGE_PROMPTS.md` to ensure a 100% consistent and premium look across the entire hardware library.
 - [ ] **Project Cover Images**: Generate or refine high-quality cover images for your main projects (Spider Robot, Fallout Watch) to match the cinematic hardware aesthetic.
 
 ### Phase 2: Enhanced Interactivity
