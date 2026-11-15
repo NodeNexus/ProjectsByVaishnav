@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FadingVideo } from './components/FadingVideo';
 import { BlurText } from './components/BlurText';
@@ -19,18 +19,18 @@ import {
 } from './components/Icons';
 
 const motionProps = {
-  initial: { filter: 'blur(10px)', opacity: 0, y: 20 },
+  initial: { filter: 'blur(8px)', opacity: 0, y: 16 },
   animate: { filter: 'blur(0px)', opacity: 1, y: 0 },
-  transition: { duration: 0.8, ease: 'easeOut' as const }
+  transition: { duration: 0.5, ease: 'easeOut' as const }
 };
 
-// Counter Component for animating numbers (simplified approach)
+// Counter Component for animating numbers
 function AnimatedCounter({ value }: { value: number }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     let start = 0;
-    const duration = 1500;
+    const duration = 1200;
     const increment = value / (duration / 16);
 
     const timer = setInterval(() => {
@@ -48,8 +48,6 @@ function AnimatedCounter({ value }: { value: number }) {
 
   return <span>{count}</span>;
 }
-
-
 
 export default function Portfolio({ config }: { config: Config }) {
   const { data, loading } = useGitHubData(config.githubUsername);
@@ -80,31 +78,34 @@ export default function Portfolio({ config }: { config: Config }) {
     const matchesCategory = selectedCategory === 'All' || comp.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
-  const researchProjects: ProjectData[] = config.researchProjects?.length ? config.researchProjects.map(rp => ({
-    repo: {
-      id: rp.id,
-      name: rp.title.replace(/\s+/g, '-').toLowerCase(),
-      description: rp.description,
-      html_url: rp.githubUrl || "#",
-      stargazers_count: 0,
-      forks_count: 0,
-      language: "",
-      updated_at: new Date().toISOString(),
-      topics: ["research"],
-      default_branch: "main",
-      fork: false
-    },
-    metadata: {
-      featured: true,
-      title: rp.title,
-      description: rp.description,
-      hardware: rp.hardware,
-      software: rp.software,
-    },
-    coverUrl: rp.coverUrl,
-    galleryUrls: [],
-    architectureUrl: null
-  })) : [];
+
+  const researchProjects: ProjectData[] = useMemo(() => {
+    return config.researchProjects?.length ? config.researchProjects.map(rp => ({
+      repo: {
+        id: rp.id,
+        name: rp.title.replace(/\s+/g, '-').toLowerCase(),
+        description: rp.description,
+        html_url: rp.githubUrl || "#",
+        stargazers_count: 0,
+        forks_count: 0,
+        language: "",
+        updated_at: new Date().toISOString(),
+        topics: ["research"],
+        default_branch: "main",
+        fork: false
+      },
+      metadata: {
+        featured: true,
+        title: rp.title,
+        description: rp.description,
+        hardware: rp.hardware,
+        software: rp.software,
+      },
+      coverUrl: rp.coverUrl,
+      galleryUrls: [],
+      architectureUrl: null
+    })) : [];
+  }, [config.researchProjects]);
 
   // Sync URL when hardware changes
   useEffect(() => {
@@ -145,8 +146,7 @@ export default function Portfolio({ config }: { config: Config }) {
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, data]);
+  }, [loading, data, researchProjects]);
 
   // Prevent scrolling when details view is open
   useEffect(() => {
@@ -161,7 +161,7 @@ export default function Portfolio({ config }: { config: Config }) {
   }, [selectedProject, selectedHardware]);
 
   return (
-    <div className="w-full bg-black text-white font-body selection:bg-white selection:text-black min-h-screen relative">
+    <div className="w-full bg-[#F8F9FA] text-[#121317] font-sans selection:bg-[#121317] selection:text-white min-h-screen relative">
 
       {/* Project Details Overlay */}
       <AnimatePresence>
@@ -180,104 +180,119 @@ export default function Portfolio({ config }: { config: Config }) {
       </AnimatePresence>
 
       {/* Navbar */}
-      <nav className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-24">
+      <nav className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-6 lg:px-16 max-w-[1400px] mx-auto">
         <div
           onClick={() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             window.history.pushState(null, '', window.location.pathname);
           }}
-          className="liquid-glass-extreme h-12 px-6 rounded-full flex items-center justify-center btn-hover cursor-pointer relative overflow-hidden"
+          className="bg-white/85 backdrop-blur-md border border-[rgba(33,34,38,0.06)] h-11 px-6 rounded-full flex items-center justify-center cursor-pointer hover:bg-white transition-colors"
         >
-          <div className="absolute inset-0 bg-white/5 opacity-50 z-0"></div>
-          <span className="font-heading font-medium italic text-xl mt-1 z-10">{config.name}</span>
+          <span className="font-sans font-[450] text-[16px] text-[#121317] tracking-tight">{config.name}</span>
         </div>
 
-        <div className="hidden md:flex liquid-glass-extreme rounded-full p-2 items-center gap-2 relative overflow-hidden">
-          <div className="absolute inset-0 bg-white/5 opacity-50 z-0"></div>
-          <div className="flex items-center gap-1 px-2 z-10">
+        <div className="hidden md:flex rounded-full bg-white/85 backdrop-blur-md border border-[rgba(33,34,38,0.06)] p-1.5 items-center gap-1">
+          <div className="flex items-center gap-1 px-1">
             {["Systems", "Hardware", "GitHub", "Research", "Contact"].map((link) => (
-              <a key={link} href={`#${link.toLowerCase()}`} className="nav-link px-4 py-2 text-[13px] font-medium text-white/75 font-body">
+              <a 
+                key={link} 
+                href={`#${link.toLowerCase()}`} 
+                className="px-4 py-1.5 text-[14.5px] font-[450] text-[#45474D] hover:text-[#121317] hover:bg-[rgba(33,34,38,0.06)] rounded-full transition-colors"
+              >
                 {link}
               </a>
             ))}
           </div>
-          <a href={config.githubLink} target="_blank" rel="noopener noreferrer" className="btn-hover bg-white text-black rounded-full px-5 py-2.5 flex items-center gap-1.5 text-[13px] font-semibold font-body ml-2 z-10">
-            View GitHub <ArrowUpRight className="w-4 h-4" />
+          <a 
+            href={config.githubLink} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="bg-[#121317] text-white hover:bg-[#2F3034] rounded-full px-5 py-2 flex items-center gap-1.5 text-[14px] font-[450] transition-colors ml-1"
+          >
+            View GitHub <ArrowUpRight className="w-3.5 h-3.5" />
           </a>
         </div>
 
-        <div className="h-12 w-12 hidden md:block" />
+        <div className="h-11 w-11 hidden md:block" />
       </nav>
 
       {/* Section 1: Hero */}
-      <section className="h-screen overflow-hidden bg-black relative flex flex-col">
+      <section className="min-h-screen overflow-hidden bg-[#F8F9FA] relative flex flex-col justify-between">
         <div className="absolute inset-0 z-0">
           <FadingVideo
             src="https://stream.mux.com/4IMYGcL01xjs7ek5ANO17JC4VQVUTsojZlnw4fXzwSxc.m3u8"
-            className="w-full h-full object-cover object-top opacity-85"
-            style={{ transform: 'scale(1.1)' }}
+            className="w-full h-full object-cover object-top opacity-15"
+            style={{ transform: 'scale(1.05)' }}
           />
-          <div className="absolute inset-0 vignette-overlay mix-blend-multiply" />
+          <div className="absolute inset-0 vignette-overlay" />
           <div className="absolute inset-0 hero-gradient" />
         </div>
 
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-32 px-4 text-center">
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-36 pb-16 px-6 text-center max-w-[1200px] mx-auto">
           <motion.div
             {...motionProps}
-            transition={{ ...motionProps.transition, delay: 0.4 }}
-            className="liquid-glass rounded-full flex items-center gap-4 p-1.5 pr-5 mb-10 card-hover cursor-pointer"
+            transition={{ ...motionProps.transition, delay: 0.2 }}
+            className="bg-white border border-[rgba(33,34,38,0.06)] rounded-full flex items-center gap-3 p-1.5 pr-4 mb-8 card-hover cursor-pointer"
           >
-            <span className="bg-white text-black text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest">Latest</span>
-            <span className="text-[13px] text-white/75 font-medium tracking-wide">{config.latestTagText || "Deploying embedded machine learning on custom silicon"}</span>
+            <span className="bg-[#121317] text-white text-[11px] font-medium px-3 py-1 rounded-full uppercase tracking-wider">Latest</span>
+            <span className="text-[13px] text-[#45474D] font-normal tracking-wide">{config.latestTagText || "Deploying embedded machine learning on custom silicon"}</span>
           </motion.div>
 
           <BlurText
             text={config.heroHeadline}
-            className="text-6xl md:text-7xl lg:text-[6.5rem] font-heading italic text-white leading-[0.85] tracking-[-0.04em] max-w-[1000px] mx-auto drop-shadow-2xl"
+            className="text-5xl md:text-7xl lg:text-[80px] font-sans font-[450] text-[#121317] leading-[1.1] tracking-[-0.017em] max-w-[1000px] mx-auto"
           />
 
           <motion.p
             {...motionProps}
-            transition={{ ...motionProps.transition, delay: 0.8 }}
-            className="text-base md:text-lg text-white/75 max-w-2xl font-body font-light leading-relaxed mt-10 tracking-wide"
+            transition={{ ...motionProps.transition, delay: 0.4 }}
+            className="text-[17.5px] text-[#45474D] max-w-2xl font-sans font-normal leading-[1.45] mt-6 tracking-[0.01em]"
           >
             {config.heroSubheadline}
           </motion.p>
 
           <motion.div
             {...motionProps}
-            transition={{ ...motionProps.transition, delay: 1.1 }}
-            className="flex items-center gap-8 mt-12"
+            transition={{ ...motionProps.transition, delay: 0.6 }}
+            className="flex items-center gap-4 mt-10 flex-wrap justify-center"
           >
-            <a href="#systems" className="liquid-glass-strong btn-hover rounded-full px-6 py-3.5 flex items-center gap-2 text-[13px] uppercase tracking-widest font-medium">
+            <a 
+              href="#systems" 
+              className="bg-[#121317] text-white hover:bg-[#2F3034] rounded-full px-6 py-2.5 flex items-center gap-2 text-[14.5px] font-[450] transition-colors"
+            >
               Explore Systems <ArrowUpRight className="w-4 h-4" />
             </a>
-            <a href={config.githubLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[13px] uppercase tracking-widest font-medium text-white/75 nav-link">
-              <GitHubIcon className="w-5 h-5" /> View Repositories
+            <a 
+              href={config.githubLink} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="bg-white border border-[rgba(33,34,38,0.06)] text-[#121317] hover:bg-[rgba(33,34,38,0.06)] rounded-full px-6 py-2.5 flex items-center gap-2 text-[14.5px] font-[450] transition-colors"
+            >
+              <GitHubIcon className="w-4 h-4" /> View Repositories
             </a>
           </motion.div>
 
           {/* Dynamic Hero Statistics */}
           <motion.div
             {...motionProps}
-            transition={{ ...motionProps.transition, delay: 1.3 }}
-            className="flex gap-6 mt-20 flex-wrap justify-center"
+            transition={{ ...motionProps.transition, delay: 0.8 }}
+            className="flex gap-4 md:gap-6 mt-16 flex-wrap justify-center"
           >
-            <div className="liquid-glass card-hover p-6 w-[200px] rounded-[1.5rem] text-left flex flex-col cursor-default">
-              <span className="text-[11px] text-white/55 font-light tracking-widest uppercase leading-relaxed mb-4">Repositories</span>
-              <span className="text-5xl font-heading italic tracking-[-0.02em] leading-none">
+            <div className="bg-white border border-[rgba(33,34,38,0.06)] card-hover p-6 w-[180px] md:w-[210px] rounded-[36px] text-left flex flex-col cursor-default">
+              <span className="text-[12px] text-[#45474D] font-normal tracking-[0.013em] uppercase mb-3">Repositories</span>
+              <span className="text-4xl md:text-5xl font-sans font-[450] text-[#121317] tracking-tight leading-none">
                 {loading ? '...' : <AnimatedCounter value={data?.stats.repositories || 0} />}
               </span>
             </div>
-            <div className="liquid-glass card-hover p-6 w-[200px] rounded-[1.5rem] text-left flex flex-col cursor-default">
-              <span className="text-[11px] text-white/55 font-light tracking-widest uppercase leading-relaxed mb-4">Total Stars</span>
-              <span className="text-5xl font-heading italic tracking-[-0.02em] leading-none">
+            <div className="bg-white border border-[rgba(33,34,38,0.06)] card-hover p-6 w-[180px] md:w-[210px] rounded-[36px] text-left flex flex-col cursor-default">
+              <span className="text-[12px] text-[#45474D] font-normal tracking-[0.013em] uppercase mb-3">Total Stars</span>
+              <span className="text-4xl md:text-5xl font-sans font-[450] text-[#121317] tracking-tight leading-none">
                 {loading ? '...' : <AnimatedCounter value={data?.stats.stars || 0} />}
               </span>
             </div>
-            <div className="liquid-glass card-hover p-6 w-[200px] rounded-[1.5rem] text-left flex flex-col cursor-default">
-              <span className="text-[11px] text-white/55 font-light tracking-widest uppercase leading-relaxed mb-4">Systems Built</span>
-              <span className="text-5xl font-heading italic tracking-[-0.02em] leading-none">
+            <div className="bg-white border border-[rgba(33,34,38,0.06)] card-hover p-6 w-[180px] md:w-[210px] rounded-[36px] text-left flex flex-col cursor-default">
+              <span className="text-[12px] text-[#45474D] font-normal tracking-[0.013em] uppercase mb-3">Systems Built</span>
+              <span className="text-4xl md:text-5xl font-sans font-[450] text-[#121317] tracking-tight leading-none">
                 {loading ? '...' : <AnimatedCounter value={data?.stats.projectsCompleted || 0} />}
               </span>
             </div>
@@ -287,28 +302,33 @@ export default function Portfolio({ config }: { config: Config }) {
         {/* Technology Trust Bar */}
         <motion.div
           {...motionProps}
-          transition={{ ...motionProps.transition, delay: 1.4 }}
-          className="relative z-10 flex flex-col items-center gap-8 pb-12 mt-12"
+          transition={{ ...motionProps.transition, delay: 1.0 }}
+          className="relative z-10 flex flex-col items-center gap-6 pb-16 px-6"
         >
-          <div className="liquid-glass rounded-full px-6 py-2.5 text-[11px] font-medium text-white/55 tracking-[0.2em] uppercase card-hover">
+          <div className="bg-white border border-[rgba(33,34,38,0.06)] rounded-full px-5 py-2 text-[12px] font-medium text-[#45474D] tracking-[0.1em] uppercase">
             Technologies powering these systems
           </div>
-          <div className="flex items-center gap-8 md:gap-12 flex-wrap justify-center opacity-60">
+          <div className="flex items-center gap-3 md:gap-4 flex-wrap justify-center">
             {["Python", "C++", "React", "Next.js", "Docker", "Linux", "TensorFlow", "Raspberry Pi"].map(tech => (
-              <span key={tech} className="font-heading italic text-2xl md:text-3xl tracking-tight hover:opacity-100 hover:text-white transition-opacity duration-500 cursor-pointer">{tech}</span>
+              <span 
+                key={tech} 
+                className="bg-white border border-[rgba(33,34,38,0.06)] text-[#121317] rounded-full px-5 py-2 text-[14px] font-[450] hover:border-[rgba(33,34,38,0.18)] transition-colors cursor-default"
+              >
+                {tech}
+              </span>
             ))}
           </div>
         </motion.div>
       </section>
 
       {/* Section: Featured Projects */}
-      <section id="systems" className="min-h-screen relative flex flex-col pt-32 pb-20 px-8 md:px-16 lg:px-24">
+      <section id="systems" className="relative flex flex-col py-[120px] px-6 md:px-16 lg:px-24">
         <div className="relative z-10 flex flex-col max-w-[1400px] mx-auto w-full">
-          <div className="mb-16">
-            <h2 className="font-heading italic text-5xl md:text-7xl lg:text-[6rem] leading-[0.85] tracking-[-0.03em] max-w-3xl mb-6">
+          <div className="mb-14">
+            <h2 className="font-sans font-[450] text-3xl md:text-5xl lg:text-[42px] leading-[1.04] tracking-[-0.017em] text-[#121317] max-w-3xl mb-4">
               Featured Systems
             </h2>
-            <p className="text-lg text-white/55 font-body font-light leading-relaxed max-w-2xl tracking-wide">
+            <p className="text-[17.5px] text-[#45474D] font-sans font-normal leading-[1.45] max-w-2xl">
               Every repository represents solving a real engineering problem through thoughtful hardware and software architecture.
             </p>
           </div>
@@ -316,7 +336,7 @@ export default function Portfolio({ config }: { config: Config }) {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[1, 2, 3].map(i => (
-                <div key={i} className="liquid-glass rounded-[1.75rem] h-[480px] animate-pulse" />
+                <div key={i} className="bg-white border border-[rgba(33,34,38,0.06)] rounded-[36px] h-[440px] animate-pulse" />
               ))}
             </div>
           ) : (
@@ -334,29 +354,29 @@ export default function Portfolio({ config }: { config: Config }) {
       </section>
 
       {/* Section: Hardware */}
-      <section id="hardware" className="min-h-screen relative flex flex-col pt-32 pb-20 px-8 md:px-16 lg:px-24">
+      <section id="hardware" className="relative flex flex-col py-[120px] px-6 md:px-16 lg:px-24 border-t border-[rgba(33,34,38,0.06)]">
         <div className="relative z-10 flex flex-col max-w-[1400px] mx-auto w-full">
-          <div className="mb-16">
-            <p className="text-[11px] font-body text-white/55 mb-8 uppercase tracking-[0.2em]">// Hardware</p>
-            <h2 className="font-heading italic text-5xl md:text-7xl lg:text-[6rem] leading-[0.85] tracking-[-0.03em] max-w-3xl mb-6">
+          <div className="mb-14">
+            <p className="text-[12px] font-sans text-[#45474D] mb-3 uppercase tracking-widest font-medium">// Hardware</p>
+            <h2 className="font-sans font-[450] text-3xl md:text-5xl lg:text-[42px] leading-[1.04] tracking-[-0.017em] text-[#121317] max-w-3xl mb-4">
               Silicon and Circuits.
             </h2>
-            <p className="text-lg text-white/55 font-body font-light leading-relaxed max-w-2xl tracking-wide">
+            <p className="text-[17.5px] text-[#45474D] font-sans font-normal leading-[1.45] max-w-2xl">
               Designing custom PCBs, integrating microcontrollers, and building the physical interfaces that bring software into the real world.
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-6 mb-12 items-start md:items-center justify-between">
+          <div className="flex flex-col md:flex-row gap-4 mb-10 items-start md:items-center justify-between">
             <div className="relative w-full md:w-96">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Search className="w-5 h-5 text-white/40" />
+                <Search className="w-4 h-4 text-[#45474D]" />
               </div>
               <input
                 type="text"
                 placeholder="Search hardware..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-full py-3 pl-12 pr-4 text-[13px] text-white placeholder-white/40 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all font-body"
+                className="w-full bg-white border border-[rgba(33,34,38,0.12)] rounded-full py-2.5 pl-11 pr-4 text-[14.5px] text-[#121317] placeholder-[#45474D]/60 focus:outline-none focus:border-[#121317] transition-all font-sans"
               />
             </div>
             
@@ -368,10 +388,10 @@ export default function Portfolio({ config }: { config: Config }) {
                     setSelectedCategory(cat);
                     setShowAllHardware(false);
                   }}
-                  className={`whitespace-nowrap px-4 py-2 rounded-full text-[12px] font-medium tracking-wide transition-all ${
+                  className={`whitespace-nowrap px-4 py-2 rounded-full text-[13px] font-[450] tracking-wide transition-all ${
                     selectedCategory === cat 
-                      ? 'bg-white text-black' 
-                      : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/5'
+                      ? 'bg-[#121317] text-white' 
+                      : 'bg-white text-[#45474D] hover:text-[#121317] hover:bg-[rgba(33,34,38,0.06)] border border-[rgba(33,34,38,0.06)]'
                   }`}
                 >
                   {cat}
@@ -384,17 +404,14 @@ export default function Portfolio({ config }: { config: Config }) {
             {(showAllHardware ? filteredHardware : filteredHardware.slice(0, 8)).map((comp) => (
               <div
                 key={comp.id}
-                className="liquid-glass card-hover rounded-[1.25rem] p-4 flex flex-col group overflow-hidden cursor-pointer"
+                className="bg-white border border-[rgba(33,34,38,0.06)] card-hover rounded-[36px] p-5 flex flex-col group overflow-hidden cursor-pointer hover:border-[rgba(33,34,38,0.18)] transition-all"
                 onClick={() => setSelectedHardware(comp)}
               >
-                <div className="rounded-[1rem] overflow-hidden mb-4 relative aspect-square">
-                  <img src={comp.image} alt={comp.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 pointer-events-none" />
+                <div className="rounded-[24px] overflow-hidden mb-4 relative aspect-square bg-[#F8F9FC] border border-[rgba(33,34,38,0.06)] p-3 flex items-center justify-center">
+                  <img src={comp.image} alt={comp.name} className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" />
                 </div>
-                <h3 className="font-heading italic text-2xl tracking-tight mb-1 relative z-30">{comp.name}</h3>
-                <p className="text-[12px] text-white/55 font-body tracking-wide">
+                <h3 className="font-sans font-[450] text-[18px] text-[#121317] tracking-tight mb-1">{comp.name}</h3>
+                <p className="text-[13px] text-[#45474D] font-normal leading-relaxed line-clamp-2">
                   {comp.shortDesc}
                 </p>
               </div>
@@ -405,7 +422,7 @@ export default function Portfolio({ config }: { config: Config }) {
             <div className="mt-12 flex justify-center">
               <button
                 onClick={() => setShowAllHardware(!showAllHardware)}
-                className="liquid-glass-strong btn-hover rounded-full px-8 py-4 flex items-center gap-3 text-[14px] uppercase tracking-widest font-medium"
+                className="bg-white border border-[rgba(33,34,38,0.06)] hover:bg-[rgba(33,34,38,0.06)] text-[#121317] rounded-full px-8 py-3 flex items-center gap-2 text-[14.5px] font-[450] transition-colors"
               >
                 {showAllHardware ? 'Show Less' : `View All ${filteredHardware.length} Components`}
                 {showAllHardware ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -414,7 +431,7 @@ export default function Portfolio({ config }: { config: Config }) {
           )}
 
           {filteredHardware.length === 0 && (
-            <div className="mt-12 text-center py-20 text-white/55 font-body">
+            <div className="mt-12 text-center py-20 text-[#45474D] font-sans">
               No hardware components found matching your search criteria.
             </div>
           )}
@@ -422,54 +439,52 @@ export default function Portfolio({ config }: { config: Config }) {
       </section>
 
       {/* Section: GitHub */}
-      <section id="github" className="min-h-[80vh] overflow-hidden bg-black relative flex flex-col items-center justify-center pt-32 pb-20 px-8 md:px-16 lg:px-24 text-center">
+      <section id="github" className="min-h-[70vh] overflow-hidden bg-[#F8F9FA] relative flex flex-col items-center justify-center py-[120px] px-6 md:px-16 lg:px-24 text-center border-t border-[rgba(33,34,38,0.06)]">
         <div className="absolute inset-0 z-0">
           <FadingVideo
             src="https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8"
-            className="w-full h-full object-cover object-top opacity-85"
-            style={{ transform: 'scale(1.15)', transformOrigin: 'top center' }}
+            className="w-full h-full object-cover object-top opacity-15"
+            style={{ transform: 'scale(1.05)', transformOrigin: 'top center' }}
           />
-          <div className="absolute inset-0 vignette-overlay mix-blend-multiply" />
+          <div className="absolute inset-0 vignette-overlay" />
           <div className="absolute inset-0 capabilities-gradient" />
         </div>
 
         <div className="relative z-10 flex flex-col items-center max-w-3xl mx-auto">
-          <div className="liquid-glass h-24 w-24 rounded-full flex items-center justify-center mb-10 shadow-[0_0_60px_rgba(255,255,255,0.05)] card-hover">
-            <GitHubIcon className="w-12 h-12 text-white" />
+          <div className="bg-white border border-[rgba(33,34,38,0.06)] h-20 w-20 rounded-full flex items-center justify-center mb-8 card-hover">
+            <GitHubIcon className="w-10 h-10 text-[#121317]" />
           </div>
-          <h2 className="font-heading italic text-5xl md:text-7xl lg:text-[6rem] leading-[0.85] tracking-[-0.03em] mb-8">
+          <h2 className="font-sans font-[450] text-3xl md:text-5xl lg:text-[42px] leading-[1.04] tracking-[-0.017em] text-[#121317] mb-4">
             Open Source.
           </h2>
-          <p className="text-lg md:text-xl text-white/55 font-body font-light leading-relaxed tracking-wide mb-12">
+          <p className="text-[17.5px] text-[#45474D] font-sans font-normal leading-[1.45] tracking-wide mb-8">
             Every system is documented, version-controlled, and available for the community. Explore the repositories, fork the hardware designs, and contribute to the code.
           </p>
-          <a href={config.githubLink} target="_blank" rel="noopener noreferrer" className="liquid-glass-strong btn-hover rounded-full px-8 py-4 flex items-center gap-3 text-[14px] uppercase tracking-widest font-medium">
+          <a 
+            href={config.githubLink} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="bg-[#121317] text-white hover:bg-[#2F3034] rounded-full px-8 py-3 flex items-center gap-2 text-[14.5px] font-[450] transition-colors"
+          >
             Explore Repositories <ArrowUpRight className="w-4 h-4" />
           </a>
         </div>
       </section>
 
       {/* Section: Current R&D */}
-      <section id="research" className="min-h-screen overflow-hidden bg-black relative flex flex-col pt-32 pb-20 px-8 md:px-16 lg:px-24">
-        <div className="absolute inset-0 z-0">
-          <FadingVideo
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_024928_1efd0b0d-6c02-45a8-8847-1030900c4f63.mp4"
-            className="w-full h-full object-cover opacity-85"
-            style={{ transform: 'scale(1.05)' }}
-          />
-          <div className="absolute inset-0 vignette-overlay mix-blend-multiply" />
-          <div className="absolute inset-0 capabilities-gradient" />
-        </div>
-
-        <div className="relative z-10 flex flex-col min-h-screen max-w-[1400px] mx-auto w-full">
-          <div className="mb-auto">
-            <p className="text-[11px] font-body text-white/55 mb-8 uppercase tracking-[0.2em]">// Current R&D</p>
-            <h2 className="font-heading italic text-6xl md:text-8xl lg:text-[7.5rem] leading-[0.85] tracking-[-0.03em] max-w-3xl drop-shadow-2xl">
-              Exploring The<br />Bleeding Edge.
+      <section id="research" className="relative flex flex-col py-[120px] px-6 md:px-16 lg:px-24 border-t border-[rgba(33,34,38,0.06)]">
+        <div className="relative z-10 flex flex-col max-w-[1400px] mx-auto w-full">
+          <div className="mb-14">
+            <p className="text-[12px] font-sans text-[#45474D] mb-3 uppercase tracking-widest font-medium">// Current R&D</p>
+            <h2 className="font-sans font-[450] text-3xl md:text-5xl lg:text-[42px] leading-[1.04] tracking-[-0.017em] text-[#121317] max-w-3xl mb-4">
+              Exploring The Bleeding Edge.
             </h2>
+            <p className="text-[17.5px] text-[#45474D] font-sans font-normal leading-[1.45] max-w-2xl">
+              Ongoing research and experimentation pushing the boundaries of embedded edge computing and physical interaction.
+            </p>
           </div>
 
-          <div className="mt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {researchProjects.map(project => (
               <ProjectCard
                 key={project.repo.id}
@@ -482,66 +497,65 @@ export default function Portfolio({ config }: { config: Config }) {
       </section>
 
       {/* Section: Contact */}
-      <section id="contact" className="min-h-screen overflow-hidden bg-black relative flex flex-col pt-32 pb-32 px-8 md:px-16 lg:px-24 border-t border-white/5">
-        <div className="absolute inset-0 z-0">
-          <FadingVideo
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4"
-            className="w-full h-full object-cover object-top opacity-85"
-            style={{ transform: 'scale(1.15)', transformOrigin: 'top center' }}
-          />
-          <div className="absolute inset-0 vignette-overlay mix-blend-multiply" />
-          <div className="absolute inset-0 capabilities-gradient" />
-        </div>
-
+      <section id="contact" className="relative flex flex-col py-[120px] px-6 md:px-16 lg:px-24 border-t border-[rgba(33,34,38,0.06)]">
         <div className="relative z-10 flex flex-col max-w-[1400px] mx-auto w-full">
-          <h2 className="font-heading italic text-5xl md:text-7xl lg:text-[6rem] leading-[0.85] tracking-[-0.03em] max-w-3xl mb-16">
-            Connect
-          </h2>
+          <div className="mb-14">
+            <h2 className="font-sans font-[450] text-3xl md:text-5xl lg:text-[42px] leading-[1.04] tracking-[-0.017em] text-[#121317] max-w-3xl mb-4">
+              Connect
+            </h2>
+            <p className="text-[17.5px] text-[#45474D] font-sans font-normal leading-[1.45] max-w-2xl">
+              Feel free to reach out for collaborations, discussions on embedded hardware, or engineering consultations.
+            </p>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <a href={config.githubLink} target="_blank" rel="noopener noreferrer" className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
-              <div className="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                <GitHubIcon className="w-6 h-6 text-white" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <a href={config.githubLink} target="_blank" rel="noopener noreferrer" className="bg-white border border-[rgba(33,34,38,0.06)] card-hover rounded-[36px] p-8 flex flex-col gap-6 group hover:border-[rgba(33,34,38,0.18)] transition-all">
+              <div className="bg-[#F8F9FC] border border-[rgba(33,34,38,0.06)] w-12 h-12 rounded-full flex items-center justify-center text-[#121317] group-hover:bg-[#121317] group-hover:text-white transition-colors">
+                <GitHubIcon className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-[14px] text-white font-medium tracking-wide mb-1">GitHub</div>
-                <div className="text-[12px] text-white/55 tracking-wide">View repositories</div>
+                <div className="text-[16px] text-[#121317] font-medium tracking-tight mb-1">GitHub</div>
+                <div className="text-[13px] text-[#45474D]">View repositories</div>
               </div>
             </a>
 
-            <a href={config.linkedin} target="_blank" rel="noopener noreferrer" className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
-              <div className="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                <LinkedInIcon className="w-5 h-5 text-white" />
+            <a href={config.linkedin} target="_blank" rel="noopener noreferrer" className="bg-white border border-[rgba(33,34,38,0.06)] card-hover rounded-[36px] p-8 flex flex-col gap-6 group hover:border-[rgba(33,34,38,0.18)] transition-all">
+              <div className="bg-[#F8F9FC] border border-[rgba(33,34,38,0.06)] w-12 h-12 rounded-full flex items-center justify-center text-[#121317] group-hover:bg-[#121317] group-hover:text-white transition-colors">
+                <LinkedInIcon className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-[14px] text-white font-medium tracking-wide mb-1">LinkedIn</div>
-                <div className="text-[12px] text-white/55 tracking-wide">Connect professionally</div>
+                <div className="text-[16px] text-[#121317] font-medium tracking-tight mb-1">LinkedIn</div>
+                <div className="text-[13px] text-[#45474D]">Connect professionally</div>
               </div>
             </a>
 
-            <a href={config.email.startsWith('mailto:') ? config.email : `mailto:${config.email}`} className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
-              <div className="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                <EmailIcon className="w-5 h-5 text-white" />
+            <a href={config.email.startsWith('mailto:') ? config.email : `mailto:${config.email}`} className="bg-white border border-[rgba(33,34,38,0.06)] card-hover rounded-[36px] p-8 flex flex-col gap-6 group hover:border-[rgba(33,34,38,0.18)] transition-all">
+              <div className="bg-[#F8F9FC] border border-[rgba(33,34,38,0.06)] w-12 h-12 rounded-full flex items-center justify-center text-[#121317] group-hover:bg-[#121317] group-hover:text-white transition-colors">
+                <EmailIcon className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-[14px] text-white font-medium tracking-wide mb-1">Email</div>
-                <div className="text-[12px] text-white/55 tracking-wide">Start a conversation</div>
+                <div className="text-[16px] text-[#121317] font-medium tracking-tight mb-1">Email</div>
+                <div className="text-[13px] text-[#45474D]">Start a conversation</div>
               </div>
             </a>
 
-            <a href={config.resume} target="_blank" rel="noopener noreferrer" className="liquid-glass card-hover rounded-[1.5rem] p-8 flex flex-col gap-6 group">
-              <div className="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                <ResumeIcon className="w-6 h-6 text-white" />
+            <a href={config.resume} target="_blank" rel="noopener noreferrer" className="bg-white border border-[rgba(33,34,38,0.06)] card-hover rounded-[36px] p-8 flex flex-col gap-6 group hover:border-[rgba(33,34,38,0.18)] transition-all">
+              <div className="bg-[#F8F9FC] border border-[rgba(33,34,38,0.06)] w-12 h-12 rounded-full flex items-center justify-center text-[#121317] group-hover:bg-[#121317] group-hover:text-white transition-colors">
+                <ResumeIcon className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-[14px] text-white font-medium tracking-wide mb-1">Resume</div>
-                <div className="text-[12px] text-white/55 tracking-wide">View experience</div>
+                <div className="text-[16px] text-[#121317] font-medium tracking-tight mb-1">Resume</div>
+                <div className="text-[13px] text-[#45474D]">View experience</div>
               </div>
             </a>
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="py-12 border-t border-[rgba(33,34,38,0.06)] text-center text-[13px] text-[#45474D]">
+        <p>© {new Date().getFullYear()} {config.name}. Built with Google Antigravity Design System.</p>
+      </footer>
     </div>
   );
 }
-

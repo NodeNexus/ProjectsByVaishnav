@@ -33,7 +33,7 @@ export function useGitHubData(username?: string) {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [username]);
 
   return { data, loading, error };
 }

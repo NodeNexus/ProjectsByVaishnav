@@ -80,25 +80,29 @@ export interface WiringMapping {
 export interface BoardWiring {
   boardName: string;
   boardImage: string;
-  mappings: WiringMapping[];
   boardPins: string[];
+  mappings: WiringMapping[];
 }
 
 export interface HardwareDetails {
   id: string;
   name: string;
-  image: string;
+  category: string;
   shortDesc: string;
   longDesc: string;
   whatItDoes: string;
+  image: string;
   pins: HardwarePin[];
-  wiring?: Record<'esp32' | 'arduino', BoardWiring>;
+  wiring?: {
+    esp32?: BoardWiring;
+    arduino?: BoardWiring;
+  };
 }
 
 export const hardwareData: HardwareDetails[] = `;
 
-      const hwStr = tsInterfaces + JSON.stringify(hardwareFormData, null, 2) + ";\n";
-      const hwBase64 = btoa(unescape(encodeURIComponent(hwStr)));
+      const hardwareStr = tsInterfaces + JSON.stringify(hardwareFormData, null, 2) + ';\n';
+      const hardwareBase64 = btoa(unescape(encodeURIComponent(hardwareStr)));
 
       const putHwRes = await fetch(hwGetUrl, {
         method: 'PUT',
@@ -107,15 +111,15 @@ export const hardwareData: HardwareDetails[] = `;
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          message: "Update hardware details via WYSIWYG Admin Panel",
-          content: hwBase64,
+          message: "Update hardware_details.ts via Admin Panel",
+          content: hardwareBase64,
           sha: hwSha
         })
       });
 
-      if (!putHwRes.ok) throw new Error('Failed to push hardware to GitHub.');
+      if (!putHwRes.ok) throw new Error('Failed to push hardware_details.ts to GitHub.');
 
-      setMessage('Successfully saved and pushed to GitHub! Render is deploying...');
+      setMessage('Changes saved and deployed to GitHub successfully!');
     } catch (err: any) {
       setMessage(`Error: ${err.message}`);
     } finally {
@@ -123,40 +127,39 @@ export const hardwareData: HardwareDetails[] = `;
     }
   };
 
-  const handleChange = (key: keyof Config, value: string) => {
+  const handleChange = (key: keyof Config, value: any) => {
     setFormData(prev => ({ ...prev, [key]: value }));
   };
 
-  const handleProjectChange = (index: number, field: keyof ResearchProjectConfig, value: any) => {
-    setFormData(prev => {
-      const newProjects = [...(prev.researchProjects || [])];
-      newProjects[index] = { ...newProjects[index], [field]: value };
-      return { ...prev, researchProjects: newProjects };
-    });
+  const handleProjectChange = (index: number, key: keyof ResearchProjectConfig, value: any) => {
+    const updated = [...(formData.researchProjects || [])];
+    updated[index] = { ...updated[index], [key]: value };
+    handleChange('researchProjects', updated);
   };
 
   const addProject = () => {
-    setFormData(prev => ({
-      ...prev,
-      researchProjects: [
-        ...(prev.researchProjects || []),
-        { id: Date.now(), title: 'New Project', description: 'Description goes here', coverUrl: '', githubUrl: '', hardware: [], software: [] }
-      ]
-    }));
+    const newProj: ResearchProjectConfig = {
+      id: Date.now(),
+      title: 'New System Project',
+      description: 'System specifications and architecture description.',
+      coverUrl: '/images/hero.png',
+      githubUrl: '#',
+      hardware: [],
+      software: []
+    };
+    handleChange('researchProjects', [...(formData.researchProjects || []), newProj]);
   };
 
   const removeProject = (index: number) => {
-    setFormData(prev => {
-      const newProjects = [...(prev.researchProjects || [])];
-      newProjects.splice(index, 1);
-      return { ...prev, researchProjects: newProjects };
-    });
+    const updated = [...(formData.researchProjects || [])];
+    updated.splice(index, 1);
+    handleChange('researchProjects', updated);
   };
 
-  const handleHardwareChange = (index: number, field: keyof HardwareDetails, value: any) => {
+  const handleHardwareChange = (index: number, key: keyof HardwareDetails, value: any) => {
     setHardwareFormData(prev => {
       const newHardware = [...prev];
-      newHardware[index] = { ...newHardware[index], [field]: value };
+      newHardware[index] = { ...newHardware[index], [key]: value };
       return newHardware;
     });
   };
@@ -171,7 +174,9 @@ export const hardwareData: HardwareDetails[] = `;
       
       const reader = new FileReader();
       reader.onload = async (ev) => {
-        const base64Data = (ev.target?.result as string).split(',')[1];
+        const result = ev.target?.result;
+        if (typeof result !== 'string') return;
+        const base64Data = result.split(',')[1];
         const prefix = isHardware ? 'hardware' : 'project';
         const folder = isHardware ? 'hardware' : 'projects';
         const filename = `${prefix}_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
@@ -210,23 +215,23 @@ export const hardwareData: HardwareDetails[] = `;
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center font-body p-4 relative overflow-hidden">
-        <form onSubmit={handleLogin} className="relative z-10 liquid-glass rounded-3xl p-10 max-w-md w-full flex flex-col gap-6">
+      <div className="min-h-screen bg-[#F8F9FA] text-[#121317] flex items-center justify-center font-sans p-6 relative">
+        <form onSubmit={handleLogin} className="relative z-10 bg-white border border-[rgba(33,34,38,0.06)] rounded-[36px] p-10 max-w-md w-full flex flex-col gap-6">
           <div className="text-center">
-            <h2 className="font-heading italic text-4xl mb-2">Admin Access</h2>
-            <p className="text-white/50 text-sm">Please authenticate to continue</p>
+            <h2 className="font-sans font-[450] text-3xl mb-2 text-[#121317]">Admin Access</h2>
+            <p className="text-[#45474D] text-sm font-normal">Please authenticate to continue</p>
           </div>
           <div className="flex flex-col gap-2">
-            <label className="text-xs uppercase tracking-widest text-white/50">GitHub PAT (repo scope)</label>
+            <label className="text-[12px] uppercase tracking-wider text-[#45474D] font-medium">GitHub PAT (repo scope)</label>
             <input 
               type="password" 
               value={token}
               onChange={e => setToken(e.target.value)}
-              className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30 transition-colors"
+              className="bg-[#F8F9FC] border border-[rgba(33,34,38,0.12)] rounded-full px-5 py-2.5 text-sm text-[#121317] focus:outline-none focus:border-[#121317] transition-colors"
               required
             />
           </div>
-          <button type="submit" className="bg-white text-black font-semibold rounded-xl py-3 mt-2 hover:bg-white/90 transition-colors">
+          <button type="submit" className="bg-[#121317] text-white font-[450] rounded-full py-3 mt-2 hover:bg-[#2F3034] transition-colors text-sm">
             Login
           </button>
         </form>
@@ -235,53 +240,53 @@ export const hardwareData: HardwareDetails[] = `;
   }
 
   return (
-    <div className="w-full bg-black text-white font-body selection:bg-white selection:text-black min-h-screen relative">
+    <div className="w-full bg-[#F8F9FA] text-[#121317] font-sans selection:bg-[#121317] selection:text-white min-h-screen relative">
       
       {/* Floating Save Button */}
       <div className="fixed bottom-8 right-8 z-[100] flex flex-col items-end gap-2">
         {message && (
-          <div className={`p-4 rounded-xl text-sm max-w-xs shadow-2xl backdrop-blur-md border ${message.startsWith('Error') ? 'border-red-500/50 bg-red-500/20' : 'border-green-500/50 bg-green-500/20'}`}>
+          <div className={`p-4 rounded-2xl text-sm max-w-xs border ${message.startsWith('Error') ? 'border-red-500/20 bg-red-50 text-red-700' : 'border-green-500/20 bg-green-50 text-green-700'}`}>
             {message}
           </div>
         )}
         <button 
           onClick={handleSave}
           disabled={loading}
-          className="bg-white text-black font-semibold rounded-full px-8 py-4 shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:scale-105 transition-all disabled:opacity-50 disabled:hover:scale-100 flex items-center gap-2"
+          className="bg-[#121317] text-white font-[450] rounded-full px-8 py-3.5 hover:bg-[#2F3034] transition-all disabled:opacity-50 flex items-center gap-2 text-sm"
         >
           {loading ? 'Deploying...' : 'Save & Deploy'}
         </button>
       </div>
 
       {/* Navbar (Replica) */}
-      <nav className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-24">
-        <div className="liquid-glass-extreme h-12 px-6 rounded-full flex items-center justify-center relative overflow-hidden">
+      <nav className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-6 lg:px-16 max-w-[1400px] mx-auto">
+        <div className="bg-white/85 backdrop-blur-md border border-[rgba(33,34,38,0.06)] h-11 px-6 rounded-full flex items-center justify-center">
           <input 
             type="text"
             value={formData.name}
             onChange={e => handleChange('name', e.target.value)}
-            className="font-heading font-medium italic text-xl mt-1 z-10 bg-transparent outline-none w-32 text-center text-white"
+            className="font-sans font-[450] text-[16px] bg-transparent outline-none w-40 text-center text-[#121317]"
           />
         </div>
         <button 
           onClick={() => { sessionStorage.removeItem('github_pat'); setIsLoggedIn(false); }}
-          className="liquid-glass-extreme rounded-full px-5 py-2 text-[11px] uppercase tracking-widest text-white/50 hover:text-white"
+          className="bg-white/85 backdrop-blur-md border border-[rgba(33,34,38,0.06)] rounded-full px-5 py-2 text-[12px] uppercase tracking-wider text-[#45474D] hover:text-[#121317] transition-colors"
         >
           Logout
         </button>
       </nav>
 
       {/* Hero Section (Replica) */}
-      <section className="h-screen bg-black relative flex flex-col pt-32 px-4">
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center">
+      <section className="min-h-screen bg-[#F8F9FA] relative flex flex-col justify-center pt-32 pb-16 px-6">
+        <div className="relative z-10 flex flex-col items-center justify-center text-center max-w-[1000px] mx-auto w-full">
           
-          <div className="liquid-glass rounded-full flex items-center gap-4 p-1.5 pr-5 mb-10 w-full max-w-md mx-auto">
-            <span className="bg-white text-black text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest">Latest</span>
+          <div className="bg-white border border-[rgba(33,34,38,0.06)] rounded-full flex items-center gap-3 p-1.5 pr-4 mb-8 w-full max-w-md mx-auto">
+            <span className="bg-[#121317] text-white text-[11px] font-medium px-3 py-1 rounded-full uppercase tracking-wider">Latest</span>
             <input 
               type="text"
               value={formData.latestTagText || ''}
               onChange={e => handleChange('latestTagText', e.target.value)}
-              className="text-[13px] text-white/75 font-medium tracking-wide bg-transparent outline-none flex-1 border-b border-white/20 focus:border-white transition-colors pb-0.5"
+              className="text-[13px] text-[#45474D] font-normal tracking-wide bg-transparent outline-none flex-1 border-b border-[rgba(33,34,38,0.12)] focus:border-[#121317] transition-colors pb-0.5"
             />
           </div>
 
@@ -289,18 +294,18 @@ export const hardwareData: HardwareDetails[] = `;
             value={formData.heroHeadline}
             onChange={e => handleChange('heroHeadline', e.target.value)}
             rows={2}
-            className="text-6xl md:text-7xl lg:text-[6.5rem] font-heading italic text-white leading-[0.85] tracking-[-0.04em] w-full max-w-[1000px] mx-auto text-center bg-transparent outline-none resize-none overflow-hidden"
+            className="text-4xl md:text-6xl lg:text-[72px] font-sans font-[450] text-[#121317] leading-[1.1] tracking-[-0.017em] w-full max-w-[1000px] mx-auto text-center bg-transparent outline-none resize-none border-b border-transparent focus:border-[rgba(33,34,38,0.2)] pb-2"
           />
 
           <textarea
             value={formData.heroSubheadline}
             onChange={e => handleChange('heroSubheadline', e.target.value)}
-            rows={3}
-            className="text-base md:text-lg text-white/75 w-full max-w-2xl font-body font-light leading-relaxed mt-10 tracking-wide text-center bg-transparent outline-none resize-none border-b border-white/20 focus:border-white transition-colors pb-2 mx-auto"
+            rows={2}
+            className="text-[17.5px] text-[#45474D] w-full max-w-2xl font-sans font-normal leading-[1.45] mt-6 tracking-wide text-center bg-transparent outline-none resize-none border-b border-[rgba(33,34,38,0.12)] focus:border-[#121317] transition-colors pb-2 mx-auto"
           />
 
-          <div className="flex items-center gap-8 mt-12">
-            <div className="liquid-glass-strong rounded-full px-6 py-3.5 flex items-center gap-2 text-[13px] uppercase tracking-widest font-medium opacity-50 cursor-not-allowed">
+          <div className="flex items-center gap-4 mt-8">
+            <div className="bg-white border border-[rgba(33,34,38,0.06)] rounded-full px-6 py-2.5 flex items-center gap-2 text-[14px] font-[450] text-[#45474D] opacity-60 cursor-not-allowed">
               Explore Systems <ArrowUpRight className="w-4 h-4" />
             </div>
           </div>
@@ -308,47 +313,46 @@ export const hardwareData: HardwareDetails[] = `;
       </section>
 
       {/* Projects Section (Replica) */}
-      <section className="min-h-screen bg-black relative flex flex-col pt-32 pb-20 px-8 md:px-16 lg:px-24 border-t border-white/10">
+      <section className="relative flex flex-col py-[120px] px-6 md:px-16 lg:px-24 border-t border-[rgba(33,34,38,0.06)]">
         <div className="relative z-10 flex flex-col max-w-[1400px] mx-auto w-full">
-          <h2 className="font-heading italic text-5xl md:text-6xl mb-12 flex items-center gap-4">
-            <span className="text-white/30">/01</span> 
+          <h2 className="font-sans font-[450] text-3xl md:text-5xl lg:text-[42px] leading-[1.04] tracking-[-0.017em] text-[#121317] mb-12">
             Featured Systems
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {(formData.researchProjects || []).map((project, idx) => (
-              <div key={project.id} className="liquid-glass rounded-[1.75rem] overflow-hidden flex flex-col h-[420px] relative group border border-transparent hover:border-white/20 transition-colors">
+              <div key={project.id} className="bg-white border border-[rgba(33,34,38,0.06)] rounded-[36px] overflow-hidden flex flex-col h-[440px] relative group hover:border-[rgba(33,34,38,0.18)] transition-all">
                 
                 <button 
                   onClick={() => removeProject(idx)}
-                  className="absolute top-4 right-4 z-50 bg-red-500/80 text-white text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full hover:bg-red-500"
+                  className="absolute top-4 right-4 z-50 bg-red-600 text-white text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-full hover:bg-red-700 transition-colors"
                 >
                   Delete
                 </button>
 
-                <div className="relative h-[220px] w-full overflow-hidden bg-white/5 shrink-0 border-b border-white/10 group/img">
+                <div className="relative h-[220px] w-full overflow-hidden bg-[#F8F9FC] shrink-0 border-b border-[rgba(33,34,38,0.06)] group/img">
                   {project.coverUrl && (
                     <img src={project.coverUrl} className="w-full h-full object-cover" alt="Cover" />
                   )}
-                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity">
-                    <label className="bg-white text-black text-xs uppercase tracking-widest px-4 py-2 rounded-full cursor-pointer hover:scale-105 transition-transform">
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity">
+                    <label className="bg-white text-[#121317] text-xs font-medium uppercase tracking-wider px-4 py-2 rounded-full cursor-pointer hover:bg-white/90 transition-all">
                       Upload Image
                       <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(idx, e, false)} />
                     </label>
                   </div>
                 </div>
                 
-                <div className="p-7 flex flex-col flex-1 bg-black/40">
+                <div className="p-7 flex flex-col flex-1 bg-white">
                   <input 
                     type="text"
                     value={project.title}
                     onChange={e => handleProjectChange(idx, 'title', e.target.value)}
-                    className="font-heading italic text-[28px] md:text-[32px] tracking-[-0.02em] leading-none mb-3 text-white bg-transparent outline-none w-full border-b border-transparent focus:border-white/30 pb-1"
+                    className="font-sans font-[450] text-[20px] md:text-[22px] tracking-[-0.004em] leading-snug mb-2 text-[#121317] bg-transparent outline-none w-full border-b border-transparent focus:border-[rgba(33,34,38,0.2)] pb-1"
                   />
                   <textarea 
                     value={project.description}
                     onChange={e => handleProjectChange(idx, 'description', e.target.value)}
-                    className="text-[13px] text-white/60 font-body font-light leading-relaxed flex-1 bg-transparent outline-none resize-none border-b border-transparent focus:border-white/30"
+                    className="text-[14px] text-[#45474D] font-normal leading-[1.45] flex-1 bg-transparent outline-none resize-none border-b border-transparent focus:border-[rgba(33,34,38,0.2)]"
                   />
                 </div>
               </div>
@@ -356,10 +360,10 @@ export const hardwareData: HardwareDetails[] = `;
             
             <div 
               onClick={addProject}
-              className="liquid-glass rounded-[1.75rem] flex flex-col items-center justify-center h-[420px] cursor-pointer hover:bg-white/10 transition-colors border border-dashed border-white/20 hover:border-white/50"
+              className="bg-[#F8F9FC] rounded-[36px] flex flex-col items-center justify-center h-[440px] cursor-pointer hover:bg-white transition-all border border-dashed border-[rgba(33,34,38,0.12)] hover:border-[rgba(33,34,38,0.3)]"
             >
-              <div className="text-4xl text-white/30 mb-2">+</div>
-              <span className="text-[11px] uppercase tracking-widest text-white/50">Add New Project</span>
+              <div className="text-4xl text-[#45474D] mb-2 font-light">+</div>
+              <span className="text-[12px] uppercase tracking-wider text-[#45474D] font-medium">Add New Project</span>
             </div>
 
           </div>
@@ -367,14 +371,14 @@ export const hardwareData: HardwareDetails[] = `;
       </section>
 
       {/* Hardware Section (Replica) */}
-      <section className="min-h-screen relative flex flex-col pt-32 pb-20 px-8 md:px-16 lg:px-24">
+      <section className="relative flex flex-col py-[120px] px-6 md:px-16 lg:px-24 border-t border-[rgba(33,34,38,0.06)]">
         <div className="relative z-10 flex flex-col max-w-[1400px] mx-auto w-full">
-          <div className="mb-16">
-            <p className="text-[11px] font-body text-white/55 mb-8 uppercase tracking-[0.2em]">// Hardware</p>
-            <h2 className="font-heading italic text-5xl md:text-7xl lg:text-[6rem] leading-[0.85] tracking-[-0.03em] max-w-3xl mb-6">
+          <div className="mb-14">
+            <p className="text-[12px] font-sans text-[#45474D] mb-3 uppercase tracking-widest font-medium">// Hardware</p>
+            <h2 className="font-sans font-[450] text-3xl md:text-5xl lg:text-[42px] leading-[1.04] tracking-[-0.017em] text-[#121317] max-w-3xl mb-4">
               Silicon and Circuits.
             </h2>
-            <p className="text-lg text-white/55 font-body font-light leading-relaxed max-w-2xl tracking-wide">
+            <p className="text-[17.5px] text-[#45474D] font-normal leading-[1.45] max-w-2xl">
               Designing custom PCBs, integrating microcontrollers, and building the physical interfaces that bring software into the real world.
             </p>
           </div>
@@ -383,13 +387,12 @@ export const hardwareData: HardwareDetails[] = `;
             {(showAllHardware ? hardwareFormData : hardwareFormData.slice(0, 8)).map((comp, idx) => (
               <div 
                 key={comp.id} 
-                className="liquid-glass rounded-[1.25rem] p-4 flex flex-col group overflow-hidden border border-transparent hover:border-white/20 transition-colors"
+                className="bg-white border border-[rgba(33,34,38,0.06)] rounded-[36px] p-5 flex flex-col group overflow-hidden hover:border-[rgba(33,34,38,0.18)] transition-all"
               >
-                <div className="rounded-[1rem] overflow-hidden mb-4 relative aspect-square group/img">
-                  <img src={comp.image} alt={comp.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60" />
-                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity">
-                    <label className="bg-white text-black text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full cursor-pointer hover:scale-105 transition-transform">
+                <div className="rounded-[24px] overflow-hidden mb-4 relative aspect-square group/img bg-[#F8F9FC] border border-[rgba(33,34,38,0.06)] p-3 flex items-center justify-center">
+                  <img src={comp.image} alt={comp.name} className="w-full h-full object-contain" />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity rounded-[24px]">
+                    <label className="bg-white text-[#121317] text-[11px] font-medium uppercase tracking-wider px-3 py-1.5 rounded-full cursor-pointer hover:bg-white/90 transition-all">
                       Upload
                       <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(idx, e, true)} />
                     </label>
@@ -399,13 +402,13 @@ export const hardwareData: HardwareDetails[] = `;
                   type="text"
                   value={comp.name}
                   onChange={e => handleHardwareChange(idx, 'name', e.target.value)}
-                  className="font-heading italic text-2xl tracking-tight mb-1 bg-transparent outline-none w-full border-b border-transparent focus:border-white/30 pb-0.5 text-white"
+                  className="font-sans font-[450] text-[17px] tracking-tight mb-1 bg-transparent outline-none w-full border-b border-transparent focus:border-[rgba(33,34,38,0.2)] pb-0.5 text-[#121317]"
                 />
                 <textarea 
                   value={comp.shortDesc}
                   onChange={e => handleHardwareChange(idx, 'shortDesc', e.target.value)}
                   rows={2}
-                  className="text-[12px] text-white/55 font-body tracking-wide bg-transparent outline-none resize-none border-b border-transparent focus:border-white/30"
+                  className="text-[13px] text-[#45474D] font-normal leading-relaxed bg-transparent outline-none resize-none border-b border-transparent focus:border-[rgba(33,34,38,0.2)]"
                 />
               </div>
             ))}
@@ -415,7 +418,7 @@ export const hardwareData: HardwareDetails[] = `;
             <div className="mt-12 flex justify-center">
               <button 
                 onClick={() => setShowAllHardware(!showAllHardware)}
-                className="liquid-glass-strong btn-hover rounded-full px-8 py-4 flex items-center gap-3 text-[14px] uppercase tracking-widest font-medium"
+                className="bg-white border border-[rgba(33,34,38,0.06)] hover:bg-[rgba(33,34,38,0.06)] text-[#121317] rounded-full px-8 py-3 flex items-center gap-2 text-[14.5px] font-[450] transition-colors"
               >
                 {showAllHardware ? 'Show Less' : 'View All Hardware Components'}
                 {showAllHardware ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}

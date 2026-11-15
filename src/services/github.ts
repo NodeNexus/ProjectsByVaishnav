@@ -105,7 +105,7 @@ export async function fetchGitHubData(username: string): Promise<{ projects: Pro
           });
         }
       }
-    } catch (e) {
+    } catch {
       // Ignore errors for individual repos (e.g. repo is empty or network error on fetch)
     }
   }));

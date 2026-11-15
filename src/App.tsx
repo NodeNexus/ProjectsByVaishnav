@@ -8,8 +8,8 @@ export default function App() {
 
   if (!config) {
     return (
-      <div className="h-screen bg-black flex items-center justify-center text-white/50 font-mono text-sm tracking-widest">
-        INITIALIZING SYSTEM...
+      <div className="h-screen bg-[#F8F9FA] flex items-center justify-center text-[#45474D] font-sans text-sm tracking-widest uppercase">
+        Initializing System...
       </div>
     );
   }
