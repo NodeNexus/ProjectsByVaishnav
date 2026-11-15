@@ -39,10 +39,13 @@ export function HardwareDetailsView({ component, onClose }: HardwareDetailsProps
         <section className="relative h-[65vh] min-h-[460px] flex flex-col justify-end px-6 md:px-16 lg:px-24 pb-16 pt-24 max-w-[1400px] mx-auto w-full">
           <div className="absolute inset-0 z-0 overflow-hidden bg-[#F8F9FA] flex items-center justify-center">
             <FadingVideo
-              src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260506_031045_0e1165dd-ab48-46e3-ad3d-5fe77f217647.mp4"
-              className="w-full h-full object-cover opacity-15"
+              src={[
+                "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260506_031045_0e1165dd-ab48-46e3-ad3d-5fe77f217647.mp4",
+                "/raspberrypi5.mp4"
+              ]}
+              className="w-full h-full object-cover opacity-50"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#F8F9FA] via-[#F8F9FA]/85 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#F8F9FA] via-[#F8F9FA]/70 to-transparent" />
           </div>
 
           <div className="relative z-10 w-full flex flex-col md:flex-row items-end gap-8 md:gap-12">

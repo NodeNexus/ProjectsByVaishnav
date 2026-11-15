@@ -132,15 +132,15 @@
 
 /* Light Mode Ambient Video Vignettes & Overlays */
 .vignette-overlay {
-  background: radial-gradient(circle at center, transparent 20%, rgba(248, 249, 250, 0.65) 100%);
+  background: radial-gradient(circle at center, transparent 35%, rgba(248, 249, 250, 0.45) 100%);
 }
 
 .hero-gradient {
-  background: linear-gradient(180deg, rgba(248, 249, 250, 0.72) 0%, rgba(248, 249, 250, 0.88) 65%, #F8F9FA 100%);
+  background: linear-gradient(180deg, rgba(248, 249, 250, 0.4) 0%, rgba(248, 249, 250, 0.65) 60%, #F8F9FA 100%);
 }
 
 .capabilities-gradient {
-  background: linear-gradient(180deg, #F8F9FA 0%, rgba(248, 249, 250, 0.8) 25%, rgba(248, 249, 250, 0.88) 75%, #F8F9FA 100%);
+  background: linear-gradient(180deg, #F8F9FA 0%, rgba(248, 249, 250, 0.45) 25%, rgba(248, 249, 250, 0.65) 75%, #F8F9FA 100%);
 }
 
 /* Hide scrollbar utility */

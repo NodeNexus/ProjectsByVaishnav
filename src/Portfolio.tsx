@@ -220,8 +220,11 @@ export default function Portfolio({ config }: { config: Config }) {
       <section className="min-h-screen overflow-hidden bg-[#F8F9FA] relative flex flex-col justify-between">
         <div className="absolute inset-0 z-0">
           <FadingVideo
-            src="https://stream.mux.com/4IMYGcL01xjs7ek5ANO17JC4VQVUTsojZlnw4fXzwSxc.m3u8"
-            className="w-full h-full object-cover object-top opacity-15"
+            src={[
+              "/raspberrypi5.mp4",
+              "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_024928_1efd0b0d-6c02-45a8-8847-1030900c4f63.mp4"
+            ]}
+            className="w-full h-full object-cover object-top opacity-60"
             style={{ transform: 'scale(1.05)' }}
           />
           <div className="absolute inset-0 vignette-overlay" />
@@ -439,11 +442,14 @@ export default function Portfolio({ config }: { config: Config }) {
       </section>
 
       {/* Section: GitHub */}
-      <section id="github" className="min-h-[70vh] overflow-hidden bg-[#F8F9FA] relative flex flex-col items-center justify-center py-[120px] px-6 md:px-16 lg:px-24 text-center border-t border-[rgba(33,34,38,0.06)]">
+      <section id="github" className="min-h-[75vh] overflow-hidden bg-[#F8F9FA] relative flex flex-col items-center justify-center py-[120px] px-6 md:px-16 lg:px-24 text-center border-t border-[rgba(33,34,38,0.06)]">
         <div className="absolute inset-0 z-0">
           <FadingVideo
-            src="https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8"
-            className="w-full h-full object-cover object-top opacity-15"
+            src={[
+              "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4",
+              "/raspberrypi5.mp4"
+            ]}
+            className="w-full h-full object-cover object-top opacity-55"
             style={{ transform: 'scale(1.05)', transformOrigin: 'top center' }}
           />
           <div className="absolute inset-0 vignette-overlay" />
@@ -472,7 +478,20 @@ export default function Portfolio({ config }: { config: Config }) {
       </section>
 
       {/* Section: Current R&D */}
-      <section id="research" className="relative flex flex-col py-[120px] px-6 md:px-16 lg:px-24 border-t border-[rgba(33,34,38,0.06)]">
+      <section id="research" className="min-h-screen overflow-hidden bg-[#F8F9FA] relative flex flex-col py-[120px] px-6 md:px-16 lg:px-24 border-t border-[rgba(33,34,38,0.06)]">
+        <div className="absolute inset-0 z-0">
+          <FadingVideo
+            src={[
+              "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_024928_1efd0b0d-6c02-45a8-8847-1030900c4f63.mp4",
+              "/raspberrypi5.mp4"
+            ]}
+            className="w-full h-full object-cover opacity-55"
+            style={{ transform: 'scale(1.05)' }}
+          />
+          <div className="absolute inset-0 vignette-overlay" />
+          <div className="absolute inset-0 capabilities-gradient" />
+        </div>
+
         <div className="relative z-10 flex flex-col max-w-[1400px] mx-auto w-full">
           <div className="mb-14">
             <p className="text-[12px] font-sans text-[#45474D] mb-3 uppercase tracking-widest font-medium">// Current R&D</p>
@@ -497,7 +516,19 @@ export default function Portfolio({ config }: { config: Config }) {
       </section>
 
       {/* Section: Contact */}
-      <section id="contact" className="relative flex flex-col py-[120px] px-6 md:px-16 lg:px-24 border-t border-[rgba(33,34,38,0.06)]">
+      <section id="contact" className="min-h-screen overflow-hidden bg-[#F8F9FA] relative flex flex-col py-[120px] px-6 md:px-16 lg:px-24 border-t border-[rgba(33,34,38,0.06)]">
+        <div className="absolute inset-0 z-0">
+          <FadingVideo
+            src={[
+              "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4",
+              "/raspberrypi5.mp4"
+            ]}
+            className="w-full h-full object-cover object-top opacity-55"
+            style={{ transform: 'scale(1.05)', transformOrigin: 'top center' }}
+          />
+          <div className="absolute inset-0 vignette-overlay" />
+          <div className="absolute inset-0 capabilities-gradient" />
+        </div>
         <div className="relative z-10 flex flex-col max-w-[1400px] mx-auto w-full">
           <div className="mb-14">
             <h2 className="font-sans font-[450] text-3xl md:text-5xl lg:text-[42px] leading-[1.04] tracking-[-0.017em] text-[#121317] max-w-3xl mb-4">
