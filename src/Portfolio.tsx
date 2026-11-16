@@ -221,11 +221,11 @@ export default function Portfolio({ config }: { config: Config }) {
         <div className="absolute inset-0 z-0">
           <FadingVideo
             src={[
-              "/raspberrypi5.mp4",
+              "https://stream.mux.com/4IMYGcL01xjs7ek5ANO17JC4VQVUTsojZlnw4fXzwSxc.m3u8",
               "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_024928_1efd0b0d-6c02-45a8-8847-1030900c4f63.mp4"
             ]}
-            className="w-full h-full object-cover object-top opacity-60"
-            style={{ transform: 'scale(1.05)' }}
+            className="w-full h-full object-cover object-top opacity-70 md:opacity-80"
+            style={{ transform: 'scale(1.08)' }}
           />
           <div className="absolute inset-0 vignette-overlay" />
           <div className="absolute inset-0 hero-gradient" />
@@ -445,10 +445,7 @@ export default function Portfolio({ config }: { config: Config }) {
       <section id="github" className="min-h-[75vh] overflow-hidden bg-[#F8F9FA] relative flex flex-col items-center justify-center py-[120px] px-6 md:px-16 lg:px-24 text-center border-t border-[rgba(33,34,38,0.06)]">
         <div className="absolute inset-0 z-0">
           <FadingVideo
-            src={[
-              "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4",
-              "/raspberrypi5.mp4"
-            ]}
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4"
             className="w-full h-full object-cover object-top opacity-55"
             style={{ transform: 'scale(1.05)', transformOrigin: 'top center' }}
           />
@@ -481,10 +478,7 @@ export default function Portfolio({ config }: { config: Config }) {
       <section id="research" className="min-h-screen overflow-hidden bg-[#F8F9FA] relative flex flex-col py-[120px] px-6 md:px-16 lg:px-24 border-t border-[rgba(33,34,38,0.06)]">
         <div className="absolute inset-0 z-0">
           <FadingVideo
-            src={[
-              "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_024928_1efd0b0d-6c02-45a8-8847-1030900c4f63.mp4",
-              "/raspberrypi5.mp4"
-            ]}
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_024928_1efd0b0d-6c02-45a8-8847-1030900c4f63.mp4"
             className="w-full h-full object-cover opacity-55"
             style={{ transform: 'scale(1.05)' }}
           />
@@ -519,10 +513,7 @@ export default function Portfolio({ config }: { config: Config }) {
       <section id="contact" className="min-h-screen overflow-hidden bg-[#F8F9FA] relative flex flex-col py-[120px] px-6 md:px-16 lg:px-24 border-t border-[rgba(33,34,38,0.06)]">
         <div className="absolute inset-0 z-0">
           <FadingVideo
-            src={[
-              "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4",
-              "/raspberrypi5.mp4"
-            ]}
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4"
             className="w-full h-full object-cover object-top opacity-55"
             style={{ transform: 'scale(1.05)', transformOrigin: 'top center' }}
           />

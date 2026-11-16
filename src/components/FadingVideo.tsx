@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import Hls from 'hls.js';
 
@@ -17,18 +17,13 @@ export function FadingVideo({ src, className = '', style }: FadingVideoProps) {
 
   const currentSrc = sources[sourceIndex] || sources[0];
 
-  const handleNextSource = useCallback(() => {
-    if (sourceIndex < sources.length - 1) {
-      setSourceIndex(prev => prev + 1);
-    }
-  }, [sourceIndex, sources.length]);
-
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !currentSrc) return;
 
-    // React's JSX muted prop doesn't always set the underlying DOM property.
-    // Setting muted directly on the DOM node is required for autoplay in Chrome, Safari, etc.
+    let destroyed = false;
+
+    // Direct DOM property enforcement for autoplay policy
     video.muted = true;
     video.defaultMuted = true;
     video.playsInline = true;
@@ -38,9 +33,7 @@ export function FadingVideo({ src, className = '', style }: FadingVideoProps) {
     video.setAttribute('muted', '');
     video.setAttribute('loop', '');
 
-    let destroyed = false;
-
-    const playVideo = () => {
+    const safePlay = () => {
       if (destroyed || !video) return;
       video.muted = true;
       const playPromise = video.play();
@@ -50,73 +43,91 @@ export function FadingVideo({ src, className = '', style }: FadingVideoProps) {
             if (!destroyed) setIsLoaded(true);
           })
           .catch((err) => {
-            console.warn('Video play interrupted or waiting for user interaction:', err);
-            if (!destroyed && video.readyState >= 2) {
-              setIsLoaded(true);
-            }
+            console.warn('Autoplay prevented or waiting for interaction:', err);
+            if (!destroyed) setIsLoaded(true);
           });
       }
     };
 
     const handleCanPlay = () => {
-      setIsLoaded(true);
-      playVideo();
+      if (!destroyed) setIsLoaded(true);
+      safePlay();
+    };
+
+    const handleLoadedData = () => {
+      if (!destroyed) setIsLoaded(true);
+      safePlay();
     };
 
     const handleError = () => {
-      console.warn(`Video failed to load from: ${currentSrc}`);
-      handleNextSource();
+      console.warn(`Video error loading: ${currentSrc}`);
+      if (sourceIndex < sources.length - 1) {
+        setSourceIndex(prev => prev + 1);
+      }
     };
 
     video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('loadeddata', handleLoadedData);
     video.addEventListener('playing', () => {
       if (!destroyed) setIsLoaded(true);
     });
     video.addEventListener('error', handleError);
 
-    // If video is already ready (e.g. cached or fast load)
+    // If video is already ready
     if (video.readyState >= 2) {
       setIsLoaded(true);
-      playVideo();
+      safePlay();
     }
 
-    // HLS Support
-    if (currentSrc.endsWith('.m3u8') && Hls.isSupported()) {
-      if (hlsRef.current) {
-        hlsRef.current.destroy();
+    // Clean up previous HLS instance
+    if (hlsRef.current) {
+      hlsRef.current.destroy();
+      hlsRef.current = null;
+    }
+
+    if (currentSrc.endsWith('.m3u8')) {
+      if (Hls.isSupported()) {
+        const hls = new Hls({
+          enableWorker: false,
+          lowLatencyMode: false,
+        });
+        hls.loadSource(currentSrc);
+        hls.attachMedia(video);
+
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          safePlay();
+        });
+
+        hls.on(Hls.Events.ERROR, (_event, data) => {
+          if (data.fatal || data.details === 'manifestLoadError') {
+            console.warn('HLS stream error:', data.type, data.details);
+            hls.destroy();
+            hlsRef.current = null;
+            if (sourceIndex < sources.length - 1) {
+              setSourceIndex(prev => prev + 1);
+            }
+          }
+        });
+
+        hlsRef.current = hls;
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = currentSrc;
+        video.load();
+        safePlay();
+      } else {
+        video.src = currentSrc;
+        video.load();
+        safePlay();
       }
-      const hls = new Hls({
-        enableWorker: false,
-        lowLatencyMode: false,
-      });
-
-      hls.loadSource(currentSrc);
-      hls.attachMedia(video);
-
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        playVideo();
-      });
-
-      hls.on(Hls.Events.ERROR, (_event, data) => {
-        if (data.fatal) {
-          console.warn('Fatal HLS error, attempting fallback source:', data.type);
-          hls.destroy();
-          hlsRef.current = null;
-          handleNextSource();
-        }
-      });
-
-      hlsRef.current = hls;
     } else {
       video.src = currentSrc;
       video.load();
-      playVideo();
+      safePlay();
     }
 
-    // Resume playing if tab was hidden and becomes visible again
     const handleVisibilityChange = () => {
       if (!document.hidden && video.paused) {
-        playVideo();
+        safePlay();
       }
     };
     document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -124,6 +135,7 @@ export function FadingVideo({ src, className = '', style }: FadingVideoProps) {
     return () => {
       destroyed = true;
       video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('loadeddata', handleLoadedData);
       video.removeEventListener('error', handleError);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       if (hlsRef.current) {
@@ -131,7 +143,9 @@ export function FadingVideo({ src, className = '', style }: FadingVideoProps) {
         hlsRef.current = null;
       }
     };
-  }, [currentSrc, handleNextSource]);
+  }, [currentSrc, sourceIndex, sources.length]);
+
+  const targetOpacity = style?.opacity !== undefined ? style.opacity : undefined;
 
   return (
     <video
@@ -139,7 +153,7 @@ export function FadingVideo({ src, className = '', style }: FadingVideoProps) {
       className={className}
       style={{
         ...style,
-        opacity: isLoaded ? undefined : 0,
+        opacity: isLoaded ? targetOpacity : 0,
         transition: 'opacity 0.6s ease-in-out',
       }}
       autoPlay
